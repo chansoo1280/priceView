@@ -23,6 +23,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
     timeZone: 'Asia/Seoul',
   })
   async handleCron() {
+    // update query 실행해야함 - 개발 진행중
     const date = new Date();
     const curDate_1 = new Date(
       date.getFullYear(),
