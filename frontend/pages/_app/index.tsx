@@ -74,7 +74,7 @@ class WebApp extends App<AppWithStore> {
                     >
                         <div className={"l_transition " + nextPathname}>
                             <ReactReduxContext.Consumer>
-                                {({ store }) => (
+                                {({ store }: any) => (
                                     <PersistGate persistor={store.__persistor} loading={<div>Loading</div>}>
                                         <AppLayout {...pageProps}>
                                             <Component {...pageProps} />
