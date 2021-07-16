@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { EtcController } from './Etc.controller';
-import { EtcRepository } from './Etc.repository';
-import { EtcService } from './Etc.service';
+import { EtcController } from './etc.controller';
+import { EtcRepository } from './etc.repository';
+import { EtcService } from './etc.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([EtcRepository])],

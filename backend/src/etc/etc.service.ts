@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResCode } from 'src/common/handleResult';
 import { InsertResult } from 'typeorm';
-import { Etc } from './Etc.entity';
-import { EtcRepository } from './Etc.repository';
+import { Etc } from './etc.entity';
+import { EtcRepository } from './etc.repository';
 
 @Injectable()
 export class EtcService extends TypeOrmQueryService<Etc> {
