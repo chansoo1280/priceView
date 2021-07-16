@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResCode } from 'src/common/handleResult';
 import { InsertResult } from 'typeorm';
-import { Data } from './Data.entity';
-import { DataRepository } from './Data.repository';
+import { Data } from './data.entity';
+import { DataRepository } from './data.repository';
 
 @Injectable()
 export class DataService extends TypeOrmQueryService<Data> {

@@ -5,6 +5,6 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Etc } from 'src/Etc/Etc.entity';
+import { Etc } from 'src/etc/etc.entity';
 
 export class SelectEtcDto {}

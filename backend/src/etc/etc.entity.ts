@@ -7,7 +7,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Data } from './data/Data.entity';
+import { Data } from './data/data.entity';
 
 @Entity()
 export class Etc extends BaseEntity {
@@ -15,7 +15,7 @@ export class Etc extends BaseEntity {
   etc_seq!: number;
   @Column()
   name!: string;
-  @OneToMany((type) => Data, (data) => data.etc)
+  @OneToMany((type) => Data, (data: Data) => data.etc)
   @JoinColumn()
   datas!: Data[];
 }
