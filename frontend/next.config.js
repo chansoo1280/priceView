@@ -1,4 +1,3 @@
 module.exports = {
-  reactStrictMode: true,
-  outDir: '../backend/static'
+  reactStrictMode: true
 }

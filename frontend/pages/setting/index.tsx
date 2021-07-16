@@ -16,7 +16,7 @@ const Setting = ({}: ISettingPage.InitialProps) => {
                 <Title as="h2">사용성</Title>
             </SettingTitle>
             <SettingList>
-                <SettingListInner>
+                {/* <SettingListInner>
                     <Title as="h3">데이터 업데이트</Title>
                     <Button
                         onClick={async () => {
@@ -36,7 +36,7 @@ const Setting = ({}: ISettingPage.InitialProps) => {
                             }
                         }}
                     ></Button>
-                </SettingListInner>
+                </SettingListInner> */}
                 <SettingListInner>
                     <Title as="h3">언어</Title>
                     <Select

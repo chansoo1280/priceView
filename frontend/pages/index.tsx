@@ -56,22 +56,26 @@ const Page = function () {
                     dispatch(AppActions.SetSelCate(Number(key)))
                 }}
             >
-                {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
-                    <SwiperSlide key={key}>
-                        <IconListCon>
-                            {cate_list
-                                .filter(({ type }) => type === Number(key))
-                                .map(({ name, seq }) => (
-                                    <IconListInner key={name}>
-                                        <Button href={"/info?seq=" + seq} sizeVal={SizeCode.icon}>
-                                            {name}
-                                            <span className="ir">{name}</span>
-                                        </Button>
-                                    </IconListInner>
-                                ))}
-                        </IconListCon>
-                    </SwiperSlide>
-                ))}
+                {Object.entries(CATEGORY_TYPE_STR).map(
+                    ([key, value]) =>
+                        Number(key) !== CATEGORY_TYPE.STAR ||
+                        (starList.length !== 0 && (
+                            <SwiperSlide key={key}>
+                                <IconListCon>
+                                    {cate_list
+                                        .filter(({ type }) => type === Number(key))
+                                        .map(({ name, seq }) => (
+                                            <IconListInner key={name}>
+                                                <Button href={"/info?seq=" + seq} sizeVal={SizeCode.icon}>
+                                                    {name}
+                                                    <span className="ir">{name}</span>
+                                                </Button>
+                                            </IconListInner>
+                                        ))}
+                                </IconListCon>
+                            </SwiperSlide>
+                        )),
+                )}
             </IconList>
             <ContentsBar>
                 <Button cover>기타 통계</Button>
