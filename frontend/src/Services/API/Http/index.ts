@@ -8,7 +8,7 @@ import { HttpModel } from "@Interfaces"
 // #endregion Interface Imports
 
 // const BaseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api`;
-const BaseUrl = `http://localhost:5000`
+const BaseUrl = `http://13.125.195.7`
 export const Http = {
     Request: async <A>(methodType: string, url: string, params?: HttpModel.IRequestQueryPayload, payload?: HttpModel.IRequestPayload): Promise<A> => {
         return new Promise((resolve, reject) => {
@@ -24,6 +24,7 @@ export const Http = {
                 cache: "no-cache",
                 headers: {
                     "content-type": "application/json",
+                    SECRET: "asdY235h^&@!%Y&~!~",
                 },
                 method: `${methodType}`,
             })

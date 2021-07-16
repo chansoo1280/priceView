@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 // #region Local Imports
 import { ISettingPage, ReduxNextPageContext } from "@Interfaces"
 import { LayoutCode, Title, Modal, Select, AlertModal, SettingList, SettingListInner, SettingTitle, Button } from "@Components"
+import { Http } from "@Services"
 // #endregion Local Imports
 
 const Setting = ({}: ISettingPage.InitialProps) => {
@@ -15,6 +16,27 @@ const Setting = ({}: ISettingPage.InitialProps) => {
                 <Title as="h2">사용성</Title>
             </SettingTitle>
             <SettingList>
+                <SettingListInner>
+                    <Title as="h3">데이터 업데이트</Title>
+                    <Button
+                        onClick={async () => {
+                            const YEAR = "2021"
+                            for (let i = 0; i < 8; i++) {
+                                const P_YEAR_MONTH = YEAR + "-" + (String(i + 1).length === 1 ? 0 + String(i + 1) : String(i + 1))
+                                console.log(P_YEAR_MONTH)
+                                await Http.Request<any>("get", "/api/count", {
+                                    P_YEAR_MONTH: P_YEAR_MONTH,
+                                }).catch((e) => {
+                                    switch (e.status) {
+                                        default: {
+                                        }
+                                    }
+                                    return null
+                                })
+                            }
+                        }}
+                    ></Button>
+                </SettingListInner>
                 <SettingListInner>
                     <Title as="h3">언어</Title>
                     <Select setValue={() => {}}>
