@@ -1,7 +1,6 @@
 import { MarginStyle } from "@Components"
 import styled, { css } from "styled-components"
 import { ITitle } from "./Title"
-
 const TitleSizeStyle = ({ as }: { as?: ITitle.ITags }) => {
     switch (as) {
         case "h1": {

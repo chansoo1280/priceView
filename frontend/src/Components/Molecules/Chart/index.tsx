@@ -18,7 +18,7 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
     const { data } = props
     return (
         <Container {...props}>
-        <C3Chart
+            <C3Chart
                 padding={{
                     right: 40,
                 }}
@@ -31,21 +31,21 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
                     // ],
                     columns: data,
                     labels: {
-                        format(v: any) {
-                            return `${formatComma(v)}원`
+                        format: function (v: any) {
+                            return formatComma(v) + "원"
                         },
                     },
                 }}
-            tooltip={{
+                tooltip={{
                     format: {
                         // title: function (d) { return 'Data ' + d; },
-                        value(value: any) {
-                            return `${formatComma(value)}원`
+                        value: function (value: any) {
+                            return formatComma(value) + "원"
                         },
                         //            value: d3.format(',') // apply this format to both y and y2
                     },
                 }}
-            line={{
+                line={{
                     connect_null: false,
                 }}
                 axis={{
@@ -59,7 +59,7 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
                         padding: { top: 200, bottom: 200 },
                     },
                 }}
-          />
-      </Container>
+            />
+        </Container>
     )
 }

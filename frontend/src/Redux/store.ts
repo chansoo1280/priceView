@@ -14,7 +14,6 @@ import { IStore } from "./IStore"
 import { Reducer } from "react"
 import { PersistPartial } from "redux-persist/es/persistReducer"
 import { IAction } from "@Interfaces"
-import { persistStore } from "redux-persist"
 // #endregion Local Imports
 
 const bindMiddleware = (middleware: Middleware[]): StoreEnhancer => {
@@ -33,7 +32,7 @@ const makeStore = () => {
         return makeConfiguredStore(Reducers)
     } else {
         // we need it only on client side
-        const {  persistReducer } = require("redux-persist")
+        const { persistStore, persistReducer } = require("redux-persist")
         const storage = require("redux-persist/lib/storage").default
 
         const persistConfig = {
@@ -44,12 +43,12 @@ const makeStore = () => {
 
         const persistedReducer = persistReducer(persistConfig, Reducers)
         const store = makeConfiguredStore(persistedReducer)
+        store.__persistor = persistStore(store)
 
         return store
     }
 }
 const temp_store = makeStore()
 export type AppDispatch = typeof temp_store.dispatch
-export const persistor = persistStore(temp_store)
 
 export const wrapper = createWrapper(makeStore, { debug: true })

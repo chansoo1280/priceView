@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import { StyledButton } from "@Components"
 import { IIconList } from "./IconList"
+import { StyledButton } from "@Components"
 
 export const Wraper = styled.div<IIconList.IProps>`
     width: 100%;

@@ -16,23 +16,23 @@ export const InfoNav: React.FunctionComponent<IInfoNav.IProps> = (props) => {
     return (
         <Container {...props}>
             <Button
-            show={prev !== null}
+                show={prev !== null}
                 onClick={() => {
                     router.replace({ pathname: "/info", query: { seq: prev?.seq } })
                 }}
-          >
-            <i className="xi-angle-left-min" />
+            >
+                <i className="xi-angle-left-min"></i>
                 <span className="ir">{prev?.name}</span>
-          </Button>
+            </Button>
             <Button
-            show={next !== null}
-            onClick={() => {
+                show={next !== null}
+                onClick={() => {
                     router.replace({ pathname: "/info", query: { seq: next?.seq } })
                 }}
-          >
-            <i className="xi-angle-right-min" />
-            <span className="ir">{next?.name}</span>
-          </Button>
-      </Container>
+            >
+                <i className="xi-angle-right-min"></i>
+                <span className="ir">{next?.name}</span>
+            </Button>
+        </Container>
     )
 }

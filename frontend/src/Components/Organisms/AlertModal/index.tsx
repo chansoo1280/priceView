@@ -14,12 +14,12 @@ export const AlertModal = function (props: IAlertModal.IProps) {
         <>
             <Modal {...rest}>
                 <StyledAlertCon>{children}</StyledAlertCon>
-            <ContentsBar noPadding>
+                <ContentsBar noPadding>
                     <Button cover onClick={onClick}>
-                확인
+                        확인
                     </Button>
                 </ContentsBar>
-          </Modal>
-      </>
+            </Modal>
+        </>
     )
 }

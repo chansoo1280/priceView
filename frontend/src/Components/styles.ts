@@ -38,7 +38,7 @@ export const SizeStyle = ({ sizeVal }: { sizeVal?: SizeCode }) => {
             `
         }
         default: {
-            // normal
+            //normal
             return css`
                 height: 30px;
                 font-size: 16px;
@@ -47,11 +47,10 @@ export const SizeStyle = ({ sizeVal }: { sizeVal?: SizeCode }) => {
     }
 }
 
-export const PaddingStyle = ({ sizeVal, noPadding }: { sizeVal?: SizeCode; noPadding?: boolean }) => {
-    if (noPadding === true)
-        return css`
-            padding: 0;
-        `
+export const PaddingStyle = ({ sizeVal, noPadding }: { sizeVal?: SizeCode, noPadding?: boolean }) => {
+    if(noPadding === true)return css`
+        padding: 0;
+    `
     switch (sizeVal) {
         case SizeCode.small: {
             return css`

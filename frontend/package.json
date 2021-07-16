@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
-    "lint-fix": "eslint src/** ./pages/** -c .eslintrc.json --ext js,jsx"
+    "lint": "next lint"
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.13.1",
@@ -32,7 +31,6 @@
     "@types/react": "17.0.13",
     "@types/react-transition-group": "^4.4.2",
     "@types/styled-components": "^5.1.11",
-    "babel-eslint": "^10.1.0",
     "eslint": "^7.30.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -42,7 +40,6 @@
     "eslint-config-react-app": "^5.0.2",
     "eslint-import-resolver-ts": "^0.4.2",
     "eslint-import-resolver-typescript": "^1.1.1",
-    "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-flowtype": "3.x",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jest-dom": "^2.1.0",

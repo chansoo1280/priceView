@@ -25,58 +25,58 @@ const Page = function () {
     const cate_list = CATEGORY_LIST.concat(starList)
     return (
         <main id="contents" className="l_main">
-        <Title as="h2" className="ir">
-            카테고리 탭
+            <Title as="h2" className="ir">
+                카테고리 탭
             </Title>
             <Tab>
-            {Object.entries(CATEGORY_TYPE_STR).map(([key, value], idx) => (
+                {Object.entries(CATEGORY_TYPE_STR).map(([key, value], idx) => (
                     <TabInner key={key}>
-                  <Button
-                          show={Number(key) !== CATEGORY_TYPE.STAR || starList.length !== 0}
+                        <Button
+                            show={Number(key) !== CATEGORY_TYPE.STAR || starList.length !== 0}
                             onClick={() => {
                                 swiper?.slideTo(idx)
                                 dispatch(AppActions.SetSelCate(Number(key)))
                                 setSelTab(Number(key))
                             }}
                         >
-                          {value}
+                            {value}
                         </Button>
                     </TabInner>
                 ))}
-          </Tab>
+            </Tab>
             <Title as="h2" className="ir">
-            {CATEGORY_TYPE_STR[selTab]} 리스트
-          </Title>
+                {CATEGORY_TYPE_STR[selTab]} 리스트
+            </Title>
             <IconList
-            setSwiper={setSwiper}
+                setSwiper={setSwiper}
                 selTab={selTab}
                 onChange={(e: any) => {
                     const [key, value] = Object.entries(CATEGORY_TYPE_STR)[e.activeIndex]
                     setSelTab(Number(key))
                     dispatch(AppActions.SetSelCate(Number(key)))
                 }}
-          >
+            >
                 {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
-            <SwiperSlide key={key}>
-                    <IconListCon>
+                    <SwiperSlide key={key}>
+                        <IconListCon>
                             {cate_list
                                 .filter(({ type }) => type === Number(key))
                                 .map(({ name, seq }) => (
                                     <IconListInner key={name}>
-                                    <Button href={`/info?seq=${  seq}`} sizeVal={SizeCode.icon}>
-                                        {name}
+                                        <Button href={"/info?seq=" + seq} sizeVal={SizeCode.icon}>
+                                            {name}
                                             <span className="ir">{name}</span>
                                         </Button>
-                                  </IconListInner>
+                                    </IconListInner>
                                 ))}
                         </IconListCon>
-                  </SwiperSlide>
+                    </SwiperSlide>
                 ))}
-          </IconList>
-        <ContentsBar>
+            </IconList>
+            <ContentsBar>
                 <Button cover>기타 통계</Button>
             </ContentsBar>
-      </main>
+        </main>
     )
 }
 Page.getInitialProps = async (ctx: ReduxNextPageContext) => {

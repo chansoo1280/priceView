@@ -18,8 +18,8 @@ const Info = function ({ cate_info, nav_info }: IInfoPage.InitialProps) {
     const [chartDateData, setChartDateData] = useState(["Dates"])
 
     const reqCntData = async () => {
-        const result = await Http.Request<any>("get", `/api/count/${selCate}`, {
-            P_YEAR_MONTH,
+        const result = await Http.Request<any>("get", "/api/count/" + selCate, {
+            P_YEAR_MONTH: P_YEAR_MONTH,
             M_TYPE_CODE: selType,
             M_GU_CODE: selGu,
         }).catch((e) => {
@@ -31,7 +31,7 @@ const Info = function ({ cate_info, nav_info }: IInfoPage.InitialProps) {
         })
         if (result === null) return
         const initChartDateData = ["Dates"]
-        setChartDateData(initChartDateData.concat(result.map((obj: any) => `${obj.P_YEAR_MONTH}-01`)))
+        setChartDateData(initChartDateData.concat(result.map((obj: any) => obj.P_YEAR_MONTH + "-01")))
         const initChartData = [cate_info?.name]
         setChartData(initChartData.concat(result.map((obj: any) => obj.AVER_VAL || null)))
     }
@@ -46,61 +46,61 @@ const Info = function ({ cate_info, nav_info }: IInfoPage.InitialProps) {
     }, [selCate, selType, selGu])
     return (
         <main id="contents" className="l_main">
-        <ContentsBar>
-            <Select
+            <ContentsBar>
+                <Select
                     sizeVal={SizeCode.large}
-                  value={selCate}
+                    value={selCate}
                     setValue={(value: React.ChangeEvent<HTMLSelectElement>) => {
                         setSelCate(Number(value))
                     }}
                 >
                     {cate_info?.seq_list.map((seq) => (
-                <option key={seq} value={seq}>
+                        <option key={seq} value={seq}>
                             {NAME_OBJ[seq].A_NAME}
-                      </option>
+                        </option>
                     ))}
                 </Select>
             </ContentsBar>
-        <ContentsBar>
+            <ContentsBar>
                 <Select value={selGu} setValue={setSelGu}>
                     {Object.entries(M_GU)
                         .reverse()
                         .map(([key, value]) => (
                             <option key={key} value={key}>
                                 {value || "지역 전체"}
-                          </option>
+                            </option>
                         ))}
-          </Select>
-              <Select value={selType} setValue={setSelType}>
-                  {Object.entries(M_TYPE)
+                </Select>
+                <Select value={selType} setValue={setSelType}>
+                    {Object.entries(M_TYPE)
                         .reverse()
                         .map(([key, value]) => (
                             <option key={key} value={key}>
                                 {value || "시장 전체"}
-                          </option>
+                            </option>
                         ))}
                 </Select>
             </ContentsBar>
             <ContentsBar>
-            <Title as="h2">
+                <Title as="h2">
                     {chartData.length !== 1 ? `${formatComma(String(chartData[chartData.length - 1]) || "0")}원 - ${P_YEAR_MONTH} ${cate_info?.name} 물가` : "등록된 데이터가 없습니다."}
                 </Title>
-          </ContentsBar>
+            </ContentsBar>
             <ContentsBar noPadding show={chartData.length !== 1}>
                 <Chart
-            data={[
+                    data={[
                         // ["Dates", "2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01", "2020-11-01", "2020-12-01"],
                         chartDateData,
                         // ["쇠고기", 2985, 2997, 3267, 3227, 3202, 3302],
                         chartData,
                     ]}
-          />
+                ></Chart>
             </ContentsBar>
-        <ContentsBar show={chartData.length !== 1}>
-              <Title as="h2">2020년 이맘때의 가격</Title>
+            <ContentsBar show={chartData.length !== 1}>
+                <Title as="h2">2020년 이맘때의 가격</Title>
             </ContentsBar>
             <InfoNav nav_info={nav_info} />
-      </main>
+        </main>
     )
 }
 Info.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IInfoPage.InitialProps> => {
@@ -115,8 +115,8 @@ Info.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IInfoPage.Init
     }
     return {
         layout: LayoutCode.Info,
-        cate_info,
-        nav_info,
+        cate_info: cate_info,
+        nav_info: nav_info,
         transition: "slide",
     }
 }

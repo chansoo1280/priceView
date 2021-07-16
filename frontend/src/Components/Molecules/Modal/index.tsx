@@ -14,14 +14,14 @@ export const Modal: React.FunctionComponent<IModal.IProps> = (props) => {
     const { show, title, children } = props
     return (
         <StyledModalWrap show={show}>
-        <StyledModal>
+            <StyledModal>
                 {title && (
                     <StyledModalHeader>
                         <Title>{title}</Title>
-                </StyledModalHeader>
+                    </StyledModalHeader>
                 )}
-            {children}
+                {children}
             </StyledModal>
-      </StyledModalWrap>
+        </StyledModalWrap>
     )
 }

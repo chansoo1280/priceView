@@ -13,6 +13,6 @@ export const Header = function (props: IHeader.IProps) {
     return (
         <>
             <StyledHeader {...props} />
-      </>
+        </>
     )
 }

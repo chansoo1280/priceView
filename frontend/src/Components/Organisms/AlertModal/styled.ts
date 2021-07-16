@@ -3,5 +3,5 @@ import styled, { css } from "styled-components"
 import { IAlertModal } from "./AlertModal"
 
 export const StyledAlertCon = styled.div`
-    padding: 30px;
+    padding:30px;
 `

@@ -14,8 +14,8 @@ const Button: React.FunctionComponent<IButton.IProps> = (props) => {
     if (href !== undefined) {
         return (
             <Link href={href}>
-                <StyledButton as="a" {...props} />
-          </Link>
+                <StyledButton as={"a"} {...props} />
+            </Link>
         )
     }
     return <StyledButton {...props} />
