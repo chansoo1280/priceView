@@ -193,3 +193,11 @@ SELECT [count_seq]
   And M_GU_CODE = ''
   And A_NAME like '양파%'
   Order By P_YEAR_MONTH, M_TYPE_CODE, M_GU_CODE
+
+/* 
+    price 복원 쿼리
+*/
+
+exec msdb.dbo.rds_restore_database 
+        @restore_db_name='DB_price',
+        @s3_arn_to_restore_from='arn:aws:s3:::project-chansoo1280/db_back/price.bak';
