@@ -1,8 +1,7 @@
 import { IMolecules } from "../Molecules"
 
 declare namespace ISettingTitle {
-    export interface IProps extends IMolecules.IProps {
-    }
+    export type IProps = IMolecules.IProps
 }
 
 export { ISettingTitle }

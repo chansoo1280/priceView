@@ -13,6 +13,5 @@ const TheLayout: {
     [LayoutCode.Default]: Default,
     [LayoutCode.Info]: Info,
     [LayoutCode.Setting]: Setting,
-    
 }
 export default TheLayout

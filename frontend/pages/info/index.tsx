@@ -42,7 +42,6 @@ const Info = function ({ cate_info, nav_info }: IInfoPage.InitialProps) {
 
     useEffect(() => {
         reqCntData()
-        return () => {}
     }, [selCate, selType, selGu])
     return (
         <main id="contents" className="l_main">

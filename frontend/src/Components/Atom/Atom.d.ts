@@ -7,7 +7,7 @@ declare namespace IAtom {
         sizeVal?: IComponents.SizeCode
         cover?: boolean
         show?: boolean
-        noMargin?:boolean
+        noMargin?: boolean
         isDisabled?: boolean
     }
 }

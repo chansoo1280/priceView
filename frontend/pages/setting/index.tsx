@@ -39,7 +39,11 @@ const Setting = ({}: ISettingPage.InitialProps) => {
                 </SettingListInner>
                 <SettingListInner>
                     <Title as="h3">언어</Title>
-                    <Select setValue={() => {}}>
+                    <Select
+                        setValue={() => {
+                            console.log("hi")
+                        }}
+                    >
                         <option value="">한국어</option>
                         <option value="">English(영어)</option>
                         <option value="">日本語(일본어)</option>
@@ -47,7 +51,11 @@ const Setting = ({}: ISettingPage.InitialProps) => {
                 </SettingListInner>
                 <SettingListInner>
                     <Title as="h3">테마</Title>
-                    <Select setValue={() => {}}>
+                    <Select
+                        setValue={() => {
+                            console.log("hi")
+                        }}
+                    >
                         <option value="">기본</option>
                         <option value="">다크</option>
                         <option value="">베이지</option>

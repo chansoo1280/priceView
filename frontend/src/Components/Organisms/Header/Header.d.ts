@@ -1,9 +1,8 @@
-
 declare namespace IHeader {
     export interface IProps {
-        children?: React.ReactNode;
+        children?: React.ReactNode
         centerTitle?: boolean
     }
 }
 
-export { IHeader };
+export { IHeader }

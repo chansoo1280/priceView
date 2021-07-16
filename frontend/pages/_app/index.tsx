@@ -15,7 +15,7 @@ import { CSSTransition, SwitchTransition, Transition, TransitionGroup } from "re
 import { ThemeObj, ThemeType } from "@Definitions/Styled"
 // import { appWithTranslation } from "@Server/i18n";
 import { AppWithStore, IStore } from "@Interfaces"
-import { wrapper } from "@Redux"
+import { persistor, wrapper } from "@Redux"
 import TheLayout, { LayoutCode } from "@Components/Layout"
 import "@Services/API/DateFormat"
 
@@ -73,15 +73,11 @@ class WebApp extends App<AppWithStore> {
                         classNames={pageProps?.transition || ""}
                     >
                         <div className={"l_transition " + nextPathname}>
-                            <ReactReduxContext.Consumer>
-                                {({ store }: any) => (
-                                    <PersistGate persistor={store.__persistor} loading={<div>Loading</div>}>
-                                        <AppLayout {...pageProps}>
-                                            <Component {...pageProps} />
-                                        </AppLayout>
-                                    </PersistGate>
-                                )}
-                            </ReactReduxContext.Consumer>
+                            <PersistGate persistor={persistor} loading={<div>Loading</div>}>
+                                <AppLayout {...pageProps}>
+                                    <Component {...pageProps} />
+                                </AppLayout>
+                            </PersistGate>
                         </div>
                     </CSSTransition>
                 </TransitionGroup>
