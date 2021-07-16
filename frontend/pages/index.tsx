@@ -15,7 +15,7 @@ const Page = function () {
     const app = useAppSelector((state: IStore) => state.app)
     const star = useAppSelector((state: IStore) => state.star)
     const [swiper, setSwiper] = useState<any>(null)
-    const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : CATEGORY_TYPE.MEAT)
+    const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 0)
     const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => {
         return {
             ...info,
@@ -58,8 +58,7 @@ const Page = function () {
             >
                 {Object.entries(CATEGORY_TYPE_STR).map(
                     ([key, value]) =>
-                        Number(key) !== CATEGORY_TYPE.STAR ||
-                        (starList.length !== 0 && (
+                        (Number(key) !== CATEGORY_TYPE.STAR || starList.length !== 0) && (
                             <SwiperSlide key={key}>
                                 <IconListCon>
                                     {cate_list
@@ -74,7 +73,7 @@ const Page = function () {
                                         ))}
                                 </IconListCon>
                             </SwiperSlide>
-                        )),
+                        ),
                 )}
             </IconList>
             <ContentsBar>

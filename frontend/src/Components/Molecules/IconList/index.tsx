@@ -26,7 +26,7 @@ export const IconList: React.FunctionComponent<IIconList.IProps> = (props) => {
     const initIdx = Object.entries(CATEGORY_TYPE_STR).findIndex(([key, value]) => selTab === Number(key))
     return (
         <Wraper>
-            <Swiper initialSlide={initIdx} onSlideChange={onChange} onSwiper={(swiper) => setSwiper(swiper)}>
+            <Swiper observer={true} initialSlide={initIdx} onSlideChange={onChange} onSwiper={(swiper) => setSwiper(swiper)}>
                 {children}
             </Swiper>
         </Wraper>

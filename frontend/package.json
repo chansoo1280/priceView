@@ -5,12 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "generate": "next build && next export && ren out static && move static ../backend",
+    "generate": "next build && node build.js",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.13.1",
+    "fs-extra": "^10.0.0",
     "isomorphic-unfetch": "^3.1.0",
     "next": "11.0.1",
     "next-redux-wrapper": "^7.0.2",
@@ -23,6 +24,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "rimraf": "^3.0.2",
     "sass": "^1.35.2",
     "styled-components": "^5.3.0",
     "swiper": "^6.7.5"
