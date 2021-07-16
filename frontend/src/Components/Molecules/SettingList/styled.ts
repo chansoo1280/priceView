@@ -1,6 +1,6 @@
 import styled from "styled-components"
-import { ISettingList } from "./SettingList"
 import { StyledButton, StyledTitle } from "@Components"
+import { ISettingList } from "./SettingList"
 
 export const Container = styled.ul<ISettingList.IProps>`
     width: 100%;

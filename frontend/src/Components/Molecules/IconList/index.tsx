@@ -3,13 +3,13 @@ import React from "react"
 // #endregion Global Imports
 
 // #region Local Imports
+import { Swiper, SwiperSlide } from "swiper/react"
+import { CATEGORY_TYPE_STR } from "@Definitions"
 import { IIconList } from "./IconList"
 import { Wraper, Container, ContainerInner } from "./styled"
 // #endregion Local Imports
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react"
-import { CATEGORY_TYPE_STR } from "@Definitions"
 
 export const IconListInner: React.FunctionComponent<IIconList.IProps> = (props) => {
     const { children } = props
@@ -28,7 +28,7 @@ export const IconList: React.FunctionComponent<IIconList.IProps> = (props) => {
         <Wraper>
             <Swiper initialSlide={initIdx} onSlideChange={onChange} onSwiper={(swiper) => setSwiper(swiper)}>
                 {children}
-            </Swiper>
-        </Wraper>
+          </Swiper>
+      </Wraper>
     )
 }

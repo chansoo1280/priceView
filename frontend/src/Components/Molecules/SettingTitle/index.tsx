@@ -9,6 +9,6 @@ import { Container } from "./styled"
 // #endregion Local Imports
 
 const SettingTitle: React.FunctionComponent<ISettingTitle.IProps> = (props) => {
-    return <Container {...props}></Container>
+    return <Container {...props} />
 }
 export { SettingTitle }

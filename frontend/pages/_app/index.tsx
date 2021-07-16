@@ -15,7 +15,7 @@ import { CSSTransition, SwitchTransition, Transition, TransitionGroup } from "re
 import { ThemeObj, ThemeType } from "@Definitions/Styled"
 // import { appWithTranslation } from "@Server/i18n";
 import { AppWithStore, IStore } from "@Interfaces"
-import { wrapper } from "@Redux"
+import { wrapper, persistor } from "@Redux"
 import TheLayout, { LayoutCode } from "@Components/Layout"
 import "@Services/API/DateFormat"
 
@@ -31,23 +31,28 @@ class WebApp extends App<AppWithStore> {
             nextPathname: this.props.router.pathname,
         }
     }
+
     static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
         const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {}
 
-        return { pageProps: pageProps }
+        return { pageProps }
     }
+
     handleRouteChange = (url: string) => {
         this.setState({
             ...this.state,
             nextPathname: url.split("?")[0],
         })
     }
+
     componentDidMount() {
         this.props.router.events.on("routeChangeStart", this.handleRouteChange)
     }
+
     componentWillUnmount() {
         this.props.router.events.off("routeChangeStart", this.handleRouteChange)
     }
+
     render() {
         const { Component, pageProps, router, app }: any = this.props
         const { nextPathname }: any = this.state
@@ -55,7 +60,7 @@ class WebApp extends App<AppWithStore> {
         const theme = ThemeObj[ThemeType[app.sel_theme] || ThemeType.WHITE]
         return (
             <ThemeProvider theme={theme}>
-                <TransitionGroup
+            <TransitionGroup
                     style={{
                         overflow: "hidden",
                         position: "relative",
@@ -63,29 +68,25 @@ class WebApp extends App<AppWithStore> {
                         height: "100%",
                         perspective: "500px",
                     }}
-                >
-                    <CSSTransition
-                        appear={true}
-                        key={router.pathname}
+              >
+                <CSSTransition
+                      appear
+                      key={router.pathname}
                         // url 로 적용하기
-                        timeout={300}
+                      timeout={300}
                         // classNames="item"
-                        classNames={pageProps?.transition || ""}
+                      classNames={pageProps?.transition || ""}
                     >
-                        <div className={"l_transition " + nextPathname}>
-                            <ReactReduxContext.Consumer>
-                                {({ store }: any) => (
-                                    <PersistGate persistor={store.__persistor} loading={<div>Loading</div>}>
-                                        <AppLayout {...pageProps}>
-                                            <Component {...pageProps} />
-                                        </AppLayout>
-                                    </PersistGate>
-                                )}
-                            </ReactReduxContext.Consumer>
-                        </div>
+                      <div className={`l_transition ${  nextPathname}`}>
+                            <PersistGate persistor={persistor} loading={<div>Loading</div>}>
+                          <AppLayout {...pageProps}>
+                                    <Component {...pageProps} />
+                                </AppLayout>
+                        </PersistGate>
+                  </div>
                     </CSSTransition>
                 </TransitionGroup>
-            </ThemeProvider>
+          </ThemeProvider>
         )
     }
 }

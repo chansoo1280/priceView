@@ -3,9 +3,9 @@ import React from "react"
 // #endregion Global Imports
 
 // #region Local Imports
+import { Button } from "@Components/Atom"
 import { ITab } from "./Tab"
 import { Container, ContainerInner } from "./styled"
-import { Button } from "@Components/Atom"
 // #endregion Local Imports
 
 export const TabInner: React.FunctionComponent<ITab.IProps> = (props) => {
