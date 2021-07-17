@@ -1,1 +1,1 @@
-export const SECRET = 'asdY235h^&@!%Y&~!~';
+export const SECRET = 'd3tgsd546!%Y&~!~';

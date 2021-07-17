@@ -6,6 +6,7 @@ import { TypeOrmQueryService } from '@nestjs-query/query-typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, InsertResult } from 'typeorm';
 import { Cron } from '@nestjs/schedule';
+import { SECRET } from 'src/common/constants';
 
 @Injectable()
 export class PriceService extends TypeOrmQueryService<Price> {
@@ -18,7 +19,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
   }
 
   // @Cron('0 0 * * * *', {
-  @Cron('0 0 0 0 * *', {
+  @Cron('0 59 * * * *', {
     name: 'notifications',
     timeZone: 'Asia/Seoul',
   })
@@ -40,7 +41,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
       YEAR2 + '-' + (MONTH2.length === 1 ? '0' + MONTH2 : MONTH2);
     const config = {
       headers: {
-        SECRET: 'asdY235h^&@!%Y&~!~',
+        SECRET: SECRET,
       },
     };
     await this.httpService

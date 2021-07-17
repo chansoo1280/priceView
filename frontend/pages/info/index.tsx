@@ -10,7 +10,7 @@ import { LayoutCode, Title, Chart, Select, ContentsBar, SizeCode, InfoNav } from
 
 const Info = function ({}: IInfoPage.InitialProps) {
     const router = useRouter()
-    console.log(router.query.seq)
+    // console.log(router.query.seq)
     let cate_idx = null
     const cate_info = CATEGORY_LIST.find((info, idx) => {
         cate_idx = idx
