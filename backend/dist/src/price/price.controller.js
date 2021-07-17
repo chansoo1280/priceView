@@ -25,6 +25,7 @@ let PriceController = class PriceController {
     }
     async initDB({ P_YEAR_MONTH }, req, res) {
         var _a, _b, _c;
+        console.log(req.headers);
         if (req.headers.secret !== constants_1.SECRET)
             return handleResult_1.default(handleResult_1.ResCode.Unauthorized, res);
         const insertData = async (P_YEAR_MONTH, page) => {

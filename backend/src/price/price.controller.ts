@@ -16,6 +16,7 @@ export class PriceController {
     @Req() req: Request,
     @Res() res: Response,
   ): Promise<any> {
+    console.log(req.headers);
     if (req.headers.secret !== SECRET)
       return handleResult(ResCode.Unauthorized, res);
     const insertData = async (P_YEAR_MONTH: string, page: number) => {

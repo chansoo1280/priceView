@@ -18,7 +18,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
     super(priceRepository, { useSoftDelete: true });
   }
 
-  // @Cron('0 27 * * * *', {
+  // @Cron('0 44 * * * *', {
   @Cron('0 0 0 0 * *', {
     name: 'notifications',
     timeZone: 'Asia/Seoul',
