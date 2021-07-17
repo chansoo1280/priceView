@@ -1,4 +1,4 @@
 import { Repository } from 'typeorm';
-import { Data } from './Data.entity';
+import { Data } from './data.entity';
 export declare class DataRepository extends Repository<Data> {
 }

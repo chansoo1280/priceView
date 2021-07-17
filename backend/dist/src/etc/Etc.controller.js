@@ -37,4 +37,4 @@ EtcController = __decorate([
     __metadata("design:paramtypes", [etc_service_1.EtcService])
 ], EtcController);
 exports.EtcController = EtcController;
-//# sourceMappingURL=Etc.controller.js.map
+//# sourceMappingURL=etc.controller.js.map

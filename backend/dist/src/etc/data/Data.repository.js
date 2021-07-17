@@ -8,11 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DataRepository = void 0;
 const typeorm_1 = require("typeorm");
-const Data_entity_1 = require("./Data.entity");
+const data_entity_1 = require("./data.entity");
 let DataRepository = class DataRepository extends typeorm_1.Repository {
 };
 DataRepository = __decorate([
-    typeorm_1.EntityRepository(Data_entity_1.Data)
+    typeorm_1.EntityRepository(data_entity_1.Data)
 ], DataRepository);
 exports.DataRepository = DataRepository;
-//# sourceMappingURL=Data.repository.js.map
+//# sourceMappingURL=data.repository.js.map

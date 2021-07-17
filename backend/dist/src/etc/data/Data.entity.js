@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Data = void 0;
 const typeorm_1 = require("typeorm");
-const Etc_entity_1 = require("../Etc.entity");
+const etc_entity_1 = require("../etc.entity");
 let Data = class Data extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -19,9 +19,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Data.prototype, "data_seq", void 0);
 __decorate([
-    typeorm_1.ManyToOne(() => Etc_entity_1.Etc, (etc) => etc.datas),
+    typeorm_1.ManyToOne(() => etc_entity_1.Etc, (etc) => etc.datas),
     typeorm_1.JoinColumn({ name: 'etc_seq' }),
-    __metadata("design:type", Etc_entity_1.Etc)
+    __metadata("design:type", etc_entity_1.Etc)
 ], Data.prototype, "etc", void 0);
 __decorate([
     typeorm_1.Column(),
@@ -35,4 +35,4 @@ Data = __decorate([
     typeorm_1.Entity()
 ], Data);
 exports.Data = Data;
-//# sourceMappingURL=Data.entity.js.map
+//# sourceMappingURL=data.entity.js.map

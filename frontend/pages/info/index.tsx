@@ -28,6 +28,7 @@ const Info = function ({}: IInfoPage.InitialProps) {
     const [selType, setSelType] = useState(M_TYPE[""])
 
     const reqCntData = async () => {
+        if (selCate === undefined) return
         const result = await Http.Request<any>("get", "/api/count/" + selCate, {
             P_YEAR_MONTH: P_YEAR_MONTH,
             M_TYPE_CODE: selType,

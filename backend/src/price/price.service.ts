@@ -81,8 +81,8 @@ export class PriceService extends TypeOrmQueryService<Price> {
         .createQueryBuilder()
         .update(Price)
         .set({
-          A_SEQ: info[3],
-          A_NAME: info[2],
+          A_SEQ: Number(info[3]),
+          A_NAME: String(info[2]),
         })
         .where('price.A_SEQ = :A_SEQ', { A_SEQ: info[1] })
         .andWhere('price.A_NAME = :A_NAME', { A_NAME: info[0] })

@@ -8,11 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EtcRepository = void 0;
 const typeorm_1 = require("typeorm");
-const Etc_entity_1 = require("./Etc.entity");
+const etc_entity_1 = require("./etc.entity");
 let EtcRepository = class EtcRepository extends typeorm_1.Repository {
 };
 EtcRepository = __decorate([
-    typeorm_1.EntityRepository(Etc_entity_1.Etc)
+    typeorm_1.EntityRepository(etc_entity_1.Etc)
 ], EtcRepository);
 exports.EtcRepository = EtcRepository;
-//# sourceMappingURL=Etc.repository.js.map
+//# sourceMappingURL=etc.repository.js.map

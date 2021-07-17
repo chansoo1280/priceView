@@ -17,8 +17,8 @@ const query_typeorm_1 = require("@nestjs-query/query-typeorm");
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const handleResult_1 = require("../common/handleResult");
-const Etc_entity_1 = require("./Etc.entity");
-const Etc_repository_1 = require("./Etc.repository");
+const etc_entity_1 = require("./etc.entity");
+const etc_repository_1 = require("./etc.repository");
 let EtcService = class EtcService extends query_typeorm_1.TypeOrmQueryService {
     constructor(etcRepository) {
         super(etcRepository, { useSoftDelete: true });
@@ -34,8 +34,8 @@ let EtcService = class EtcService extends query_typeorm_1.TypeOrmQueryService {
 };
 EtcService = __decorate([
     common_1.Injectable(),
-    __param(0, typeorm_1.InjectRepository(Etc_entity_1.Etc)),
-    __metadata("design:paramtypes", [Etc_repository_1.EtcRepository])
+    __param(0, typeorm_1.InjectRepository(etc_entity_1.Etc)),
+    __metadata("design:paramtypes", [etc_repository_1.EtcRepository])
 ], EtcService);
 exports.EtcService = EtcService;
 //# sourceMappingURL=etc.service.js.map
