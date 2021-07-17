@@ -93,6 +93,9 @@ export const RightStyle = ({ right }: { right?: boolean }) => css`
 export const ShowStyle = ({ show }: { show?: boolean }) => css`
     ${show === false && "display: none;"}
 `
+export const OpacityShowStyle = ({ opacityShow }: { opacityShow?: boolean }) => css`
+    ${opacityShow === false && "opacity:0;pointer-events:none;"}
+`
 
 export const DisabledStyle = ({ isDisabled }: { isDisabled?: boolean }) => {
     if (isDisabled === true) {

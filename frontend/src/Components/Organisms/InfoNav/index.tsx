@@ -16,7 +16,7 @@ export const InfoNav: React.FunctionComponent<IInfoNav.IProps> = (props) => {
     return (
         <Container {...props}>
             <Button
-                show={prev !== null}
+                opacityShow={prev !== null}
                 onClick={() => {
                     router.replace({ pathname: "/info", query: { seq: prev?.seq } })
                 }}
@@ -25,7 +25,7 @@ export const InfoNav: React.FunctionComponent<IInfoNav.IProps> = (props) => {
                 <span className="ir">{prev?.name}</span>
             </Button>
             <Button
-                show={next !== null}
+                opacityShow={next !== null}
                 onClick={() => {
                     router.replace({ pathname: "/info", query: { seq: next?.seq } })
                 }}

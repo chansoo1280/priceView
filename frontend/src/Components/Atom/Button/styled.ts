@@ -1,4 +1,4 @@
-import { MarginStyle, RightStyle, SizeStyle, CoverStyle, PaddingStyle, ShowStyle, DisabledStyle } from "@Components/styles"
+import { MarginStyle, RightStyle, SizeStyle, CoverStyle, PaddingStyle, ShowStyle, DisabledStyle, OpacityShowStyle } from "@Components/styles"
 import styled from "styled-components"
 import { IButton } from "./Button"
 
@@ -14,4 +14,5 @@ export const StyledButton = styled.button<IButton.IProps>`
     ${PaddingStyle}
     ${DisabledStyle}
     ${ShowStyle}
+    ${OpacityShowStyle}
 `

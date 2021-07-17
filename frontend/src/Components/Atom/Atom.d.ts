@@ -9,6 +9,7 @@ declare namespace IAtom {
         show?: boolean
         noMargin?: boolean
         isDisabled?: boolean
+        opacityShow?: boolean
     }
 }
 

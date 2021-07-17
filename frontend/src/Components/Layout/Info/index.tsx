@@ -10,13 +10,17 @@ import { IStore } from "@Interfaces"
 import { StarActions } from "@Actions"
 import { ILayout } from "../Layout"
 import { StyledWrap } from "./styled"
+import { CATEGORY_LIST } from "@Definitions/MainConsts"
 // #endregion Local Imports
 
-export const Info = function ({ children, cate_info }: ILayout.IProps) {
+export const Info = function ({ children }: ILayout.IProps) {
+    const router = useRouter()
+    const cate_info = CATEGORY_LIST.find((info, idx) => {
+        return info.seq === Number(router.query.seq)
+    })
     const star = useSelector((state: IStore) => state.star)
     const getIsStar = () => star.list.find((seq: number) => seq === cate_info?.seq) !== undefined
     const dispatch = useDispatch()
-    const router = useRouter()
     return (
         <>
             <Head>

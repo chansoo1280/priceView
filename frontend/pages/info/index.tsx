@@ -8,14 +8,24 @@ import { Http } from "@Services"
 import { LayoutCode, Title, Chart, Select, ContentsBar, SizeCode, InfoNav } from "@Components"
 // #endregion Local Imports
 
-const Info = function ({ cate_info, nav_info }: IInfoPage.InitialProps) {
+const Info = function ({}: IInfoPage.InitialProps) {
     const router = useRouter()
+    console.log(router.query.seq)
+    let cate_idx = null
+    const cate_info = CATEGORY_LIST.find((info, idx) => {
+        cate_idx = idx
+        return info.seq === Number(router.query.seq)
+    })
+    const nav_info = {
+        prev: (cate_idx !== null && CATEGORY_LIST[cate_idx - 1]) || null,
+        next: (cate_idx !== null && CATEGORY_LIST[cate_idx + 1]) || null,
+    }
     const P_YEAR_MONTH = new Date().format("yyyy-MM")
-    const [chartData, setChartData] = useState([cate_info?.name])
+    const [chart, setChart] = useState<any>(null)
+    const [chartData, setChartData] = useState([])
     const [selCate, setSelCate] = useState(cate_info?.seq_list[0])
     const [selGu, setSelGu] = useState(M_GU[""])
     const [selType, setSelType] = useState(M_TYPE[""])
-    const [chartDateData, setChartDateData] = useState(["Dates"])
 
     const reqCntData = async () => {
         const result = await Http.Request<any>("get", "/api/count/" + selCate, {
@@ -30,19 +40,38 @@ const Info = function ({ cate_info, nav_info }: IInfoPage.InitialProps) {
             return null
         })
         if (result === null) return
-        const initChartDateData = ["Dates"]
-        setChartDateData(initChartDateData.concat(result.map((obj: any) => obj.P_YEAR_MONTH + "-01")))
-        const initChartData = [cate_info?.name]
-        setChartData(initChartData.concat(result.map((obj: any) => obj.AVER_VAL || null)))
+        setChartData(result.map((obj: any) => obj.AVER_VAL || null))
+        if (chart === null) return
+        chart.load({
+            unload: true,
+            x: "Dates",
+            columns: [["Dates"].concat(result.map((obj: any) => obj.P_YEAR_MONTH + "-01")), [cate_info?.name].concat(result.map((obj: any) => obj.AVER_VAL || null))],
+            labels: {
+                format: function (v: any) {
+                    return formatComma(v) + "원"
+                },
+            },
+        })
+    }
+    const isValidData = () => {
+        if (chartData.length === 0) return false
+        const list = chartData.filter((val) => val !== null)
+        if (list.length === 0) return false
+        return true
     }
 
     const formatComma = function (v: string) {
+        if (v === null) return "0"
         return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
 
     useEffect(() => {
         reqCntData()
-    }, [selCate, selType, selGu])
+    }, [chart, selCate, selType, selGu])
+    useEffect(() => {
+        setSelCate(cate_info?.seq_list[0])
+    }, [cate_info])
+
     return (
         <main id="contents" className="l_main">
             <ContentsBar>
@@ -82,20 +111,29 @@ const Info = function ({ cate_info, nav_info }: IInfoPage.InitialProps) {
             </ContentsBar>
             <ContentsBar>
                 <Title as="h2">
-                    {chartData.length !== 1 ? `${formatComma(String(chartData[chartData.length - 1]) || "0")}원 - ${P_YEAR_MONTH} ${cate_info?.name} 물가` : "등록된 데이터가 없습니다."}
+                    {isValidData() ? `${formatComma(String(chartData[chartData.length - 1] || "0") || "0")}원 - ${P_YEAR_MONTH} ${cate_info?.name} 물가` : "등록된 데이터가 없습니다."}
                 </Title>
             </ContentsBar>
-            <ContentsBar noPadding show={chartData.length !== 1}>
+            <ContentsBar noPadding show={isValidData()}>
                 <Chart
-                    data={[
-                        // ["Dates", "2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01", "2020-11-01", "2020-12-01"],
-                        chartDateData,
-                        // ["쇠고기", 2985, 2997, 3267, 3227, 3202, 3302],
-                        chartData,
-                    ]}
+                    setChart={setChart}
+                    //{
+                    //    x: "Dates",
+                    //    // xFormat: "%Y-%m-%d",
+                    //    // columns: [
+                    //    //     ["Dates", "2020-07-01", "2020-08-01", "2020-09-01", //"2020-10-01", "2020-11-01", "2020-12-01"],
+                    //    //     ["쇠고기", 2985, 2997, 3267, 3227, 3202, 3302],
+                    //    // ],
+                    //    columns: [["Dates"].concat(chartDateData), [chartDataName].concat//(chartData)],
+                    //    labels: {
+                    //        format: function (v: any) {
+                    //            return formatComma(v) + "원"
+                    //        },
+                    //    },
+                    //}
                 ></Chart>
             </ContentsBar>
-            <ContentsBar show={chartData.length !== 1}>
+            <ContentsBar show={isValidData()}>
                 <Title as="h2">2020년 이맘때의 가격</Title>
             </ContentsBar>
             <InfoNav nav_info={nav_info} />
@@ -103,19 +141,8 @@ const Info = function ({ cate_info, nav_info }: IInfoPage.InitialProps) {
     )
 }
 Info.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IInfoPage.InitialProps> => {
-    let cate_idx = null
-    const cate_info = CATEGORY_LIST.find((info, idx) => {
-        cate_idx = idx
-        return info.seq === Number(ctx.query.seq)
-    })
-    const nav_info = {
-        prev: (cate_idx && CATEGORY_LIST[cate_idx - 1]) || null,
-        next: (cate_idx && CATEGORY_LIST[cate_idx + 1]) || null,
-    }
     return {
         layout: LayoutCode.Info,
-        cate_info: cate_info,
-        nav_info: nav_info,
         transition: "slide",
     }
 }
