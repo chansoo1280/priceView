@@ -1,1 +1,1 @@
-export declare const SECRET = "asdY235h^&@!%Y&~!~";
+export declare const SECRET = "d3tgsd546!%Y&~!~";

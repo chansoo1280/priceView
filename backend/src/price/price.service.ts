@@ -18,8 +18,8 @@ export class PriceService extends TypeOrmQueryService<Price> {
     super(priceRepository, { useSoftDelete: true });
   }
 
-  // @Cron('0 0 * * * *', {
-  @Cron('0 59 * * * *', {
+  // @Cron('0 27 * * * *', {
+  @Cron('0 0 0 0 * *', {
     name: 'notifications',
     timeZone: 'Asia/Seoul',
   })
@@ -41,13 +41,19 @@ export class PriceService extends TypeOrmQueryService<Price> {
       YEAR2 + '-' + (MONTH2.length === 1 ? '0' + MONTH2 : MONTH2);
     const config = {
       headers: {
-        SECRET: SECRET,
+        secret: SECRET,
       },
     };
     await this.httpService
       .get(`http://13.125.195.7/api/price?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
-      .pipe(map((response: { data: any }) => response.data))
+      .pipe(
+        map((response: { data: any }) => {
+          console.log(response);
+          return response.data;
+        }),
+      )
       .toPromise();
+
     await this.httpService
       .get(
         `http://13.125.195.7/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`,

@@ -21,6 +21,7 @@ const query_typeorm_1 = require("@nestjs-query/query-typeorm");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const schedule_1 = require("@nestjs/schedule");
+const constants_1 = require("../common/constants");
 let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryService {
     constructor(priceRepository, httpService) {
         super(priceRepository, { useSoftDelete: true });
@@ -39,15 +40,18 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
         const P_YEAR_MONTH2 = YEAR2 + '-' + (MONTH2.length === 1 ? '0' + MONTH2 : MONTH2);
         const config = {
             headers: {
-                SECRET: 'asdY235h^&@!%Y&~!~',
+                secret: constants_1.SECRET,
             },
         };
         await this.httpService
-            .get(`http://13.125.195.7/api/price?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
-            .pipe(operators_1.map((response) => response.data))
+            .get(`http://localhost:3000/api/price?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
+            .pipe(operators_1.map((response) => {
+            console.log(response);
+            return response.data;
+        }))
             .toPromise();
         await this.httpService
-            .get(`http://13.125.195.7/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
+            .get(`http://localhost:3000/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
             .pipe(operators_1.map((response) => response.data))
             .toPromise();
         const merge_lsit = [
@@ -84,11 +88,11 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
                 .execute();
         }
         await this.httpService
-            .get(`http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
+            .get(`http://localhost:3000/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
             .pipe(operators_1.map((response) => response.data))
             .toPromise();
         await this.httpService
-            .get(`http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
+            .get(`http://localhost:3000/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
             .pipe(operators_1.map((response) => response.data))
             .toPromise();
     }
@@ -142,7 +146,7 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
     }
 };
 __decorate([
-    schedule_1.Cron('0 0 0 0 * *', {
+    schedule_1.Cron('0 27 * * * *', {
         name: 'notifications',
         timeZone: 'Asia/Seoul',
     }),
