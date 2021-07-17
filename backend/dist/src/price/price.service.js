@@ -30,6 +30,7 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
     }
     async handleCron() {
         const date = new Date();
+        console.log('data update - ' + date);
         const curDate_1 = new Date(date.getFullYear(), date.getMonth() - 1, 2);
         const curDate_2 = new Date(date.getFullYear(), date.getMonth(), 2);
         const YEAR = String(curDate_1.getFullYear());

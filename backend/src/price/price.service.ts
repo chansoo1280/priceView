@@ -25,6 +25,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
   })
   async handleCron() {
     const date = new Date();
+    console.log('data update - ' + date);
     const curDate_1 = new Date(
       date.getFullYear(),
       date.getMonth() - 1,
