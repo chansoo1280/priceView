@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "generate": "next build && node build.js",
+    "generate": "next build && next export && node build.js",
     "start": "next start",
     "lint": "next lint"
   },
