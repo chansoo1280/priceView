@@ -18,7 +18,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
     super(priceRepository, { useSoftDelete: true });
   }
 
-  // @Cron('0 44 * * * *', {
+  // @Cron('0 9 * * * *', {
   @Cron('0 0 0 0 * *', {
     name: 'notifications',
     timeZone: 'Asia/Seoul',
@@ -84,6 +84,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
     ];
     for (let i = 0; i < merge_lsit.length; i++) {
       const info = merge_lsit[i];
+      console.log('merge_lsit' + i);
       await this.priceRepository
         .createQueryBuilder()
         .update(Price)
@@ -95,12 +96,11 @@ export class PriceService extends TypeOrmQueryService<Price> {
         .andWhere('price.A_NAME = :A_NAME', { A_NAME: info[0] })
         .execute();
     }
-
-    await this.httpService
+    this.httpService
       .get(`http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
       .pipe(map((response: { data: any }) => response.data))
       .toPromise();
-    await this.httpService
+    this.httpService
       .get(
         `http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`,
         config,

@@ -16,7 +16,13 @@ let PriceModule = class PriceModule {
 };
 PriceModule = __decorate([
     common_1.Module({
-        imports: [typeorm_1.TypeOrmModule.forFeature([price_repository_1.PriceRepository]), common_1.HttpModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([price_repository_1.PriceRepository]),
+            common_1.HttpModule.register({
+                timeout: 1000 * 60 * 5,
+                maxRedirects: 5,
+            }),
+        ],
         controllers: [price_controller_1.PriceController],
         providers: [price_service_1.PriceService],
         exports: [price_service_1.PriceService],

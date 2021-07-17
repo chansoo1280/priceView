@@ -76,6 +76,7 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
         ];
         for (let i = 0; i < merge_lsit.length; i++) {
             const info = merge_lsit[i];
+            console.log('merge_lsit' + i);
             await this.priceRepository
                 .createQueryBuilder()
                 .update(price_entity_1.Price)
@@ -87,11 +88,11 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
                 .andWhere('price.A_NAME = :A_NAME', { A_NAME: info[0] })
                 .execute();
         }
-        await this.httpService
+        this.httpService
             .get(`http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
             .pipe(operators_1.map((response) => response.data))
             .toPromise();
-        await this.httpService
+        this.httpService
             .get(`http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
             .pipe(operators_1.map((response) => response.data))
             .toPromise();

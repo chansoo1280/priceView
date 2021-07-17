@@ -5,9 +5,15 @@ import { PriceRepository } from './price.repository';
 import { PriceService } from './price.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PriceRepository]), HttpModule],
+  imports: [
+    TypeOrmModule.forFeature([PriceRepository]),
+    HttpModule.register({
+      timeout: 1000 * 60 * 5,
+      maxRedirects: 5,
+    }),
+  ],
   controllers: [PriceController],
   providers: [PriceService],
   exports: [PriceService],
 })
-export class PriceModule { }
+export class PriceModule {}
