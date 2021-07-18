@@ -13,7 +13,6 @@ export const Container = styled.div<IInfoNav.IProps>`
     width: 100%;
     height: 100%;
     & > ${StyledButton} {
-        pointer-events: auto;
         border: 0;
     }
 `
