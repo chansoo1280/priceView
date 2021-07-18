@@ -185,11 +185,20 @@ const Info = function ({}: IInfoPage.InitialProps) {
                 </Select>
                 <Button
                     onClick={() => {
-                        window.ReactNativeWebView.postMessage(
-                            JSON.stringify({
-                                type: RN_API_GET_POSITION,
-                            }),
-                        )
+                        if (!("geolocation" in navigator)) {
+                            return
+                        }
+                        navigator.geolocation.getCurrentPosition((position) => {
+                            reqPositionData({
+                                x: String(position.coords.longitude),
+                                y: String(position.coords.latitude),
+                            })
+                        })
+                        //window.ReactNativeWebView.postMessage(
+                        //    JSON.stringify({
+                        //        type: RN_API_GET_POSITION,
+                        //    }),
+                        //)
                     }}
                 >
                     <i className="xi-my-location"></i>
