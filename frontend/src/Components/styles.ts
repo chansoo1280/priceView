@@ -94,7 +94,7 @@ export const ShowStyle = ({ show }: { show?: boolean }) => css`
     ${show === false && "display: none;"}
 `
 export const OpacityShowStyle = ({ opacityShow }: { opacityShow?: boolean }) => css`
-    ${opacityShow === false && "opacity:0;pointer-events:none;"}
+    ${opacityShow === false && "opacity:0;pointer-events:none;touch-action: none;"}
 `
 
 export const DisabledStyle = ({ isDisabled }: { isDisabled?: boolean }) => {

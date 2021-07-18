@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 import Geolocation from 'react-native-geolocation-service';
-import {ToastAndroid} from 'react-native';
+import {Platform, ToastAndroid, PermissionsAndroid} from 'react-native';
 import {BackHandler} from 'react-native';
 import {WebView} from 'react-native-webview';
 
@@ -11,6 +11,21 @@ export default function HomeScreen() {
   let exitApp = false;
   //const url = 'http://172.30.1.23:3000/';
   const url = 'http://13.125.195.7/';
+  const requestPermissions = async function () {
+    if (Platform.OS === 'ios') {
+      Geolocation.requestAuthorization();
+      Geolocation.setRNConfiguration({
+        skipPermissionRequests: false,
+        authorizationLevel: 'whenInUse',
+      });
+    }
+
+    if (Platform.OS === 'android') {
+      await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+    }
+  };
   const onBackPress = () => {
     if (webview && webview.current && canGoBack) {
       webview.current?.goBack();
@@ -68,7 +83,7 @@ export default function HomeScreen() {
 
     true;
   `}
-      onMessage={message => {
+      onMessage={async message => {
         const {nativeEvent} = message;
         if (nativeEvent?.data === 'navigationStateChange') {
           SetCanGoBack(nativeEvent.canGoBack);
@@ -77,9 +92,9 @@ export default function HomeScreen() {
         const req = JSON.parse(nativeEvent?.data || '""');
         switch (req.type) {
           case 'RN_API_GET_POSITION': {
+            await requestPermissions();
             Geolocation.getCurrentPosition(
               position => {
-                alert(JSON.stringify(position));
                 webview.current.postMessage(
                   JSON.stringify({
                     type: 'RN_API_GET_POSITION',
@@ -89,7 +104,10 @@ export default function HomeScreen() {
               },
               error => {
                 // See error code charts below.
-                alert(error.code+"-"+error.message);
+                //alert(error.code+"-"+error.message);
+                if (error.code === 1) {
+                  alert('위치권한이 없습니다.');
+                }
               },
               {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
             );
