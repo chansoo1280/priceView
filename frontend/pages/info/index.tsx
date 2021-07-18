@@ -1,12 +1,21 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import { stringify } from "query-string"
 
 // #region Local Imports
 import { IInfoPage, ReduxNextPageContext } from "@Interfaces"
 import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
 import { Http } from "@Services"
-import { LayoutCode, Title, Chart, Select, ContentsBar, SizeCode, InfoNav } from "@Components"
+import { LayoutCode, Title, Chart, Select, ContentsBar, SizeCode, InfoNav, Button } from "@Components"
 // #endregion Local Imports
+
+declare global {
+    interface Window {
+        ReactNativeWebView: any
+    }
+}
+
+const RN_API_GET_POSITION = "RN_API_GET_POSITION"
 
 const Info = function ({}: IInfoPage.InitialProps) {
     const router = useRouter()
@@ -24,8 +33,40 @@ const Info = function ({}: IInfoPage.InitialProps) {
     const [chart, setChart] = useState<any>(null)
     const [chartData, setChartData] = useState([])
     const [selCate, setSelCate] = useState(cate_info?.seq_list[0])
-    const [selGu, setSelGu] = useState(M_GU[""])
+    const [selGu, setSelGu] = useState<string>(M_GU[""])
     const [selType, setSelType] = useState(M_TYPE[""])
+
+    const reqPositionData = ({ x, y }: { x: string; y: string }) => {
+        fetch(
+            `https://dapi.kakao.com/v2/local/geo/coord2address.json?${stringify({
+                x,
+                y,
+            })}`,
+            {
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: "KakaoAK 4fdda60789cef4f549581038ad7564e5",
+                },
+                method: `get`,
+            },
+        ).then(async (response) => {
+            if (response.status === 200) {
+                return response.json().then((res) => {
+                    if (res.documents && res.documents.length === 0) {
+                        alert("위치정보를 찾지 못했습니다.")
+                        return
+                    }
+                    const { region_1depth_name, region_2depth_name } = res.documents[0]?.address
+                    if (region_1depth_name !== "서울") {
+                        alert("서울이 아닙니다")
+                        return
+                    }
+                    const guSeq = Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name) || ""
+                    setSelGu(guSeq)
+                })
+            }
+        })
+    }
 
     const reqCntData = async () => {
         if (selCate === undefined) return
@@ -65,6 +106,39 @@ const Info = function ({}: IInfoPage.InitialProps) {
         if (v === null) return "0"
         return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
+    const listener = (event: any) => {
+        const { data, type } = JSON.parse(event.data)
+        switch (type) {
+            case RN_API_GET_POSITION: {
+                //alert(data.coords.latitude + "-" + data.coords.longitude)
+                reqPositionData({
+                    y: data.coords.latitude,
+                    x: data.coords.longitude,
+                })
+                break
+            }
+            default: {
+                break
+            }
+        }
+    }
+    useEffect(() => {
+        if (window.ReactNativeWebView) {
+            /** android */
+            document.addEventListener("message", listener)
+            /** ios */
+            window.addEventListener("message", listener)
+        } else {
+            // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
+            alert("모바일이 아닙니다.")
+        }
+        return () => {
+            /** android */
+            document.removeEventListener("message", listener)
+            /** ios */
+            window.removeEventListener("message", listener)
+        }
+    }, [])
 
     useEffect(() => {
         reqCntData()
@@ -109,6 +183,18 @@ const Info = function ({}: IInfoPage.InitialProps) {
                             </option>
                         ))}
                 </Select>
+                <Button
+                    onClick={() => {
+                        window.ReactNativeWebView.postMessage(
+                            JSON.stringify({
+                                type: RN_API_GET_POSITION,
+                            }),
+                        )
+                    }}
+                >
+                    <i className="xi-my-location"></i>
+                    <span className="ir">내위치</span>
+                </Button>
             </ContentsBar>
             <ContentsBar>
                 <Title as="h2">
@@ -116,23 +202,7 @@ const Info = function ({}: IInfoPage.InitialProps) {
                 </Title>
             </ContentsBar>
             <ContentsBar noPadding show={isValidData()}>
-                <Chart
-                    setChart={setChart}
-                    //{
-                    //    x: "Dates",
-                    //    // xFormat: "%Y-%m-%d",
-                    //    // columns: [
-                    //    //     ["Dates", "2020-07-01", "2020-08-01", "2020-09-01", //"2020-10-01", "2020-11-01", "2020-12-01"],
-                    //    //     ["쇠고기", 2985, 2997, 3267, 3227, 3202, 3302],
-                    //    // ],
-                    //    columns: [["Dates"].concat(chartDateData), [chartDataName].concat//(chartData)],
-                    //    labels: {
-                    //        format: function (v: any) {
-                    //            return formatComma(v) + "원"
-                    //        },
-                    //    },
-                    //}
-                ></Chart>
+                <Chart setChart={setChart}></Chart>
             </ContentsBar>
             <ContentsBar show={isValidData()}>
                 <Title as="h2">2020년 이맘때의 가격</Title>

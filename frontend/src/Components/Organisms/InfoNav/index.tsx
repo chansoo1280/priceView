@@ -1,6 +1,6 @@
 // #region Global Imports
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useState } from "react"
 // #endregion Global Imports
 
 // #region Local Imports
@@ -13,11 +13,18 @@ export const InfoNav: React.FunctionComponent<IInfoNav.IProps> = (props) => {
     const router = useRouter()
     const { nav_info } = props
     const { next, prev } = nav_info || {}
+    let timer = null
+    const [isDisabled, setIsDisabled] = useState(false)
     return (
         <Container {...props}>
             <Button
                 opacityShow={prev !== null}
                 onClick={() => {
+                    if (isDisabled === true) return
+                    setIsDisabled(true)
+                    timer = setTimeout(() => {
+                        setIsDisabled(false)
+                    }, 500)
                     router.replace({ pathname: "/info", query: { seq: prev?.seq } })
                 }}
             >
@@ -27,6 +34,11 @@ export const InfoNav: React.FunctionComponent<IInfoNav.IProps> = (props) => {
             <Button
                 opacityShow={next !== null}
                 onClick={() => {
+                    if (isDisabled === true) return
+                    setIsDisabled(true)
+                    timer = setTimeout(() => {
+                        setIsDisabled(false)
+                    }, 500)
                     router.replace({ pathname: "/info", query: { seq: next?.seq } })
                 }}
             >

@@ -23,7 +23,9 @@ export const M_TYPE = {
 } as const
 export type M_TYPE = typeof M_TYPE[keyof typeof M_TYPE]
 
-export const M_GU = {
+export const M_GU: {
+    [x: string]: string
+} = {
     "": "",
     "680000": "강남구",
     "440000": "마포구",
