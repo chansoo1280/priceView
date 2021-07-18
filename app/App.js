@@ -79,7 +79,7 @@ export default function HomeScreen() {
           case 'RN_API_GET_POSITION': {
             Geolocation.getCurrentPosition(
               position => {
-                console.log(position);
+                alert(JSON.stringify(position));
                 webview.current.postMessage(
                   JSON.stringify({
                     type: 'RN_API_GET_POSITION',
@@ -89,7 +89,7 @@ export default function HomeScreen() {
               },
               error => {
                 // See error code charts below.
-                console.log(error.code, error.message);
+                alert(error.code+"-"+error.message);
               },
               {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
             );
