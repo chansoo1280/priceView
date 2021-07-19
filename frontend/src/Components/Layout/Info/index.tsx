@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from "react-redux"
 // #endregion Global Imports
 
 // #region Local Imports
-import { SizeCode, Header, Button, Title } from "@Components"
-import { IStore } from "@Interfaces"
+import { Header, Button, Title } from "@Components"
+import { CATEGORY_LIST } from "@Definitions/MainConsts"
 import { StarActions } from "@Actions"
+import { IStore } from "@Interfaces"
 import { ILayout } from "../Layout"
 import { StyledWrap } from "./styled"
-import { CATEGORY_LIST } from "@Definitions/MainConsts"
 // #endregion Local Imports
 
 export const Info = function ({ children }: ILayout.IProps) {

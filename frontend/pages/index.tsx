@@ -1,13 +1,14 @@
-import { IStore, ReduxNextPageContext } from "@Interfaces"
-import { Swiper, SwiperSlide } from "swiper/react"
+// #region Global Imports
+import { useState } from "react"
+import { SwiperSlide } from "swiper/react"
+// #endregion Global Imports
 
 // #region Local Imports
 import { Button, Title, Tab, TabInner, ContentsBar, IconList, IconListCon, IconListInner, SizeCode } from "@Components"
-import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useAppDispatch, useAppSelector } from "@Redux/hooks"
-import { AppActions } from "@Actions"
 import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR } from "@Definitions"
+import { useAppDispatch, useAppSelector } from "@Redux/hooks"
+import { IStore, ReduxNextPageContext } from "@Interfaces"
+import { AppActions } from "@Actions"
 // #endregion Local Imports
 
 const Page = function () {
@@ -16,12 +17,10 @@ const Page = function () {
     const star = useAppSelector((state: IStore) => state.star)
     const [swiper, setSwiper] = useState<any>(null)
     const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 0)
-    const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => {
-        return {
-            ...info,
-            type: CATEGORY_TYPE.STAR,
-        }
-    })
+    const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => ({
+        ...info,
+        type: CATEGORY_TYPE.STAR,
+    }))
     const cate_list = CATEGORY_LIST.concat(starList)
     return (
         <main id="contents" className="l_main">

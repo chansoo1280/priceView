@@ -1,14 +1,15 @@
 import "/styles/globals.css"
 // Import Swiper styles
 import "swiper/swiper.scss"
-import type { AppProps } from "next/app"
 
 // #region Global Imports
 import * as React from "react"
-import { withRouter } from "next/router"
 import App, { AppInitialProps, AppContext } from "next/app"
+import { withRouter } from "next/router"
 import { ThemeProvider } from "styled-components"
-import { CSSTransition, SwitchTransition, Transition, TransitionGroup } from "react-transition-group"
+import { connect } from "react-redux"
+import { PersistGate } from "redux-persist/integration/react"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
 // #endregion Global Imports
 
 // #region Local Imports
@@ -18,10 +19,7 @@ import { AppWithStore, IStore } from "@Interfaces"
 import { persistor, wrapper } from "@Redux"
 import TheLayout, { LayoutCode } from "@Components/Layout"
 import "@Services/API/DateFormat"
-
 import "@Static/css/main.scss"
-import { connect, ReactReduxContext } from "react-redux"
-import { PersistGate } from "redux-persist/integration/react"
 // #endregion Local Imports
 
 class WebApp extends App<AppWithStore> {
@@ -64,14 +62,7 @@ class WebApp extends App<AppWithStore> {
                         perspective: "500px",
                     }}
                 >
-                    <CSSTransition
-                        appear={true}
-                        key={router.pathname}
-                        // url 로 적용하기
-                        timeout={300}
-                        // classNames="item"
-                        classNames={pageProps?.transition || ""}
-                    >
+                    <CSSTransition appear={true} key={router.pathname} timeout={300} classNames={pageProps?.transition || ""}>
                         <div className={"l_transition " + nextPathname}>
                             <PersistGate persistor={persistor} loading={<div>Loading</div>}>
                                 <AppLayout {...pageProps}>

@@ -1,6 +1,4 @@
 // #region Global Imports
-import Head from "next/head"
-import styled from "styled-components"
 // #endregion Global Imports
 
 // #region Local Imports

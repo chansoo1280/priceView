@@ -1,7 +1,6 @@
 // #region Global Imports
 import React, { useEffect } from "react"
 import "c3/c3.css"
-
 // #endregion Global Imports
 
 // #region Local Imports
@@ -67,35 +66,6 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
     return (
         <Container {...props}>
             <div id="chart"></div>
-            {/* <C3Chart
-                padding={{
-                    right: 40,
-                }}
-                data={data}
-                tooltip={{
-                    format: {
-                        // title: function (d) { return 'Data ' + d; },
-                        value: function (value: any) {
-                            return formatComma(value) + "원"
-                        },
-                        //            value: d3.format(',') // apply this format to both y and y2
-                    },
-                }}
-                line={{
-                    connect_null: false,
-                }}
-                axis={{
-                    x: {
-                        type: "timeseries",
-                        tick: {
-                            format: "%Y-%m",
-                        },
-                    },
-                    y: {
-                        padding: { top: 200, bottom: 200 },
-                    },
-                }}
-            /> */}
         </Container>
     )
 }

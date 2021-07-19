@@ -1,12 +1,14 @@
-import { useRouter } from "next/router"
+// #region Global Imports
 import { useEffect, useState } from "react"
+import { useRouter } from "next/router"
 import { stringify } from "query-string"
+// #endregion Global Imports
 
 // #region Local Imports
-import { IInfoPage, ReduxNextPageContext } from "@Interfaces"
 import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
-import { Http } from "@Services"
 import { LayoutCode, Title, Chart, Select, ContentsBar, SizeCode, InfoNav, Button } from "@Components"
+import { IInfoPage, ReduxNextPageContext } from "@Interfaces"
+import { Http } from "@Services"
 // #endregion Local Imports
 
 declare global {
@@ -17,9 +19,13 @@ declare global {
 
 const RN_API_GET_POSITION = "RN_API_GET_POSITION"
 
+const formatComma = function (v: string) {
+    if (v === null) return "0"
+    return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
 const Info = function ({}: IInfoPage.InitialProps) {
     const router = useRouter()
-    // console.log(router.query.seq)
     let cate_idx = null
     const cate_info = CATEGORY_LIST.find((info, idx) => {
         cate_idx = idx
@@ -29,11 +35,12 @@ const Info = function ({}: IInfoPage.InitialProps) {
         prev: (cate_idx !== null && CATEGORY_LIST[cate_idx - 1]) || null,
         next: (cate_idx !== null && CATEGORY_LIST[cate_idx + 1]) || null,
     }
+
     const P_YEAR_MONTH = new Date().format("yyyy-MM")
     const [chart, setChart] = useState<any>(null)
     const [chartData, setChartData] = useState([])
     const [selCate, setSelCate] = useState(cate_info?.seq_list[0])
-    const [selGu, setSelGu] = useState<string>(M_GU[""])
+    const [selGu, setSelGu] = useState(M_GU[""])
     const [selType, setSelType] = useState(M_TYPE[""])
 
     const reqPositionData = ({ x, y }: { x: string; y: string }) => {
@@ -43,11 +50,11 @@ const Info = function ({}: IInfoPage.InitialProps) {
                 y,
             })}`,
             {
+                method: `get`,
                 headers: {
                     "content-type": "application/json",
                     Authorization: "KakaoAK 4fdda60789cef4f549581038ad7564e5",
                 },
-                method: `get`,
             },
         ).then(async (response) => {
             if (response.status === 200) {
@@ -84,10 +91,12 @@ const Info = function ({}: IInfoPage.InitialProps) {
         if (result === null) return
         setChartData(result.map((obj: any) => obj.AVER_VAL || null))
         if (chart === null) return
+        const date_list = ["Dates"].concat(result.map((obj: any) => obj.P_YEAR_MONTH + "-01"))
+        const data_list = [cate_info?.name].concat(result.map((obj: any) => obj.AVER_VAL || null))
         chart.load({
             unload: true,
             x: "Dates",
-            columns: [["Dates"].concat(result.map((obj: any) => obj.P_YEAR_MONTH + "-01")), [cate_info?.name].concat(result.map((obj: any) => obj.AVER_VAL || null))],
+            columns: [date_list, data_list],
             labels: {
                 format: function (v: any) {
                     return formatComma(v) + "원"
@@ -95,6 +104,7 @@ const Info = function ({}: IInfoPage.InitialProps) {
             },
         })
     }
+
     const isValidData = () => {
         if (chartData.length === 0) return false
         const list = chartData.filter((val) => val !== null)
@@ -102,10 +112,6 @@ const Info = function ({}: IInfoPage.InitialProps) {
         return true
     }
 
-    const formatComma = function (v: string) {
-        if (v === null) return "0"
-        return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    }
     const listener = (event: any) => {
         const { data, type } = JSON.parse(event.data)
         switch (type) {
@@ -185,6 +191,7 @@ const Info = function ({}: IInfoPage.InitialProps) {
                 </Select>
                 <Button
                     onClick={() => {
+                        // https 만 지원
                         // if (!("geolocation" in navigator)) {
                         //     return
                         // }

@@ -1,14 +1,12 @@
 // #region Global Imports
 import Head from "next/head"
-import styled from "styled-components"
+import { useRouter } from "next/router"
 // #endregion Global Imports
 
 // #region Local Imports
-import { Header, Button, Title, SizeCode } from "@Components"
+import { Header, Button, Title } from "@Components"
 import { ILayout } from "../Layout"
 import { StyledWrap } from "./styled"
-import { useRouter } from "next/router"
-
 // #endregion Local Imports
 
 export const Setting = function ({ children }: ILayout.IProps) {

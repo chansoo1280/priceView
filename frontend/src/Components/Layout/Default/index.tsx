@@ -1,13 +1,11 @@
 // #region Global Imports
 import Head from "next/head"
-import styled from "styled-components"
 // #endregion Global Imports
 
 // #region Local Imports
-import { Header, Button, Title, SizeCode } from "@Components"
-import { ILayout } from "../Layout"
+import { Header, Button, Title } from "@Components"
 import { StyledWrap } from "./styled"
-
+import { ILayout } from "../Layout"
 // #endregion Local Imports
 
 export const Default = function ({ children }: ILayout.IProps) {
