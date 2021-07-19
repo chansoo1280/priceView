@@ -33,7 +33,7 @@ const Page = function () {
                         <Button
                             show={Number(key) !== CATEGORY_TYPE.STAR || starList.length !== 0}
                             onClick={() => {
-                                swiper?.slideTo(idx)
+                                swiper?.slideTo(starList.length !== 0 ? idx : idx - 1)
                                 dispatch(AppActions.SetSelCate(Number(key)))
                                 setSelTab(Number(key))
                             }}
