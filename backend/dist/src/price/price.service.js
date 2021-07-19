@@ -28,6 +28,9 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
         this.priceRepository = priceRepository;
         this.httpService = httpService;
     }
+    handleInterval() {
+        console.log('this function execute every 10 secs');
+    }
     async handleCron() {
         const date = new Date();
         console.log('data update - ' + date);
@@ -147,6 +150,12 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
         return result;
     }
 };
+__decorate([
+    schedule_1.Interval('interval', 10000),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PriceService.prototype, "handleInterval", null);
 __decorate([
     schedule_1.Cron('0 0 0 0 * *', {
         name: 'notifications',

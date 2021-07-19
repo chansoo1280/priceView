@@ -5,7 +5,7 @@ import { PriceRepository } from './price.repository';
 import { TypeOrmQueryService } from '@nestjs-query/query-typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, InsertResult } from 'typeorm';
-import { Cron } from '@nestjs/schedule';
+import { Cron, Interval } from '@nestjs/schedule';
 import { SECRET } from 'src/common/constants';
 
 @Injectable()
@@ -18,12 +18,19 @@ export class PriceService extends TypeOrmQueryService<Price> {
     super(priceRepository, { useSoftDelete: true });
   }
 
+  // @Interval('interval', 10000)
+  // handleInterval() {
+  //   console.log('this function execute every 10 secs');
+  // }
+
   // @Cron('0 9 * * * *', {
-  @Cron('0 0 0 0 * *', {
-    name: 'notifications',
-    timeZone: 'Asia/Seoul',
-  })
-  async handleCron() {
+  // @Cron('0 0 0 0 * *', {
+  //   name: 'notifications',
+  //   timeZone: 'Asia/Seoul',
+  // })
+  // async handleCron() {
+  @Interval('interval', 1000 * 60 * 60 * 24 * 14)
+  handleInterval() {
     const date = new Date();
     console.log('data update - ' + date);
     const curDate_1 = new Date(
