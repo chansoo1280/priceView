@@ -28,10 +28,7 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
         this.priceRepository = priceRepository;
         this.httpService = httpService;
     }
-    handleInterval() {
-        console.log('this function execute every 10 secs');
-    }
-    async handleCron() {
+    async handleInterval() {
         const date = new Date();
         console.log('data update - ' + date);
         const curDate_1 = new Date(date.getFullYear(), date.getMonth() - 1, 2);
@@ -151,20 +148,11 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
     }
 };
 __decorate([
-    schedule_1.Interval('interval', 10000),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], PriceService.prototype, "handleInterval", null);
-__decorate([
-    schedule_1.Cron('0 0 0 0 * *', {
-        name: 'notifications',
-        timeZone: 'Asia/Seoul',
-    }),
+    schedule_1.Interval('interval', 1000 * 60 * 60 * 24 * 14),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], PriceService.prototype, "handleCron", null);
+], PriceService.prototype, "handleInterval", null);
 PriceService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(price_entity_1.Price)),

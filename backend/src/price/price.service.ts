@@ -30,7 +30,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
   // })
   // async handleCron() {
   @Interval('interval', 1000 * 60 * 60 * 24 * 14)
-  handleInterval() {
+  async handleInterval() {
     const date = new Date();
     console.log('data update - ' + date);
     const curDate_1 = new Date(
