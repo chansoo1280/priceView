@@ -8,7 +8,7 @@ import { HttpModel } from "@Interfaces"
 // #endregion Interface Imports
 
 // const BaseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api`;
-const BaseUrl = `http://13.125.195.7`
+const BaseUrl = `http://3.37.6.110`
 export const Http = {
     Request: async <A>(methodType: string, url: string, params?: HttpModel.IRequestQueryPayload, payload?: HttpModel.IRequestPayload): Promise<A> => {
         return new Promise((resolve, reject) => {

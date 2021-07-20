@@ -31,6 +31,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
   // async handleCron() {
   @Interval('interval', 1000 * 60 * 60 * 24 * 14)
   async handleInterval() {
+    const myHttp = 'http://3.37.6.110';
     const date = new Date();
     console.log('data update - ' + date);
     const curDate_1 = new Date(
@@ -53,7 +54,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
       },
     };
     await this.httpService
-      .get(`http://13.125.195.7/api/price?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
+      .get(`${myHttp}/api/price?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
       .pipe(
         map((response: { data: any }) => {
           console.log(response);
@@ -63,10 +64,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
       .toPromise();
 
     await this.httpService
-      .get(
-        `http://13.125.195.7/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`,
-        config,
-      )
+      .get(`${myHttp}/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
       .pipe(map((response: { data: any }) => response.data))
       .toPromise();
 
@@ -105,14 +103,11 @@ export class PriceService extends TypeOrmQueryService<Price> {
         .execute();
     }
     this.httpService
-      .get(`http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
+      .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
       .pipe(map((response: { data: any }) => response.data))
       .toPromise();
     this.httpService
-      .get(
-        `http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`,
-        config,
-      )
+      .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
       .pipe(map((response: { data: any }) => response.data))
       .toPromise();
   }

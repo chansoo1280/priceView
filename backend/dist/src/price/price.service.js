@@ -29,6 +29,7 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
         this.httpService = httpService;
     }
     async handleInterval() {
+        const myHttp = 'http://3.37.6.110';
         const date = new Date();
         console.log('data update - ' + date);
         const curDate_1 = new Date(date.getFullYear(), date.getMonth() - 1, 2);
@@ -45,14 +46,14 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
             },
         };
         await this.httpService
-            .get(`http://13.125.195.7/api/price?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
+            .get(`${myHttp}/api/price?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
             .pipe(operators_1.map((response) => {
             console.log(response);
             return response.data;
         }))
             .toPromise();
         await this.httpService
-            .get(`http://13.125.195.7/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
+            .get(`${myHttp}/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
             .pipe(operators_1.map((response) => response.data))
             .toPromise();
         const merge_lsit = [
@@ -90,11 +91,11 @@ let PriceService = class PriceService extends query_typeorm_1.TypeOrmQueryServic
                 .execute();
         }
         this.httpService
-            .get(`http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
+            .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
             .pipe(operators_1.map((response) => response.data))
             .toPromise();
         this.httpService
-            .get(`http://13.125.195.7/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
+            .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
             .pipe(operators_1.map((response) => response.data))
             .toPromise();
     }

@@ -10,7 +10,7 @@ export default function HomeScreen() {
   let exitAppTimeout = null;
   let exitApp = false;
   //const url = 'http://172.30.1.23:3000/';
-  const url = 'http://13.125.195.7/';
+  const url = 'http://3.37.6.110/';
   const requestPermissions = async function () {
     if (Platform.OS === 'ios') {
       Geolocation.requestAuthorization();
