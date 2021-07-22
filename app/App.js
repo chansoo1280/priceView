@@ -10,7 +10,7 @@ export default function HomeScreen() {
   let exitAppTimeout = null;
   let exitApp = false;
   //const url = 'http://172.30.1.23:3000/';
-  const url = 'http://3.37.6.110/';
+  const url = 'https://price.chansoo1280.site/';
   const requestPermissions = async function () {
     if (Platform.OS === 'ios') {
       Geolocation.requestAuthorization();
