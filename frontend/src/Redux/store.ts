@@ -1,19 +1,12 @@
 // #region Global Imports
-import { EmptyObject, createStore, applyMiddleware, Store, Middleware, StoreEnhancer } from "redux"
+import { createStore, applyMiddleware, Middleware, StoreEnhancer } from "redux"
 import thunkMiddleware from "redux-thunk"
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { composeWithDevTools } from "redux-devtools-extension/developmentOnly"
 // #endregion Global Imports
-
-export interface State {}
 
 // #region Local Imports
 import { Reducers } from "./Reducers"
-import { Context, createWrapper } from "next-redux-wrapper"
-import { IStore } from "./IStore"
+import { createWrapper } from "next-redux-wrapper"
 import { Reducer } from "react"
-import { PersistPartial } from "redux-persist/es/persistReducer"
-import { IAction } from "@Interfaces"
 import { persistStore } from "redux-persist"
 // #endregion Local Imports
 

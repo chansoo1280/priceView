@@ -20,6 +20,13 @@ export const StarActions = {
         type: ActionConsts.Star.ResetReducer,
     }),
 
+    SetStar: (payload: IStarPage.Actions.ISetStarPayload) => async (dispatch: Dispatch) => {
+        dispatch({
+            payload: payload,
+            type: ActionConsts.Star.SetReducer,
+        })
+    },
+
     AddStar: (payload: IStarPage.Actions.IAddStarPayload) => async (dispatch: Dispatch) => {
         dispatch({
             payload: {

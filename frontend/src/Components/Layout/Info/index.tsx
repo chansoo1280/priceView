@@ -13,6 +13,12 @@ import { ILayout } from "../Layout"
 import { StyledWrap } from "./styled"
 // #endregion Local Imports
 
+declare global {
+    interface Window {
+        ReactNativeWebView: any
+    }
+}
+
 export const Info = function ({ children }: ILayout.IProps) {
     const router = useRouter()
     const cate_info = CATEGORY_LIST.find((info, idx) => {
@@ -40,6 +46,7 @@ export const Info = function ({ children }: ILayout.IProps) {
                         show={!getIsStar()}
                         onClick={() => {
                             if (cate_info === undefined) return
+
                             dispatch(
                                 StarActions.AddStar({
                                     seq: cate_info.seq,

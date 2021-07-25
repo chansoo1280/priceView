@@ -10,6 +10,7 @@ export const ActionConsts = {
     },
     Star: {
         ResetReducer: "Star_ResetReducer",
+        SetReducer: "Star_SetReducer",
         AddReducer: "Star_AddReducer",
         RemoveReducer: "Star_RemoveReducer",
     },

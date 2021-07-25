@@ -10,11 +10,7 @@ declare namespace IStarPage {
     }
 
     namespace Actions {
-        export interface IMapPayload {
-            seq: number
-        }
-
-        export interface IMapResponse {}
+        export type ISetStarPayload = string
 
         export interface IAddStarPayload {
             seq: number
@@ -23,6 +19,7 @@ declare namespace IStarPage {
         export interface IRemoveStarPayload {
             seq: number
         }
+        export type IMapPayload = ISetStarPayload | IAddStarPayload | IRemoveStarPayload
     }
 }
 

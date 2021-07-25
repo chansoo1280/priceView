@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import {Platform, ToastAndroid, PermissionsAndroid} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {BackHandler} from 'react-native';
 import {WebView} from 'react-native-webview';
 
@@ -9,8 +10,8 @@ export default function HomeScreen() {
   const [canGoBack, SetCanGoBack] = useState(false);
   let exitAppTimeout = null;
   let exitApp = false;
-  //const url = 'http://172.30.1.23:3000/';
-  const url = 'https://price.chansoo1280.site/';
+  const url = 'http://172.30.1.23:3000/';
+  // const url = 'https://price.chansoo1280.site/';
   const requestPermissions = async function () {
     if (Platform.OS === 'ios') {
       Geolocation.requestAuthorization();
@@ -110,6 +111,28 @@ export default function HomeScreen() {
                 }
               },
               {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+            );
+          }
+          case 'RN_API_SET_STAR': {
+            AsyncStorage.setItem('star', JSON.stringify(req?.data));
+            console.log(JSON.stringify(req?.data))
+            webview.current.postMessage(
+              JSON.stringify({
+                type: 'RN_API_SET_STAR',
+                data: 'success',
+              }),
+            );
+          }
+          case 'RN_API_GET_STAR': {
+            const star = await AsyncStorage.getItem('star', (err, result) => {
+              const star = JSON.parse(result);
+              return star
+            })
+            webview.current.postMessage(
+              JSON.stringify({
+                type: 'RN_API_GET_STAR',
+                data: star,
+              }),
             );
           }
         }

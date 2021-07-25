@@ -13,18 +13,32 @@ const INITIAL_STATE: IStarPage.IStateProps = {
     list: [],
 }
 
-type IMapPayload = IStarPage.Actions.IMapPayload
+const RN_API_SET_STAR = "RN_API_SET_STAR"
 
-export const StarReducer = (state = INITIAL_STATE, action: IAction<IMapPayload>) => {
+export const StarReducer = (state = INITIAL_STATE, action: IAction<any>) => {
     const payloadSeq = action.payload?.seq || null
     const newStar = {
         list: state.list.slice(),
     }
     switch (action.type) {
+        case ActionConsts.Star.SetReducer:
+            const { list } = JSON.parse(action.payload || "") || {}
+            newStar.list = list || []
+            return {
+                ...state,
+                ...newStar,
+            }
+
         case ActionConsts.Star.AddReducer:
             if (payloadSeq && !state.list.find((seq) => seq === payloadSeq)) {
                 newStar.list.push(payloadSeq)
             }
+            window.ReactNativeWebView.postMessage(
+                JSON.stringify({
+                    type: RN_API_SET_STAR,
+                    data: newStar,
+                }),
+            )
             return {
                 ...state,
                 ...newStar,

@@ -1,5 +1,5 @@
 // #region Global Imports
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SwiperSlide } from "swiper/react"
 // #endregion Global Imports
 
@@ -8,8 +8,10 @@ import { Button, Title, Tab, TabInner, ContentsBar, IconList, IconListCon, IconL
 import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR } from "@Definitions"
 import { useAppDispatch, useAppSelector } from "@Redux/hooks"
 import { IStore, ReduxNextPageContext } from "@Interfaces"
-import { AppActions } from "@Actions"
+import { AppActions, StarActions } from "@Actions"
 // #endregion Local Imports
+
+const RN_API_GET_STAR = "RN_API_GET_STAR"
 
 const Page = function () {
     const dispatch = useAppDispatch()
@@ -22,6 +24,40 @@ const Page = function () {
         type: CATEGORY_TYPE.STAR,
     }))
     const cate_list = CATEGORY_LIST.concat(starList)
+    const listener = (event: any) => {
+        const { data, type } = JSON.parse(event.data)
+        switch (type) {
+            case RN_API_GET_STAR: {
+                dispatch(StarActions.SetStar(data))
+                break
+            }
+            default: {
+                break
+            }
+        }
+    }
+    useEffect(() => {
+        if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(
+                JSON.stringify({
+                    type: RN_API_GET_STAR,
+                }),
+            )
+            /** android */
+            document.addEventListener("message", listener)
+            /** ios */
+            window.addEventListener("message", listener)
+        } else {
+            // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
+            alert("모바일이 아닙니다.")
+        }
+        return () => {
+            /** android */
+            document.removeEventListener("message", listener)
+            /** ios */
+            window.removeEventListener("message", listener)
+        }
+    }, [])
     return (
         <main id="contents" className="l_main">
             <Title as="h2" className="ir">
@@ -75,9 +111,9 @@ const Page = function () {
                         ),
                 )}
             </IconList>
-            <ContentsBar>
+            {/* <ContentsBar>
                 <Button cover>기타 통계</Button>
-            </ContentsBar>
+            </ContentsBar> */}
         </main>
     )
 }
