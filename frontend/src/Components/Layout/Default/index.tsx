@@ -13,7 +13,7 @@ export const Default = function ({ children }: ILayout.IProps) {
         <>
             <Head>
                 <title>알고싶은 물가</title>
-                <meta name="description" content="알고싶은 물가" />
+                <meta name="description" content="알고싶은 물가 앱입니다." />
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css"></link>
             </Head>
