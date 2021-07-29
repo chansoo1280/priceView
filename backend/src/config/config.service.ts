@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import path from 'path';
+import { join } from 'path';
 
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+require('dotenv').config({ path: join(__dirname, '.env') });
 
 class ConfigService {
   constructor(private env: { [k: string]: string | undefined }) {}
