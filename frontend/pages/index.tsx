@@ -49,7 +49,7 @@ const Page = function () {
             window.addEventListener("message", listener)
         } else {
             // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
-            alert("모바일이 아닙니다.")
+            // alert("모바일이 아닙니다.")
         }
         return () => {
             /** android */
