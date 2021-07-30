@@ -18,7 +18,6 @@ import { join } from 'path';
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     PriceModule,
     CountModule,
-    EtcModule,
   ],
   controllers: [AppController],
   providers: [AppService],
