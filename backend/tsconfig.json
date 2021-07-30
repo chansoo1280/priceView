@@ -3,7 +3,7 @@
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
-    "typeRoots": ["./node_modules/@types"], 
+    "typeRoots": ["./node_modules/@types"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
@@ -15,7 +15,8 @@
     "baseUrl": "./",
     "rootDir": "./",
     "incremental": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
-  "exclude": [ "node_modules", "dist" ]
+  "exclude": ["node_modules", "dist"]
 }
