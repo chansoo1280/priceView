@@ -1,5 +1,14 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-require('dotenv').config({ path: process.env.pm_cwd + '/.env' });
+import path from 'path';
+
+const envPath: string = (function () {
+  if (process.env.pm_cwd) {
+    return path.resolve(process.env.pm_cwd, '.env');
+  } else {
+    return path.resolve(process.cwd(), '.env');
+  }
+})();
+require('dotenv').config({ path: envPath });
 
 class ConfigService {
   constructor(private env: { [k: string]: string | undefined }) {}
