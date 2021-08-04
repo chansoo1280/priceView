@@ -207,11 +207,13 @@ const Info = function ({}: IInfoPage.InitialProps) {
                         //     },
                         //     { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
                         // )
-                        window.ReactNativeWebView.postMessage(
-                            JSON.stringify({
-                                type: RN_API_GET_POSITION,
-                            }),
-                        )
+                        if (window.ReactNativeWebView) {
+                            window.ReactNativeWebView.postMessage(
+                                JSON.stringify({
+                                    type: RN_API_GET_POSITION,
+                                }),
+                            )
+                        }
                     }}
                 >
                     <i className="xi-my-location"></i>
