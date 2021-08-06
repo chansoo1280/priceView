@@ -33,12 +33,14 @@ export const StarReducer = (state = INITIAL_STATE, action: IAction<any>) => {
             if (payloadSeq && !state.list.find((seq) => seq === payloadSeq)) {
                 newStar.list.push(payloadSeq)
             }
-            window.ReactNativeWebView.postMessage(
-                JSON.stringify({
-                    type: RN_API_SET_STAR,
-                    data: newStar,
-                }),
-            )
+            if (window.ReactNativeWebView) {
+                window.ReactNativeWebView.postMessage(
+                    JSON.stringify({
+                        type: RN_API_SET_STAR,
+                        data: newStar,
+                    }),
+                )
+            }
             return {
                 ...state,
                 ...newStar,
