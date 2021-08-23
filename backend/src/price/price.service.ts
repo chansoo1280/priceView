@@ -29,7 +29,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
   //   timeZone: 'Asia/Seoul',
   // })
   // async handleCron() {
-  @Interval('interval', 1000 * 60 * 60 * 24 * 14)
+  @Interval('interval', 1000 * 60 * 60 * 24 * 1)
   // @Cron('0 4 * * * *', {
   //   name: 'notifications',
   //   timeZone: 'Asia/Seoul',
@@ -59,61 +59,56 @@ export class PriceService extends TypeOrmQueryService<Price> {
     };
     await this.httpService
       .get(`${myHttp}/api/price?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
-      .pipe(
-        map((response: { data: any }) => {
-          console.log(response);
-          return response.data;
-        }),
-      )
+      .pipe(map((response: { data: any }) => response.data))
       .toPromise();
 
-    // await this.httpService
-    //   .get(`${myHttp}/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
-    //   .pipe(map((response: { data: any }) => response.data))
-    //   .toPromise();
+    await this.httpService
+      .get(`${myHttp}/api/price?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
+      .pipe(map((response: { data: any }) => response.data))
+      .toPromise();
 
-    // const merge_lsit = [
-    //   ['동태', 13, '동태', 288],
-    //   ['고등어', 304, '고등어', 13],
-    //   ['닭고기', 320, '달걀(왕란)', 134],
-    //   ['', 18, '닭고기', 18],
-    //   ['돼지고기', 18, '돼지고기', 285],
-    //   ['돼지고기', 171, '돼지고기', 285],
-    //   ['', 171, '달걀(10개)', 171],
-    //   ['조기', 253, '오징어', 253],
-    //   ['', 278, '쇠고기', 278],
-    //   ['', 285, '돼지고기', 285],
-    //   ['쇠고기', 285, '쇠고기', 278],
-    //   ['달걀(30개)', 288, '동태', 288],
-    //   ['달걀(10개)', 303, '조기', 303],
-    //   ['사과(부사),중급(대)', 237, '사과(부사),중급(대)', 244],
-    //   ['달걀(왕란)', 134, '달걀(왕란)', 181],
-    //   ['달걀', 17, '달걀(10개)', 171],
-    //   ['배추(중간)', 175, '배추(중간)', 271],
-    //   ['무(세척무)', 282, '무(세척무)', 133],
-    // ];
-    // for (let i = 0; i < merge_lsit.length; i++) {
-    //   const info = merge_lsit[i];
-    //   console.log('merge_lsit' + i);
-    //   await this.priceRepository
-    //     .createQueryBuilder()
-    //     .update(Price)
-    //     .set({
-    //       A_SEQ: Number(info[3]),
-    //       A_NAME: String(info[2]),
-    //     })
-    //     .where('price.A_SEQ = :A_SEQ', { A_SEQ: info[1] })
-    //     .andWhere('price.A_NAME = :A_NAME', { A_NAME: info[0] })
-    //     .execute();
-    // }
-    // this.httpService
-    //   .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
-    //   .pipe(map((response: { data: any }) => response.data))
-    //   .toPromise();
-    // this.httpService
-    //   .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
-    //   .pipe(map((response: { data: any }) => response.data))
-    //   .toPromise();
+    const merge_lsit = [
+      ['동태', 13, '동태', 288],
+      ['고등어', 304, '고등어', 13],
+      ['닭고기', 320, '달걀(왕란)', 134],
+      ['', 18, '닭고기', 18],
+      ['돼지고기', 18, '돼지고기', 285],
+      ['돼지고기', 171, '돼지고기', 285],
+      ['', 171, '달걀(10개)', 171],
+      ['조기', 253, '오징어', 253],
+      ['', 278, '쇠고기', 278],
+      ['', 285, '돼지고기', 285],
+      ['쇠고기', 285, '쇠고기', 278],
+      ['달걀(30개)', 288, '동태', 288],
+      ['달걀(10개)', 303, '조기', 303],
+      ['사과(부사),중급(대)', 237, '사과(부사),중급(대)', 244],
+      ['달걀(왕란)', 134, '달걀(왕란)', 181],
+      ['달걀', 17, '달걀(10개)', 171],
+      ['배추(중간)', 175, '배추(중간)', 271],
+      ['무(세척무)', 282, '무(세척무)', 133],
+    ];
+    for (let i = 0; i < merge_lsit.length; i++) {
+      const info = merge_lsit[i];
+      console.log('merge_lsit' + i);
+      await this.priceRepository
+        .createQueryBuilder()
+        .update(Price)
+        .set({
+          A_SEQ: Number(info[3]),
+          A_NAME: String(info[2]),
+        })
+        .where('price.A_SEQ = :A_SEQ', { A_SEQ: info[1] })
+        .andWhere('price.A_NAME = :A_NAME', { A_NAME: info[0] })
+        .execute();
+    }
+    this.httpService
+      .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
+      .pipe(map((response: { data: any }) => response.data))
+      .toPromise();
+    this.httpService
+      .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
+      .pipe(map((response: { data: any }) => response.data))
+      .toPromise();
   }
 
   async getCnt({ name, A_UNIT, P_YEAR_MONTH }: any) {
