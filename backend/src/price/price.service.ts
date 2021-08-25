@@ -29,7 +29,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
   //   timeZone: 'Asia/Seoul',
   // })
   // async handleCron() {
-  @Interval('interval', 1000 * 60 * 60 * 24 * 1)
+  @Interval('interval', 1000 * 60 * 60 * 24 * 14)
   // @Cron('0 4 * * * *', {
   //   name: 'notifications',
   //   timeZone: 'Asia/Seoul',
