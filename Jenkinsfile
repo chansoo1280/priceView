@@ -11,6 +11,8 @@ pipeline {
             }
             steps {
                 sh 'dir'
+                git url: 'https://github.com/chansoo1280/priceView.git', credentialsId: 'git-priceView'
+                sh 'dir'
             }
         }
     }
