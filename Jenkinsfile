@@ -15,5 +15,6 @@ node {
     stage 'Push'
     sh 'docker tag price-view:latest 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com/price-view:latest'
     sh 'docker push 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com/price-view:latest'
-    sh 'docker-compose ps'
+    sh 'docker ps'
+    sh 'docker start price-view'
 }
