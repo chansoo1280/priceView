@@ -1,0 +1,15 @@
+$btn-prefix: "btn";
+.#{$btn-prefix} {
+    display: inline-block;
+    height: 36px;
+    border: 1px solid;
+    border-radius: 2px;
+    &--icon {
+        padding: 0;
+        width: 36px;
+        border: none;
+    }
+    &--block {
+        display: block;
+    }
+}
