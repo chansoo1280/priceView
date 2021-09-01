@@ -5,13 +5,13 @@ import { Category } from "@Interfaces/Main"
 
 declare namespace IInfoPage {
     export interface InitialProps {
-        layout: number
+        layout?: number
         cate_info?: Category
         nav_info?: {
             next?: Category | null
             prev?: Category | null
         } | null
-        transition:string;
+        transition: string
     }
 
     export interface IStateProps {

@@ -6,9 +6,11 @@ import { stringify } from "query-string"
 
 // #region Local Imports
 import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
-import { LayoutCode, Title, Chart, Select, ContentsBar, SizeCode, InfoNav, Button } from "@Components"
+import { Header, Title, Chart, Select, ContentsBar, SizeCode, InfoNav, Button, Tab } from "@Components"
 import { IInfoPage, ReduxNextPageContext } from "@Interfaces"
 import { Http } from "@Services"
+import { StarActions } from "@Actions"
+import { IStore, useAppDispatch, useAppSelector } from "@Redux"
 // #endregion Local Imports
 
 declare global {
@@ -24,8 +26,11 @@ const formatComma = function (v: string) {
     return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-const Info = function ({}: IInfoPage.InitialProps) {
+const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     const router = useRouter()
+    const dispatch = useAppDispatch()
+    const star = useAppSelector((state: IStore) => state.star)
+    const getIsStar = () => star.list.find((seq: number) => seq === cate_info?.seq) !== undefined
     let cate_idx = null
     const cate_info = CATEGORY_LIST.find((info, idx) => {
         cate_idx = idx
@@ -41,7 +46,7 @@ const Info = function ({}: IInfoPage.InitialProps) {
     const [chartData, setChartData] = useState([])
     const [selCate, setSelCate] = useState(cate_info?.seq_list[0])
     const [selGu, setSelGu] = useState(M_GU[""])
-    const [selType, setSelType] = useState(M_TYPE[""])
+    const [selType, setSelType] = useState<string>(M_TYPE[""])
 
     const reqPositionData = ({ x, y }: { x: string; y: string }) => {
         fetch(
@@ -154,90 +159,132 @@ const Info = function ({}: IInfoPage.InitialProps) {
     }, [cate_info])
 
     return (
-        <main id="contents" className="l_main">
-            <ContentsBar>
-                <Select
-                    sizeVal={SizeCode.large}
-                    value={selCate}
-                    setValue={(value: React.ChangeEvent<HTMLSelectElement>) => {
-                        setSelCate(Number(value))
+        <>
+            <Header title={cate_info?.name}>
+                <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />}></Button>
+                <Button
+                    show={!getIsStar()}
+                    onClick={() => {
+                        if (cate_info === undefined) return
+                        dispatch(
+                            StarActions.AddStar({
+                                seq: cate_info.seq,
+                            }),
+                        )
                     }}
-                >
-                    {cate_info?.seq_list.map((seq) => (
-                        <option key={seq} value={seq}>
-                            {NAME_OBJ[seq].A_NAME}
-                        </option>
-                    ))}
-                </Select>
-            </ContentsBar>
-            <ContentsBar>
-                <Select value={selGu} setValue={setSelGu}>
-                    {Object.entries(M_GU)
-                        .reverse()
-                        .map(([key, value]) => (
-                            <option key={key} value={key}>
-                                {value || "지역 전체"}
-                            </option>
-                        ))}
-                </Select>
-                <Select value={selType} setValue={setSelType}>
+                    icon={<img src="/static/images/icon_favorite.svg" alt="즐겨찾기 추가" />}
+                ></Button>
+                <Button
+                    show={getIsStar()}
+                    onClick={() => {
+                        if (cate_info === undefined) return
+                        dispatch(
+                            StarActions.RemoveStar({
+                                seq: cate_info.seq,
+                            }),
+                        )
+                    }}
+                    icon={<img src="/static/images/icon_favorite_active.svg" alt="즐겨찾기 삭제" />}
+                ></Button>
+            </Header>
+            <main id="contents" className="l_main">
+                <Tab>
                     {Object.entries(M_TYPE)
                         .reverse()
-                        .map(([key, value]) => (
-                            <option key={key} value={key}>
-                                {value || "시장 전체"}
+                        .map(([key, value], idx) => (
+                            <Tab.Item
+                                key={key}
+                                onClick={() => {
+                                    setSelType(key)
+                                }}
+                                name={value || "평균"}
+                                isSelected={key === selType}
+                            />
+                        ))}
+                </Tab>
+                <ContentsBar>
+                    <Select
+                        sizeVal={SizeCode.large}
+                        value={selCate}
+                        setValue={(value: React.ChangeEvent<HTMLSelectElement>) => {
+                            setSelCate(Number(value))
+                        }}
+                    >
+                        {cate_info?.seq_list.map((seq) => (
+                            <option key={seq} value={seq}>
+                                {NAME_OBJ[seq].A_NAME}
                             </option>
                         ))}
-                </Select>
-                <Button
-                    onClick={() => {
-                        // https 만 지원
-                        // if (!("geolocation" in navigator)) {
-                        //     return
-                        // }
-                        // navigator.geolocation.getCurrentPosition(
-                        //     (position) => {
-                        //         reqPositionData({
-                        //             x: String(position.coords.longitude),
-                        //             y: String(position.coords.latitude),
-                        //         })
-                        //     },
-                        //     (e) => {
-                        //         alert(e.code + "-" + e.message)
-                        //     },
-                        //     { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
-                        // )
-                        if (window.ReactNativeWebView) {
-                            window.ReactNativeWebView.postMessage(
-                                JSON.stringify({
-                                    type: RN_API_GET_POSITION,
-                                }),
-                            )
-                        }
-                    }}
-                >
-                    <i className="xi-my-location"></i>
-                    <span className="ir">내위치</span>
-                </Button>
-            </ContentsBar>
-            <ContentsBar>
-                <Title as="h2">
-                    {isValidData() ? `${formatComma(String(chartData[chartData.length - 1] || "0") || "0")}원 - ${P_YEAR_MONTH} ${cate_info?.name} 물가` : "등록된 데이터가 없습니다."}
-                </Title>
-            </ContentsBar>
-            <ContentsBar noPadding show={isValidData()}>
-                <Chart setChart={setChart}></Chart>
-            </ContentsBar>
-            <ContentsBar show={isValidData()}>
-                <Title as="h2">2020년 이맘때의 가격</Title>
-            </ContentsBar>
-            <InfoNav nav_info={nav_info} />
-        </main>
+                    </Select>
+                </ContentsBar>
+                <ContentsBar>
+                    <Select value={selGu} setValue={setSelGu}>
+                        {Object.entries(M_GU)
+                            .reverse()
+                            .map(([key, value]) => (
+                                <option key={key} value={key}>
+                                    {value || "지역 전체"}
+                                </option>
+                            ))}
+                    </Select>
+                    <Select value={selType} setValue={setSelType}>
+                        {Object.entries(M_TYPE)
+                            .reverse()
+                            .map(([key, value]) => (
+                                <option key={key} value={key}>
+                                    {value || "시장 전체"}
+                                </option>
+                            ))}
+                    </Select>
+                    <Button
+                        onClick={() => {
+                            // https 만 지원
+                            // if (!("geolocation" in navigator)) {
+                            //     return
+                            // }
+                            // navigator.geolocation.getCurrentPosition(
+                            //     (position) => {
+                            //         reqPositionData({
+                            //             x: String(position.coords.longitude),
+                            //             y: String(position.coords.latitude),
+                            //         })
+                            //     },
+                            //     (e) => {
+                            //         alert(e.code + "-" + e.message)
+                            //     },
+                            //     { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+                            // )
+                            if (window.ReactNativeWebView) {
+                                window.ReactNativeWebView.postMessage(
+                                    JSON.stringify({
+                                        type: RN_API_GET_POSITION,
+                                    }),
+                                )
+                            }
+                        }}
+                    >
+                        <i className="xi-my-location"></i>
+                        <span className="ir">내위치</span>
+                    </Button>
+                </ContentsBar>
+                <ContentsBar>
+                    <Title as="h2">
+                        {isValidData() ? `${formatComma(String(chartData[chartData.length - 1] || "0") || "0")}원 - ${P_YEAR_MONTH} ${cate_info?.name} 물가` : "등록된 데이터가 없습니다."}
+                    </Title>
+                </ContentsBar>
+                <ContentsBar noPadding show={isValidData()}>
+                    <Chart setChart={setChart}></Chart>
+                </ContentsBar>
+                <ContentsBar show={isValidData()}>
+                    <Title as="h2">2020년 이맘때의 가격</Title>
+                </ContentsBar>
+                {/* <InfoNav nav_info={nav_info} /> */}
+            </main>
+        </>
     )
 }
 Info.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IInfoPage.InitialProps> => {
     return {
-        layout: LayoutCode.Info,
         transition: "slide",
     }
 }

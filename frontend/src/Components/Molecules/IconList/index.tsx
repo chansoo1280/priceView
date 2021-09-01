@@ -65,14 +65,13 @@ const IconListInner = (props: InnerProps): JSX.Element => {
     )
 }
 interface CompoundedComponent extends React.ForwardRefExoticComponent<Props> {
-    IconListInner: typeof IconListInner
-    IconListCon: typeof IconListCon
+    InnerItem: typeof IconListInner
+    Item: typeof IconListCon
 }
 const IconList = InternalIconList as CompoundedComponent
 
 IconList.displayName = "IconList"
-IconList.IconListCon = IconListCon
-
-IconList.IconListInner = IconListInner
+IconList.Item = IconListCon
+IconList.InnerItem = IconListInner
 
 export default IconList

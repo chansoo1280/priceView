@@ -1,5 +1,7 @@
 export { default as Tab } from "./Tab"
+export { default as SlideTab } from "./SlideTab"
 export { default as IconList } from "./IconList"
+export { default as SettingList } from "./SettingList"
 export * from "./Chart"
 export * from "./Modal"
 export * from "./SettingList"

@@ -1,4 +1,4 @@
-import { CATEGORY_TYPE } from "@Definitions/MainConsts";
+import { CATEGORY_TYPE } from "@Definitions/MainConsts"
 
 export interface Price {
     price_seq: number
@@ -21,6 +21,7 @@ export interface Price {
 export interface Category {
     seq: number
     name: Price["A_NAME"]
+    icon?: string
     type: CATEGORY_TYPE
     seq_list: Price["A_SEQ"][]
 }
@@ -29,4 +30,3 @@ export interface PriceGroup {
     A_NAME: Price["A_NAME"]
     A_UNIT: Price["A_UNIT"][]
 }
-

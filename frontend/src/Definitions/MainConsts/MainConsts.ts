@@ -59,24 +59,28 @@ export const CATEGORY_LIST: Category[] = [
     {
         seq: 1,
         name: "돼지고기",
+        icon: "/static/images/items/icon_pork.svg",
         type: CATEGORY_TYPE.MEAT,
         seq_list: [285, 52, 99],
     },
     {
         seq: 2,
         name: "쇠고기",
+        icon: "/static/images/items/icon_beef.svg",
         type: CATEGORY_TYPE.MEAT,
         seq_list: [278, 58, 82, 131, 106],
     },
     {
         seq: 3,
         name: "닭고기",
+        icon: "/static/images/items/icon_egg.svg",
         type: CATEGORY_TYPE.MEAT,
         seq_list: [18, 275, 283, 138],
     },
     {
         seq: 4,
         name: "달걀",
+        icon: "/static/images/items/icon_egg.svg",
         type: CATEGORY_TYPE.MEAT,
         seq_list: [171, 321, 320, 134, 181],
     },

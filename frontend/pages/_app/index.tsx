@@ -56,7 +56,7 @@ class WebApp extends App<AppWithStore> {
             <ThemeProvider theme={theme}>
                 <PersistGate persistor={persistor} loading={<div>Loading</div>}>
                     <TransitionGroup className="l_transition-wrap" style={{}}>
-                        <CSSTransition appear={true} key={router.pathname} timeout={300} classNames={pageProps?.transition || ""}>
+                        <CSSTransition key={router.pathname} timeout={300} classNames={pageProps?.transition || ""}>
                             <div className={"l_transition " + nextPathname + "From" + prevPathname}>
                                 <AppLayout {...pageProps}>
                                     <Component {...pageProps} />

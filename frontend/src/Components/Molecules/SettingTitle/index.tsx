@@ -1,14 +1,18 @@
 // #region Global Imports
-import { Title } from "@Components"
-import React from "react"
+import React, { ReactNode } from "react"
 // #endregion Global Imports
 
 // #region Local Imports
-import { ISettingTitle } from "./SettingTitle"
-import { Container } from "./styled"
+import styles from "./SettingTitle.module.scss"
 // #endregion Local Imports
 
-const SettingTitle: React.FunctionComponent<ISettingTitle.IProps> = (props) => {
-    return <Container {...props}></Container>
+interface Props {
+    as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+    children: ReactNode
+}
+const SettingTitle = (props: Props): JSX.Element => {
+    const { children, as } = props
+    const TitleNode = `${as}` as keyof JSX.IntrinsicElements
+    return <TitleNode className={styles["setting-title"]}>{children}</TitleNode>
 }
 export { SettingTitle }

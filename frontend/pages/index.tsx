@@ -4,7 +4,7 @@ import { SwiperSlide } from "swiper/react"
 // #endregion Global Imports
 
 // #region Local Imports
-import { Button, Title, Tab, IconList, SizeCode, MainHeader } from "@Components"
+import { Button, Title, SlideTab, IconList, SizeCode, MainHeader } from "@Components"
 import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR } from "@Definitions"
 import { useAppDispatch, useAppSelector } from "@Redux/hooks"
 import { IStore, ReduxNextPageContext } from "@Interfaces"
@@ -64,9 +64,9 @@ const Page = (): JSX.Element => {
                 <Title as="h2" className="ir">
                     카테고리 탭
                 </Title>
-                <Tab>
+                <SlideTab>
                     {Object.entries(CATEGORY_TYPE_STR).map(([key, value], idx) => (
-                        <Tab.TabInner
+                        <SlideTab.Item
                             key={key}
                             onClick={() => {
                                 swiper?.slideTo(idx)
@@ -78,7 +78,7 @@ const Page = (): JSX.Element => {
                             isSelected={Number(key) === selTab}
                         />
                     ))}
-                </Tab>
+                </SlideTab>
             </MainHeader>
             <main id="contents" className="l_main">
                 <Title as="h2" className="ir">
@@ -94,14 +94,14 @@ const Page = (): JSX.Element => {
                     }}
                 >
                     {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
-                        <SwiperSlide key={key}>
-                            <IconList.IconListCon key={key}>
+                        <SwiperSlide style={{ overflowY: "auto" }} key={key}>
+                            <IconList.Item key={key}>
                                 {cate_list
                                     .filter(({ type }) => type === Number(key))
-                                    .map(({ name, seq }) => (
-                                        <IconList.IconListInner key={name} name={name} href={"/info?seq=" + seq} icon={""} />
+                                    .map(({ name, seq, icon }) => (
+                                        <IconList.InnerItem key={name} name={name} href={"/info?seq=" + seq} icon={icon} />
                                     ))}
-                            </IconList.IconListCon>
+                            </IconList.Item>
                         </SwiperSlide>
                     ))}
                 </IconList>

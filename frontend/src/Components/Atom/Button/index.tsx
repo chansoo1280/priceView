@@ -18,36 +18,39 @@ export type ButtonHTMLType = typeof ButtonHTMLTypes[number]
 interface BaseButtonProps {
     children?: ReactNode
     icon?: React.ReactNode
+
     type?: ButtonType
     shape?: ButtonShape
-    onClick?: MouseEventHandler
+    block?: boolean
+
     show?: boolean
     ghost?: boolean
     danger?: boolean
-    href?: string
     loading?: boolean | { delay?: number }
-    className?: string
-    block?: boolean
+
+    href?: string
     htmlType?: ButtonHTMLType
+    className?: string
+    onClick?: MouseEventHandler
 }
 type AnchorButtonProps = {
     href: string
     target?: string
     onClick?: React.MouseEventHandler<HTMLElement>
 } & BaseButtonProps &
-    Omit<React.AnchorHTMLAttributes<any>, "type" | "onClick">
+    Omit<React.AnchorHTMLAttributes<any>, "type" | "show" | "onClick">
 
 type NativeButtonProps = {
     htmlType?: ButtonHTMLType
     onClick?: React.MouseEventHandler<HTMLElement>
 } & BaseButtonProps &
-    Omit<React.ButtonHTMLAttributes<any>, "type" | "onClick">
+    Omit<React.ButtonHTMLAttributes<any>, "type" | "show" | "onClick">
 
 type ButtonProps = Partial<AnchorButtonProps & NativeButtonProps>
 
 type Loading = number | boolean
 const Button = (props: ButtonProps): JSX.Element => {
-    const { href, icon, loading = false, htmlType = "button", type, shape, className, children, block, ...rest } = props
+    const { href, icon, loading = false, show, htmlType = "button", type, shape, className, children, block, ...rest } = props
     const [innerLoading, setLoading] = React.useState<Loading>(!!loading)
     const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => {
         const { onClick, disabled } = props
@@ -62,6 +65,7 @@ const Button = (props: ButtonProps): JSX.Element => {
     const classes = classNames(
         styles[`${prefixCls}`],
         {
+            [styles[`${prefixCls}--hide`]]: show === false,
             [styles[`${prefixCls}--${type}`]]: type,
             [styles[`${prefixCls}--${shape}`]]: shape,
             [styles[`${prefixCls}--icon-only`]]: !children && children !== 0 && !!iconType,

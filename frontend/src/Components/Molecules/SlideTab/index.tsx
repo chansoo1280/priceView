@@ -4,15 +4,15 @@ import className from "classnames"
 // #endregion Global Imports
 
 // #region Local Imports
-import styles from "./Tab.module.scss"
+import styles from "./SlideTab.module.scss"
 // #endregion Local Imports
 interface Props {
     children?: React.ReactNode
 }
 
-const InternalTab = (props: Props): JSX.Element => {
+const InternalSlideTab = (props: Props): JSX.Element => {
     const { children } = props
-    return <ul className={styles["tab"]}>{children}</ul>
+    return <ul className={styles["slide-tab"]}>{children}</ul>
 }
 interface InnerProps {
     onClick?: MouseEventHandler<HTMLButtonElement>
@@ -20,12 +20,12 @@ interface InnerProps {
     isSelected?: boolean
     isStar?: boolean
 }
-const TabInner = (props: InnerProps): JSX.Element => {
+const SlideTabInner = (props: InnerProps): JSX.Element => {
     const { isStar, name, onClick, isSelected } = props
     const classes = className({
-        [styles["tab__btn"]]: true,
-        [styles["tab__btn--active"]]: isSelected,
-        [styles["tab__btn--icon"]]: isStar,
+        [styles["slide-tab__btn"]]: true,
+        [styles["slide-tab__btn--active"]]: isSelected,
+        [styles["slide-tab__btn--icon"]]: isStar,
     })
     if (isStar) {
         return (
@@ -45,11 +45,11 @@ const TabInner = (props: InnerProps): JSX.Element => {
     )
 }
 interface CompoundedComponent extends React.ForwardRefExoticComponent<Props> {
-    Item: typeof TabInner
+    Item: typeof SlideTabInner
 }
-const Tab = InternalTab as CompoundedComponent
+const SlideTab = InternalSlideTab as CompoundedComponent
 
-Tab.displayName = "Tab"
-Tab.Item = TabInner
+SlideTab.displayName = "SlideTab"
+SlideTab.Item = SlideTabInner
 
-export default Tab
+export default SlideTab
