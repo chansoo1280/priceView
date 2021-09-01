@@ -1,24 +1,37 @@
-#__next,
-.l_wrap {
+#__next {
+    background: #e4e6e9;
     overflow: hidden;
     width: 100%;
     height: 100%;
 }
+.l_transition-wrap {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 500px;
+}
 .l_transition {
-    background: #fff;
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
 }
+.l_wrap {
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #e4e6e9;
+    width: 100%;
+    height: 100%;
+}
 .l_main {
-    padding: 20px 0;
-    grid-area: main;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     width: 100%;
-    overflow: hidden;
+    flex: 1;
+    box-sizing: border-box;
 }
 
 .popup-enter,
