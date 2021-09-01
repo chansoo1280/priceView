@@ -8,6 +8,7 @@ import { ActionConsts } from "@Definitions"
 
 // #region Interface Imports
 import { IStarPage } from "@Reducers"
+import { IAction } from "@Interfaces"
 // #endregion Interface Imports
 
 export const StarActions = {
@@ -20,28 +21,22 @@ export const StarActions = {
         type: ActionConsts.Star.ResetReducer,
     }),
 
-    SetStar: (payload: IStarPage.Actions.ISetStarPayload) => async (dispatch: Dispatch) => {
-        dispatch({
-            payload: payload,
-            type: ActionConsts.Star.SetReducer,
-        })
-    },
+    SetStar: (payload: IStarPage.Actions.ISetStarPayload): IAction<IStarPage.Actions.IMapPayload> => ({
+        payload: payload,
+        type: ActionConsts.Star.SetReducer,
+    }),
 
-    AddStar: (payload: IStarPage.Actions.IAddStarPayload) => async (dispatch: Dispatch) => {
-        dispatch({
-            payload: {
-                seq: payload.seq,
-            },
-            type: ActionConsts.Star.AddReducer,
-        })
-    },
+    AddStar: (payload: IStarPage.Actions.IAddStarPayload): IAction<IStarPage.Actions.IMapPayload> => ({
+        payload: {
+            seq: payload.seq,
+        },
+        type: ActionConsts.Star.AddReducer,
+    }),
 
-    RemoveStar: (payload: IStarPage.Actions.IRemoveStarPayload) => async (dispatch: Dispatch) => {
-        dispatch({
-            payload: {
-                seq: payload.seq,
-            },
-            type: ActionConsts.Star.RemoveReducer,
-        })
-    },
+    RemoveStar: (payload: IStarPage.Actions.IRemoveStarPayload): IAction<IStarPage.Actions.IMapPayload> => ({
+        payload: {
+            seq: payload.seq,
+        },
+        type: ActionConsts.Star.RemoveReducer,
+    }),
 }

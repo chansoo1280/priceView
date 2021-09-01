@@ -1,8 +1,8 @@
-import "/styles/globals.css"
+// #region Global Imports
+import "/styles/style.scss"
+import "/styles/reset.css"
 // Import Swiper styles
 import "swiper/swiper.scss"
-
-// #region Global Imports
 import * as React from "react"
 import App, { AppInitialProps, AppContext } from "next/app"
 import { withRouter } from "next/router"
@@ -19,7 +19,6 @@ import { AppWithStore, IStore } from "@Interfaces"
 import { persistor, wrapper } from "@Redux"
 import TheLayout, { LayoutCode } from "@Components/Layout"
 import "@Services/API/DateFormat"
-import "@Static/css/main.scss"
 // #endregion Local Imports
 
 class WebApp extends App<AppWithStore> {

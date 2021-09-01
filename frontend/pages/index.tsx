@@ -13,7 +13,7 @@ import { AppActions, StarActions } from "@Actions"
 
 const RN_API_GET_STAR = "RN_API_GET_STAR"
 
-const Page = function () {
+const Page = () => {
     const dispatch = useAppDispatch()
     const app = useAppSelector((state: IStore) => state.app)
     const star = useAppSelector((state: IStore) => state.star)

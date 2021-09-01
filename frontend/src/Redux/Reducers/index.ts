@@ -4,7 +4,6 @@ import { combineReducers } from "redux"
 
 // #region Local Imports
 import { AppReducer } from "./app"
-import { HomeReducer } from "./home"
 import { StarReducer } from "./star"
 // #endregion Local Imports
 
@@ -13,7 +12,6 @@ export * from "./star"
 
 export const Reducers = combineReducers({
     app: AppReducer,
-    home: HomeReducer,
     star: StarReducer,
 })
 // const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -16,7 +16,7 @@ export * from "@Redux/IStore.d"
 // #endregion Redux Interfaces
 
 // #region Service Interfaces
-export * from "@Services/API/Http/Http.d";
+export * from "@Services/API/Http/Http.d"
 // export * from "@Services/API/Planetary/ApodPayload";
 // export * from "@Services/API/Planetary/ApodResponse";
 // export * from "@Services/API/Planetary/Planetary";
