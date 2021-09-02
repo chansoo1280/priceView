@@ -10,13 +10,14 @@ interface Props {
     children?: ReactNode
     padding?: string
     direction?: "row" | "row-reverse" | "column" | "column-reverse"
+    gap?: string
 }
 
 const Space = (props: Props): JSX.Element => {
-    const { padding, direction, children } = props
+    const { gap, padding, direction, children } = props
 
     return (
-        <div style={{ padding, flexDirection: direction }} className={styles["space"]}>
+        <div style={{ gap, padding, flexDirection: direction }} className={styles["space"]}>
             {children}
         </div>
     )

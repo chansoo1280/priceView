@@ -80,35 +80,33 @@ const Page = (): JSX.Element => {
                     ))}
                 </SlideTab>
             </MainHeader>
-            <main id="contents" className="l_main">
-                <Title as="h2" className="ir">
-                    {CATEGORY_TYPE_STR[selTab]} 리스트
-                </Title>
-                <IconList
-                    setSwiper={setSwiper}
-                    selTab={selTab}
-                    onChange={(e: any) => {
-                        const [key, value] = Object.entries(CATEGORY_TYPE_STR)[e.activeIndex]
-                        setSelTab(Number(key))
-                        dispatch(AppActions.SetSelCate(Number(key)))
-                    }}
-                >
-                    {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
-                        <SwiperSlide style={{ overflowY: "auto" }} key={key}>
-                            <IconList.Item key={key}>
-                                {cate_list
-                                    .filter(({ type }) => type === Number(key))
-                                    .map(({ name, seq, icon }) => (
-                                        <IconList.InnerItem key={name} name={name} href={"/info?seq=" + seq} icon={icon} />
-                                    ))}
-                            </IconList.Item>
-                        </SwiperSlide>
-                    ))}
-                </IconList>
-                {/* <ContentsBar>
+            <Title as="h2" className="ir">
+                {CATEGORY_TYPE_STR[selTab]} 리스트
+            </Title>
+            <IconList
+                setSwiper={setSwiper}
+                selTab={selTab}
+                onChange={(e: any) => {
+                    const [key, value] = Object.entries(CATEGORY_TYPE_STR)[e.activeIndex]
+                    setSelTab(Number(key))
+                    dispatch(AppActions.SetSelCate(Number(key)))
+                }}
+            >
+                {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
+                    <SwiperSlide style={{ overflowY: "auto" }} key={key}>
+                        <IconList.Item key={key}>
+                            {cate_list
+                                .filter(({ type }) => type === Number(key))
+                                .map(({ name, seq, icon }) => (
+                                    <IconList.InnerItem key={name} name={name} href={"/info?seq=" + seq} icon={icon} />
+                                ))}
+                        </IconList.Item>
+                    </SwiperSlide>
+                ))}
+            </IconList>
+            {/* <ContentsBar>
                 <Button cover>기타 통계</Button>
             </ContentsBar> */}
-            </main>
         </>
     )
 }

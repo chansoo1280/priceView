@@ -1,19 +1,25 @@
 // #region Global Imports
-import React, { useCallback } from "react"
+import React, { ChangeEvent, Dispatch, ReactNode, SetStateAction, useCallback } from "react"
 // #endregion Global Imports
 
 // #region Local Imports
-import { ISelect } from "./Select"
+import styles from "./Select.module.scss"
 import { StyledSelect } from "./styled"
 // #endregion Local Imports
 export { StyledSelect }
+interface Props {
+    children?: ReactNode
+    value?: string | number
+    setValue?: Dispatch<SetStateAction<number>>
+    onChange?: (e: ChangeEvent<HTMLSelectElement>) => void
+}
 
-const Select = (props: ISelect.IProps) => {
-    const { value, setValue } = props
+const Select = (props: Props): JSX.Element => {
+    const { setValue, onChange, ...rest } = props
     const onChangeSelect = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-        setValue(e.target.value)
+        setValue!(Number(e.target.value) || 0)
     }, [])
-    return <StyledSelect {...props} onChange={onChangeSelect} />
+    return <select className={styles["select"]} {...rest} onChange={onChange || onChangeSelect} />
 }
 
 export { Select }

@@ -82,7 +82,7 @@ export const CATEGORY_LIST: Category[] = [
         name: "달걀",
         icon: "/static/images/items/icon_egg.svg",
         type: CATEGORY_TYPE.MEAT,
-        seq_list: [171, 321, 320, 134, 181],
+        seq_list: [171, 321, 320, 181],
     },
     {
         seq: 5,

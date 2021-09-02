@@ -1,5 +1,5 @@
 // #region Global Imports
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import "c3/c3.css"
 // #endregion Global Imports
 
@@ -16,10 +16,12 @@ const formatComma = function (v: string) {
 export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const c3 = require("c3")
-    const { setChart } = props
+    const [chart, setChart] = useState<any>(null)
+    const { dataList, dateList, seq } = props
+
     useEffect(function () {
-        const chart = c3.generate({
-            bindto: "#chart",
+        const chartObj = c3.generate({
+            bindto: "#chart_" + seq,
             data: {
                 x: "Dates",
                 // xFormat: "%Y-%m-%d",
@@ -61,11 +63,36 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
                 },
             },
         })
-        setChart(chart)
+        setChart(chartObj)
+        if (!chart) return
+        chart.load({
+            unload: true,
+            x: "Dates",
+            columns: [dateList, dataList],
+            labels: {
+                format: function (v: any) {
+                    return formatComma(v) + "원"
+                },
+            },
+        })
+        return () => setChart(null)
     }, [])
+    useEffect(() => {
+        if (chart && dataList && dateList)
+            chart.load({
+                unload: true,
+                x: "Dates",
+                columns: [dateList, dataList],
+                labels: {
+                    format: function (v: any) {
+                        return formatComma(v) + "원"
+                    },
+                },
+            })
+    }, [chart, dataList, dateList])
     return (
-        <Container {...props}>
-            <div id="chart"></div>
+        <Container>
+            <div id={"chart_" + seq}></div>
         </Container>
     )
 }
