@@ -54,7 +54,14 @@ class WebApp extends App<AppWithStore> {
         const theme = ThemeObj[ThemeType[app.sel_theme] || ThemeType.WHITE]
         return (
             <ThemeProvider theme={theme}>
-                <PersistGate persistor={persistor} loading={<div>Loading</div>}>
+                <PersistGate
+                    persistor={persistor}
+                    loading={
+                        <div>
+                            <img src="/static/images/splash_bg.svg" alt="알고싶은 서울물가" />
+                        </div>
+                    }
+                >
                     <TransitionGroup className="l_transition-wrap" style={{}}>
                         <CSSTransition key={router.pathname} timeout={300} classNames={pageProps?.transition || ""}>
                             <div className={"l_transition " + nextPathname + "From" + prevPathname}>

@@ -6,7 +6,7 @@ import { stringify } from "query-string"
 
 // #region Local Imports
 import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
-import { Header, Title, Chart, Select, ContentsBar, SizeCode, InfoNav, Button, Tab } from "@Components"
+import { Header, Title, Chart, Select, ContentsBar, Space, InfoNav, Button, Tab } from "@Components"
 import { IInfoPage, ReduxNextPageContext } from "@Interfaces"
 import { Http } from "@Services"
 import { StarActions } from "@Actions"
@@ -202,7 +202,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                             />
                         ))}
                 </Tab>
-                <ContentsBar>
+                {/* <ContentsBar>
                     <Select
                         sizeVal={SizeCode.large}
                         value={selCate}
@@ -216,23 +216,14 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                             </option>
                         ))}
                     </Select>
-                </ContentsBar>
-                <ContentsBar>
+                </ContentsBar> */}
+                <Space padding="0 20px">
                     <Select value={selGu} setValue={setSelGu}>
                         {Object.entries(M_GU)
                             .reverse()
                             .map(([key, value]) => (
                                 <option key={key} value={key}>
                                     {value || "지역 전체"}
-                                </option>
-                            ))}
-                    </Select>
-                    <Select value={selType} setValue={setSelType}>
-                        {Object.entries(M_TYPE)
-                            .reverse()
-                            .map(([key, value]) => (
-                                <option key={key} value={key}>
-                                    {value || "시장 전체"}
                                 </option>
                             ))}
                     </Select>
@@ -262,12 +253,22 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                                 )
                             }
                         }}
-                    >
-                        <i className="xi-my-location"></i>
-                        <span className="ir">내위치</span>
-                    </Button>
-                </ContentsBar>
-                <ContentsBar>
+                        type="default"
+                        icon={<img src="/static/images/icon_location.svg" alt="내위치" />}
+                    />
+                    <span>{P_YEAR_MONTH} 기준</span>
+                </Space>
+                <Space padding="24px 20px" direction="column">
+                    <ul>
+                        {cate_info?.seq_list.map((seq) => (
+                            <li key={seq}>
+                                {NAME_OBJ[seq].A_NAME}
+                                {NAME_OBJ[seq].A_UNIT[0]}
+                            </li>
+                        ))}
+                    </ul>
+                </Space>
+                {/* <ContentsBar>
                     <Title as="h2">
                         {isValidData() ? `${formatComma(String(chartData[chartData.length - 1] || "0") || "0")}원 - ${P_YEAR_MONTH} ${cate_info?.name} 물가` : "등록된 데이터가 없습니다."}
                     </Title>
@@ -277,7 +278,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                 </ContentsBar>
                 <ContentsBar show={isValidData()}>
                     <Title as="h2">2020년 이맘때의 가격</Title>
-                </ContentsBar>
+                </ContentsBar> */}
                 {/* <InfoNav nav_info={nav_info} /> */}
             </main>
         </>
