@@ -13,12 +13,6 @@ import { StarActions } from "@Actions"
 import { IStore, useAppDispatch, useAppSelector } from "@Redux"
 // #endregion Local Imports
 
-declare global {
-    interface Window {
-        ReactNativeWebView: any
-    }
-}
-
 const RN_API_GET_POSITION = "RN_API_GET_POSITION"
 
 const formatComma = function (v: string) {
@@ -42,6 +36,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     }
 
     const P_YEAR_MONTH = new Date().format("yyyy-MM")
+    const [pageTitle, setPageTitle] = useState(cate_info?.name)
     const [chart, setChart] = useState<any>(null)
     const [chartData, setChartData] = useState([])
     const [selCate, setSelCate] = useState(cate_info?.seq_list[0])
@@ -160,7 +155,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
 
     return (
         <>
-            <Header title={cate_info?.name}>
+            <Header title={pageTitle}>
                 <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />}></Button>
                 <Button
                     show={!getIsStar()}
