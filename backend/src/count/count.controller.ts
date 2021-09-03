@@ -35,7 +35,7 @@ export class CountController {
       const list = [];
       let year = Number(P_YEAR_MONTH.split('-')[0]);
       let month = Number(P_YEAR_MONTH.split('-')[1]);
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 4; i++) {
         list.push(fillZero(String(year)) + '-' + fillZero(String(month)));
         if (month !== 1) {
           month--;

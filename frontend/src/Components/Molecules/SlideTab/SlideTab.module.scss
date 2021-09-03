@@ -13,7 +13,11 @@ $tab-prefix: "slide-tab";
     box-shadow: -1px -2px 6px rgba(255, 255, 255, 1), 0px 3px 6px rgba(0, 0, 0, 0.16);
 }
 .#{$tab-prefix}__btn {
+    transition: background 0.2s;
     padding: 0 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 34px;
     border-radius: 20px;
     border: none;

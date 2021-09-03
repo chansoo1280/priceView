@@ -30,6 +30,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             cate_idx = idx
             return info.seq === Number(router.query.seq)
         }) || null
+    const [cateName, _] = useState(cate_info?.name)
 
     const getIsStar = () => star.list.find((seq: number) => seq === cate_info?.seq) !== undefined
 
@@ -38,7 +39,12 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         next: (cate_idx !== null && CATEGORY_LIST[cate_idx + 1]) || null,
     }
 
-    const P_YEAR_MONTH = new Date().format("yyyy-MM")
+    const P_YEAR_MONTH = (() => {
+        const d = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+        const monthOfYear = d.getMonth()
+        d.setMonth(monthOfYear - 1)
+        return d
+    })().format("yyyy-MM")
     const [resData, setResData] = useState<Count[]>([])
     const [cateList, setCateList] = useState<
         {
@@ -70,10 +76,27 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         setCateList(
             cateList.map((cateInfo) => {
                 const cateResult = resData.filter(({ A_SEQ, M_TYPE_CODE }) => Number(A_SEQ) === cateInfo.A_SEQ && M_TYPE_CODE === selType)
+                const curDate = new Date(P_YEAR_MONTH + "-01")
+                const date = (() => {
+                    const d = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+                    const monthOfYear = d.getMonth()
+                    d.setMonth(monthOfYear - 4)
+                    return d
+                })()
+                const dateList = ["Dates"]
+                const dataList = [cate_info?.name || ""]
+                for (let i = 0; date < curDate; i++) {
+                    const cateResultInfo = cateResult.find(({ P_YEAR_MONTH }) => P_YEAR_MONTH === date.format("yyyy-MM"))
+                    dateList.push(date.format("yyyy-MM-01"))
+                    const value = cateResultInfo && String(cateResultInfo?.AVER_VAL)
+                    dataList.push(value !== "0" ? value || (null as unknown as string) : (null as unknown as string))
+                    date.setMonth(date.getMonth() + 1)
+                }
+
                 return {
                     ...cateInfo,
-                    dateList: ["Dates"].concat(cateResult.map(({ P_YEAR_MONTH }) => P_YEAR_MONTH + "-01")),
-                    dataList: [cate_info?.name || ""].concat(cateResult.map(({ AVER_VAL }) => String(AVER_VAL) || (null as unknown as string))),
+                    dateList: dateList,
+                    dataList: dataList,
                 }
             }),
         )
@@ -176,7 +199,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     }, [selType, resData])
     return (
         <>
-            <Header title={cate_info?.name}>
+            <Header title={cateName}>
                 <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />}></Button>
                 <Button
                     show={!getIsStar()}
@@ -281,7 +304,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             <Space padding="24px 20px" gap="24px" direction="column">
                 {cateList.map((cateInfo) => {
                     const { A_SEQ, A_NAME, A_UNIT, dataList, dateList, isOpen } = cateInfo
-                    if (dataList === null || 5 <= dataList.filter((val) => val === "0").length)
+                    if (dataList === null || 4 <= dataList.filter((val) => val === null).length)
                         return (
                             <PriceCard key={A_SEQ} title={A_NAME} unit={A_UNIT} price={"0"} priceChange={""}>
                                 <Chart seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>

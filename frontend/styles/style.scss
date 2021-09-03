@@ -21,6 +21,7 @@
 .l_wrap {
     overflow-y: auto;
     overflow-x: hidden;
+    position: relative;
     background: #e4e6e9;
     width: 100%;
     height: 100%;
@@ -33,6 +34,20 @@
 //     flex: 1;
 //     box-sizing: border-box;
 // }
+
+.c3-axis {
+    font-size: 12px;
+}
+.c3-chart-text {
+    font-size: 12px;
+}
+.c3-texts > .c3-text:last-child {
+    font-weight: bold !important;
+    fill: #9f2c2c !important;
+}
+.c3-axis-x line {
+    stroke: none !important;
+}
 
 .popup-enter {
     z-index: 10;

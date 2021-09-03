@@ -22,7 +22,7 @@ interface Props {
 export const PriceCard = (props: Props): JSX.Element => {
     const { title, unit, price, priceChange, isOpen, children, onClick } = props
 
-    const isChangePlus = 0 <= Number(priceChange)
+    const isChangePlus = 0 <= Number(priceChange?.replaceAll(",", ""))
     return (
         <div className={styles["price-card"]}>
             <div className={styles["price-card__con"]} onClick={onClick}>

@@ -18,12 +18,19 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
     const c3 = require("c3")
     const [chart, setChart] = useState<any>(null)
     const { dataList, dateList, seq } = props
+    const minDate = (() => {
+        const d = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+        const monthOfYear = d.getMonth()
+        d.setMonth(monthOfYear - 4)
+        return d
+    })()
 
     useEffect(function () {
         const chartObj = c3.generate({
             bindto: "#chart_" + seq,
             data: {
                 x: "Dates",
+
                 // xFormat: "%Y-%m-%d",
                 // columns: [
                 //     ["Dates", "2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01", "2020-11-01", "2020-12-01"],
@@ -31,7 +38,9 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
                 // ],
                 columns: [],
                 labels: {
-                    format: function (v: any) {
+                    format: function (v: any, id: any, i: any, j: any) {
+                        if (i === 0) return ""
+                        if (v === null) return null
                         return formatComma(v) + "원"
                     },
                 },
@@ -42,8 +51,8 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
             tooltip: {
                 format: {
                     // title: function (d) { return 'Data ' + d; },
-                    value: function (value: any) {
-                        return formatComma(value) + "원"
+                    value: function (v: any, id: any, i: any, j: any) {
+                        return formatComma(v) + "원"
                     },
                     //            value: d3.format(',') // apply this format to both y and y2
                 },
@@ -51,11 +60,20 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
             line: {
                 connect_null: false,
             },
+            point: {
+                r: 4.5,
+            },
+            legend: {
+                show: false,
+            },
             axis: {
                 x: {
                     type: "timeseries",
                     tick: {
-                        format: "%Y-%m",
+                        format: function (x: any, i: any, j: any) {
+                            if (x <= minDate) return ""
+                            return x.getMonth() + 1 + "월"
+                        },
                     },
                 },
                 y: {
@@ -64,17 +82,6 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
             },
         })
         setChart(chartObj)
-        if (!chart) return
-        chart.load({
-            unload: true,
-            x: "Dates",
-            columns: [dateList, dataList],
-            labels: {
-                format: function (v: any) {
-                    return formatComma(v) + "원"
-                },
-            },
-        })
         return () => setChart(null)
     }, [])
     useEffect(() => {
@@ -82,6 +89,9 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
             chart.load({
                 unload: true,
                 x: "Dates",
+                colors: {
+                    [dataList[0]]: "#000000",
+                },
                 columns: [dateList, dataList],
                 labels: {
                     format: function (v: any) {

@@ -73,7 +73,7 @@ export const CATEGORY_LIST: Category[] = [
     {
         seq: 3,
         name: "닭고기",
-        icon: "/static/images/items/icon_egg.svg",
+        icon: "/static/images/items/icon_chicken.svg",
         type: CATEGORY_TYPE.MEAT,
         seq_list: [18, 275, 283, 138],
     },
