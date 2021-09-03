@@ -20,12 +20,11 @@ export const Setting = function ({ children }: ILayout.IProps) {
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css"></link>
             </Head>
             <StyledWrap className="l_wrap">
-                <Header centerTitle>
+                <Header title="설정">
                     <Button onClick={() => router.back()}>
                         <i className="xi-angle-left"></i>
                         <span className="ir">뒤로가기</span>
                     </Button>
-                    <Title as="h1">설정</Title>
                 </Header>
                 {children}
             </StyledWrap>

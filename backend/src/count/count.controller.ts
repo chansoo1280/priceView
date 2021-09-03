@@ -22,10 +22,9 @@ export class CountController {
     private priceService: PriceService,
   ) {}
 
-  @Get('/:A_SEQ')
+  @Get('/info')
   async getStatistics(
-    @Param() { A_SEQ }: { A_SEQ: Count['A_SEQ'] },
-    @Query() { P_YEAR_MONTH, M_TYPE_CODE, M_GU_CODE }: SelectCountDto,
+    @Query() { A_SEQS, P_YEAR_MONTH, M_GU_CODE }: SelectCountDto,
     @Res() res: Response,
   ) {
     const P_YEAR_MONTH_LIST = (function () {
@@ -36,7 +35,7 @@ export class CountController {
       const list = [];
       let year = Number(P_YEAR_MONTH.split('-')[0]);
       let month = Number(P_YEAR_MONTH.split('-')[1]);
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 4; i++) {
         list.push(fillZero(String(year)) + '-' + fillZero(String(month)));
         if (month !== 1) {
           month--;
@@ -47,15 +46,49 @@ export class CountController {
       }
       return list;
     })();
-    // console.log(A_SEQ, P_YEAR_MONTH_LIST, M_TYPE_CODE, M_GU_CODE);
+    const A_SEQ_LIST = A_SEQS.split(', ');
     const result = await this.countService.getStatistics({
-      A_SEQ,
+      A_SEQ_LIST,
       P_YEAR_MONTH_LIST,
-      M_TYPE_CODE,
       M_GU_CODE,
     });
     return handleResult(result, res);
   }
+
+  // @Get('/:A_SEQ')
+  // async getStatistics(
+  //   @Param() { A_SEQ }: { A_SEQ: Count['A_SEQ'] },
+  //   @Query() { P_YEAR_MONTH, M_TYPE_CODE, M_GU_CODE }: SelectCountDto,
+  //   @Res() res: Response,
+  // ) {
+  //   const P_YEAR_MONTH_LIST = (function () {
+  //     const fillZero = (str: string) => {
+  //       if (str.length === 1) return '0' + str;
+  //       return str;
+  //     };
+  //     const list = [];
+  //     let year = Number(P_YEAR_MONTH.split('-')[0]);
+  //     let month = Number(P_YEAR_MONTH.split('-')[1]);
+  //     for (let i = 0; i < 6; i++) {
+  //       list.push(fillZero(String(year)) + '-' + fillZero(String(month)));
+  //       if (month !== 1) {
+  //         month--;
+  //       } else {
+  //         month = 12;
+  //         year--;
+  //       }
+  //     }
+  //     return list;
+  //   })();
+  //   // console.log(A_SEQ, P_YEAR_MONTH_LIST, M_TYPE_CODE, M_GU_CODE);
+  //   const result = await this.countService.getStatistics({
+  //     A_SEQ,
+  //     P_YEAR_MONTH_LIST,
+  //     M_TYPE_CODE,
+  //     M_GU_CODE,
+  //   });
+  //   return handleResult(result, res);
+  // }
 
   @Get()
   async initDB(

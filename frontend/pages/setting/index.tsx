@@ -4,70 +4,55 @@ import { useState } from "react"
 
 // #region Local Imports
 import { ISettingPage, ReduxNextPageContext } from "@Interfaces"
-import { LayoutCode, Title, Select, AlertModal, SettingList, SettingListInner, SettingTitle } from "@Components"
+import { Header, Button, Title, Select, AlertModal, SettingList, SettingTitle } from "@Components"
+import { useRouter } from "next/router"
 // #endregion Local Imports
 
-const Setting = ({}: ISettingPage.InitialProps) => {
+const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
+    const router = useRouter()
     const [showDataModal, setShowDataModal] = useState(false)
     const [showPrivacyModal, SetShowPrivacyModal] = useState(false)
     return (
-        <main id="contents" className="l_main">
-            <SettingTitle>
-                <Title as="h2">사용성</Title>
-            </SettingTitle>
+        <>
+            <Header title="설정">
+                <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />}></Button>
+            </Header>
+            <SettingTitle as="h2">사용성</SettingTitle>
             <SettingList>
-                <SettingListInner>
+                <SettingList.Item>
                     <Title as="h3">언어</Title>
-                    <Select
-                        setValue={() => {
-                            console.log("hi")
-                        }}
-                    >
-                        <option value="">한국어</option>
-                        <option value="">English(영어)</option>
-                        <option value="">日本語(일본어)</option>
-                    </Select>
-                </SettingListInner>
-                <SettingListInner>
+                    <SettingList.Text>한국어</SettingList.Text>
+                </SettingList.Item>
+                <SettingList.Item>
                     <Title as="h3">테마</Title>
-                    <Select
-                        setValue={() => {
-                            console.log("hi")
-                        }}
-                    >
-                        <option value="">기본</option>
-                        <option value="">다크</option>
-                        <option value="">베이지</option>
-                    </Select>
-                </SettingListInner>
+                    <SettingList.Text>기본</SettingList.Text>
+                </SettingList.Item>
             </SettingList>
-            <SettingTitle>
-                <Title as="h2">앱 정보</Title>
-            </SettingTitle>
+            <SettingTitle as="h2">앱 정보</SettingTitle>
             <SettingList>
-                <SettingListInner
+                <SettingList.Item
                     onClick={() => {
                         setShowDataModal(true)
                     }}
                 >
                     <Title as="h3">데이터 제공</Title>
-                    서울 열린데이터 광장
-                </SettingListInner>
-                <SettingListInner>
+                    <SettingList.Text>서울 열린데이터 광장</SettingList.Text>
+                </SettingList.Item>
+                <SettingList.Item>
                     <Title as="h3">제작자</Title>
-                    Chansoo Kim
-                </SettingListInner>
-                <SettingListInner
+                    <SettingList.Text>Chansoo Kim</SettingList.Text>
+                </SettingList.Item>
+                <SettingList.Item
                     onClick={() => {
                         SetShowPrivacyModal(true)
                     }}
                 >
                     <Title as="h3">개인정보처리방침</Title>
-                </SettingListInner>
-                <SettingListInner>
+                </SettingList.Item>
+                <SettingList.Item>
                     <Title as="h3">버전 정보</Title>
-                    0.0.0.1
-                </SettingListInner>
+                    <SettingList.Text>0.0.0.1</SettingList.Text>
+                </SettingList.Item>
             </SettingList>
             <AlertModal
                 onClick={() => {
@@ -87,12 +72,11 @@ const Setting = ({}: ISettingPage.InitialProps) => {
             >
                 본 앱은 사용자의 정보를 수집하지 않습니다.
             </AlertModal>
-        </main>
+        </>
     )
 }
 Setting.getInitialProps = async (ctx: ReduxNextPageContext): Promise<ISettingPage.InitialProps> => {
     return {
-        layout: LayoutCode.Setting,
         transition: "popup",
     }
 }

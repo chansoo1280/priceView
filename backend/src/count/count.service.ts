@@ -16,19 +16,19 @@ export class CountService extends TypeOrmQueryService<Count> {
   }
 
   async getStatistics({
-    A_SEQ,
+    A_SEQ_LIST,
     P_YEAR_MONTH_LIST,
-    M_TYPE_CODE = '',
     M_GU_CODE = '',
   }: any): Promise<Count[]> {
     const result = await this.countRepository
       .createQueryBuilder('count')
       .select()
-      .where('count.A_SEQ = :A_SEQ', { A_SEQ })
+      .where('count.A_SEQ IN (:...A_SEQ_LIST)', {
+        A_SEQ_LIST,
+      })
       .andWhere('count.P_YEAR_MONTH IN (:...P_YEAR_MONTH_LIST)', {
         P_YEAR_MONTH_LIST,
       })
-      .andWhere('count.M_TYPE_CODE = :M_TYPE_CODE', { M_TYPE_CODE })
       .andWhere('count.M_GU_CODE = :M_GU_CODE', { M_GU_CODE })
       .orderBy('count.P_YEAR_MONTH')
       .getMany();

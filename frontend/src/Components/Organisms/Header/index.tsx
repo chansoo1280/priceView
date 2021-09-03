@@ -4,13 +4,21 @@
 // #region Local Imports
 import { IHeader } from "./Header"
 import { StyledHeader } from "./styled"
+import styles from "./Header.module.scss"
+import { Title } from "@Components"
 
 // #endregion Local Imports
-
-export const Header = function (props: IHeader.IProps) {
+interface Props {
+    title?: string
+    children?: React.ReactNode
+    centerTitle?: boolean
+}
+export const Header = (props: Props): JSX.Element => {
+    const { title, children } = props
     return (
-        <>
-            <StyledHeader {...props} />
-        </>
+        <header className={styles["header"]}>
+            <h1 className={styles["header__title"]}>{title}</h1>
+            {children}
+        </header>
     )
 }

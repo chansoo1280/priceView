@@ -1,8 +1,8 @@
-import "/styles/globals.css"
+// #region Global Imports
+import "/styles/style.scss"
+import "/styles/reset.css"
 // Import Swiper styles
 import "swiper/swiper.scss"
-
-// #region Global Imports
 import * as React from "react"
 import App, { AppInitialProps, AppContext } from "next/app"
 import { withRouter } from "next/router"
@@ -19,7 +19,6 @@ import { AppWithStore, IStore } from "@Interfaces"
 import { persistor, wrapper } from "@Redux"
 import TheLayout, { LayoutCode } from "@Components/Layout"
 import "@Services/API/DateFormat"
-import "@Static/css/main.scss"
 // #endregion Local Imports
 
 class WebApp extends App<AppWithStore> {
@@ -27,6 +26,7 @@ class WebApp extends App<AppWithStore> {
         super(props)
         this.state = {
             nextPathname: this.props.router.pathname,
+            prevPathname: this.props.router.pathname,
         }
     }
     static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
@@ -38,6 +38,7 @@ class WebApp extends App<AppWithStore> {
         this.setState({
             ...this.state,
             nextPathname: url.split("?")[0],
+            prevPathname: this.props.router.pathname,
         })
     }
     componentDidMount() {
@@ -48,30 +49,29 @@ class WebApp extends App<AppWithStore> {
     }
     render() {
         const { Component, pageProps, router, app }: any = this.props
-        const { nextPathname }: any = this.state
+        const { nextPathname, prevPathname }: any = this.state
         const AppLayout = TheLayout[pageProps?.layout || LayoutCode.Default]
         const theme = ThemeObj[ThemeType[app.sel_theme] || ThemeType.WHITE]
         return (
             <ThemeProvider theme={theme}>
-                <TransitionGroup
-                    style={{
-                        overflow: "hidden",
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
-                        perspective: "500px",
-                    }}
+                <PersistGate
+                    persistor={persistor}
+                    loading={
+                        <div>
+                            <img src="/static/images/splash_bg.svg" alt="알고싶은 서울물가" />
+                        </div>
+                    }
                 >
-                    <CSSTransition appear={true} key={router.pathname} timeout={300} classNames={pageProps?.transition || ""}>
-                        <div className={"l_transition " + nextPathname}>
-                            <PersistGate persistor={persistor} loading={<div>Loading</div>}>
+                    <TransitionGroup className="l_transition-wrap" style={{}}>
+                        <CSSTransition key={router.pathname} timeout={300} classNames={pageProps?.transition || ""}>
+                            <div className={"l_transition " + nextPathname + "From" + prevPathname}>
                                 <AppLayout {...pageProps}>
                                     <Component {...pageProps} />
                                 </AppLayout>
-                            </PersistGate>
-                        </div>
-                    </CSSTransition>
-                </TransitionGroup>
+                            </div>
+                        </CSSTransition>
+                    </TransitionGroup>
+                </PersistGate>
             </ThemeProvider>
         )
     }

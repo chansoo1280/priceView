@@ -1,19 +1,33 @@
 // #region Global Imports
-import React from "react"
+import React, { ReactNode } from "react"
 // #endregion Global Imports
 
 // #region Local Imports
-import { ISettingList } from "./SettingList"
-import { Container, ContainerInner } from "./styled"
+import styles from "./SettingList.module.scss"
 // #endregion Local Imports
-
-export const SettingListInner: React.FunctionComponent<ISettingList.IProps> = (props) => {
-    const { children, onClick } = props
-
-    return <ContainerInner onClick={onClick}>{children}</ContainerInner>
+interface Props {
+    children?: ReactNode
 }
-
-export const SettingList: React.FunctionComponent<ISettingList.IProps> = (props) => {
-    const { children } = props
-    return <Container {...props}>{children}</Container>
+const InternalSettingList = (props: Props): JSX.Element => {
+    return <ul className={styles["setting-list"]} {...props} />
 }
+interface Props {
+    children?: ReactNode
+    onClick?: () => void
+}
+const SettingListInner = (props: Props): JSX.Element => {
+    return <li className={styles["setting-list__item"]} {...props} />
+}
+const SettingListText = (props: Props): JSX.Element => {
+    return <span className={styles["setting-list__text"]} {...props} />
+}
+interface CompoundedComponent extends React.ForwardRefExoticComponent<Props> {
+    Item: typeof SettingListInner
+    Text: typeof SettingListText
+}
+const SettingList = InternalSettingList as CompoundedComponent
+
+SettingList.displayName = "SettingList"
+SettingList.Item = SettingListInner
+SettingList.Text = SettingListText
+export default SettingList

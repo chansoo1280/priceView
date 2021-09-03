@@ -20,10 +20,8 @@ export const AppActions = {
         type: ActionConsts.App.ResetReducer,
     }),
 
-    SetSelCate: (payload: IAppPage.Actions.ISetSelCatePayload) => async (dispatch: Dispatch) => {
-        dispatch({
-            payload: payload,
-            type: ActionConsts.App.SetSelCateReducer,
-        })
-    },
+    SetSelCate: (payload: IAppPage.Actions.ISetSelCatePayload) => ({
+        payload: payload,
+        type: ActionConsts.App.SetSelCateReducer,
+    }),
 }

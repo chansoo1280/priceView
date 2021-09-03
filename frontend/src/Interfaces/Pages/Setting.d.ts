@@ -5,7 +5,7 @@ import { Category } from "@Interfaces/Main"
 
 declare namespace ISettingPage {
     export interface InitialProps {
-        layout: number
+        layout?: number
         transition: string
     }
 
@@ -27,7 +27,7 @@ declare namespace ISettingPage {
             params: {}
         }
 
-        export interface IGetApodResponse extends PlanetaryModel.GetApodResponse {}
+        export type IGetApodResponse = PlanetaryModel.GetApodResponse
     }
 }
 

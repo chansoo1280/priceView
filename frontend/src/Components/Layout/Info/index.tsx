@@ -36,12 +36,11 @@ export const Info = function ({ children }: ILayout.IProps) {
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css"></link>
             </Head>
             <StyledWrap className="l_wrap">
-                <Header>
+                <Header title={cate_info?.name}>
                     <Button onClick={() => router.back()}>
                         <i className="xi-angle-left"></i>
                         <span className="ir">뒤로가기</span>
                     </Button>
-                    <Title>{cate_info?.name}</Title>
                     <Button
                         show={!getIsStar()}
                         onClick={() => {

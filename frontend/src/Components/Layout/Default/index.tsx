@@ -17,16 +17,7 @@ export const Default = function ({ children }: ILayout.IProps) {
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css"></link>
             </Head>
-            <StyledWrap className="l_wrap">
-                <Header>
-                    <Title>알고싶은 물가</Title>
-                    <Button href={"/setting"}>
-                        <i className="xi-cog"></i>
-                        <span className="ir">설정</span>
-                    </Button>
-                </Header>
-                {children}
-            </StyledWrap>
+            <StyledWrap className="l_wrap">{children}</StyledWrap>
         </>
     )
 }
