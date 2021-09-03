@@ -36,16 +36,24 @@
         text-align: right;
     }
     &__price-change {
-        display: block;
+        display: flex;
+        align-items: center;
         font-size: 22px;
         font-weight: 500;
-        color: #f12222;
         text-align: right;
+        color: #f12222;
+        &--minus {
+            color: #2259f1;
+        }
     }
 
     &__chart {
         width: 100%;
         overflow: hidden;
+        transition: height 0.3s;
         height: 0;
+        &--show {
+            height: 260px;
+        }
     }
 }

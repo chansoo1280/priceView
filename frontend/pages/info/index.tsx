@@ -280,8 +280,8 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             </Space>
             <Space padding="24px 20px" gap="24px" direction="column">
                 {cateList.map((cateInfo) => {
-                    const { A_SEQ, A_NAME, A_UNIT, dataList, dateList } = cateInfo
-                    if (!dataList || dataList.length === 1)
+                    const { A_SEQ, A_NAME, A_UNIT, dataList, dateList, isOpen } = cateInfo
+                    if (dataList === null || 5 <= dataList.filter((val) => val === "0").length)
                         return (
                             <PriceCard key={A_SEQ} title={A_NAME} unit={A_UNIT} price={"0"} priceChange={""}>
                                 <Chart seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>
@@ -289,7 +289,27 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                         )
                     const priceChange = (Number(dataList && dataList[dataList.length - 1]) || 0) - (Number(dataList && dataList[dataList.length - 2]) || 0)
                     return (
-                        <PriceCard key={A_SEQ} title={A_NAME} unit={A_UNIT} price={formatComma((dataList && dataList[dataList.length - 1]) || "0")} priceChange={formatComma(String(priceChange))}>
+                        <PriceCard
+                            key={A_SEQ}
+                            onClick={() => {
+                                setCateList(
+                                    cateList.map((obj) => {
+                                        if (A_SEQ === obj.A_SEQ) {
+                                            return {
+                                                ...cateInfo,
+                                                isOpen: !isOpen,
+                                            }
+                                        }
+                                        return obj
+                                    }),
+                                )
+                            }}
+                            isOpen={isOpen}
+                            title={A_NAME}
+                            unit={A_UNIT}
+                            price={formatComma((dataList && dataList[dataList.length - 1]) || "0")}
+                            priceChange={formatComma(String(priceChange))}
+                        >
                             <Chart seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>
                         </PriceCard>
                     )

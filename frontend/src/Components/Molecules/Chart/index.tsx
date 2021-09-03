@@ -92,7 +92,7 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
     }, [chart, dataList, dateList])
     return (
         <Container>
-            <div id={"chart_" + seq}></div>
+            <div style={{ height: "240px" }} id={"chart_" + seq}></div>
         </Container>
     )
 }

@@ -52,6 +52,7 @@ class ConfigService {
         encrypt: false,
         enableArithAbort: true,
       },
+      requestTimeout: 130000,
       ssl: this.isProduction(),
     };
   }
