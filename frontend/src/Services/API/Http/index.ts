@@ -7,8 +7,8 @@ import { stringify } from "query-string"
 import { HttpModel } from "@Interfaces"
 // #endregion Interface Imports
 
-const BaseUrl = `http://localhost:10001`
-// const BaseUrl = `https://price.chansoo1280.site`
+// const BaseUrl = `http://localhost:10001`
+const BaseUrl = `https://price.chansoo1280.site`
 export const Http = {
     Request: async <A>(methodType: string, url: string, params?: HttpModel.IRequestQueryPayload, payload?: HttpModel.IRequestPayload): Promise<A> => {
         return new Promise((resolve, reject) => {
