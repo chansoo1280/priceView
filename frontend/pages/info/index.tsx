@@ -6,8 +6,8 @@ import { stringify } from "query-string"
 
 // #region Local Imports
 import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
-import { Header, Title, Chart, Select, PriceCard, Space, InfoNav, Button, Tab } from "@Components"
-import { Category, Count, IInfoPage, ReduxNextPageContext } from "@Interfaces"
+import { Header, Chart, Select, PriceCard, Space, Button, Tab } from "@Components"
+import { Count, IInfoPage, ReduxNextPageContext } from "@Interfaces"
 import { Http } from "@Services"
 import { StarActions } from "@Actions"
 import { IStore, useAppDispatch, useAppSelector } from "@Redux"
@@ -338,18 +338,6 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                     )
                 })}
             </Space>
-            {/* <ContentsBar>
-                    <Title as="h2">
-                        {isValidData() ? `${formatComma(String(chartData[chartData.length - 1] || "0") || "0")}원 - ${P_YEAR_MONTH} ${cate_info?.name} 물가` : "등록된 데이터가 없습니다."}
-                    </Title>
-                </ContentsBar>
-                <ContentsBar noPadding show={isValidData()}>
-                    <Chart setChart={setChart}></Chart>
-                </ContentsBar>
-                <ContentsBar show={isValidData()}>
-                    <Title as="h2">2020년 이맘때의 가격</Title>
-                </ContentsBar> */}
-            {/* <InfoNav nav_info={nav_info} /> */}
         </>
     )
 }

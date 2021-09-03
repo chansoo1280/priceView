@@ -2,10 +2,7 @@
 // #endregion Global Imports
 
 // #region Local Imports
-import { IHeader } from "./Header"
-import { StyledHeader } from "./styled"
 import styles from "./Header.module.scss"
-import { Title } from "@Components"
 
 // #endregion Local Imports
 interface Props {
