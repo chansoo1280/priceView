@@ -4,7 +4,7 @@ import { SwiperSlide } from "swiper/react"
 // #endregion Global Imports
 
 // #region Local Imports
-import { Button, Title, SlideTab, IconList, SizeCode, MainHeader } from "@Components"
+import { Title, SlideTab, IconList, MainHeader } from "@Components"
 import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR } from "@Definitions"
 import { useAppDispatch, useAppSelector } from "@Redux/hooks"
 import { IStore, ReduxNextPageContext } from "@Interfaces"
