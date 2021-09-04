@@ -12,7 +12,7 @@ interface Props {
     children?: React.ReactNode
     centerTitle?: boolean
 }
-export const Header = (props: Props): JSX.Element => {
+const Header = (props: Props): JSX.Element => {
     const { title, children } = props
     const [ScrollToTop, setScrollToTop] = useState(0)
     const [isScrollToTop, setIsScrollToTop] = useState(false)
@@ -42,3 +42,4 @@ export const Header = (props: Props): JSX.Element => {
         </header>
     )
 }
+export default Header

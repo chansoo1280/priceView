@@ -4,9 +4,7 @@ import React, { ChangeEvent, Dispatch, ReactNode, SetStateAction, useCallback } 
 
 // #region Local Imports
 import styles from "./Select.module.scss"
-import { StyledSelect } from "./styled"
 // #endregion Local Imports
-export { StyledSelect }
 interface Props {
     children?: ReactNode
     value?: string | number
@@ -22,4 +20,4 @@ const Select = (props: Props): JSX.Element => {
     return <select className={styles["select"]} {...rest} onChange={onChange || onChangeSelect} />
 }
 
-export { Select }
+export default Select

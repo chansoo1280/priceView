@@ -18,7 +18,7 @@ interface Props {
     isOpen?: boolean
 }
 
-export const PriceCard = (props: Props): JSX.Element => {
+const PriceCard = (props: Props): JSX.Element => {
     const { title, unit, price, priceChange, isOpen, children, onClick } = props
 
     const isChangePlus = 0 <= Number(priceChange?.replaceAll(",", ""))
@@ -29,37 +29,35 @@ export const PriceCard = (props: Props): JSX.Element => {
                     <h2 className={styles["price-card__title"]}>{title}</h2>
                     <span className={styles["price-card__unit"]}>단위: {unit}</span>
                 </div>
-                <div>
-                    {price !== "0" ? (
-                        <>
-                            <strong className={styles["price-card__price"]}>
-                                {price}
-                                <span className={styles["price-card__price-unit"]}>원</span>
-                            </strong>
-                            <span
-                                className={classNames({
-                                    [styles["price-card__price-change"]]: true,
-                                    [styles["price-card__price-change--minus"]]: isChangePlus === false,
-                                })}
-                            >
-                                <img src={isChangePlus ? "/static/images/arr_price_up.svg" : "/static/images/arr_price_down.svg"} alt="" />
-                                {priceChange?.split("-")}
-                                <span className={styles["price-card__price-unit"]}>원</span>
-                            </span>
-                        </>
-                    ) : (
-                        <>
-                            <strong className={styles["price-card__price"]}>미등록</strong>
-                            <span className={styles["price-card__price-change"]}></span>
-                        </>
-                    )}
-                </div>
+                {price !== "0" ? (
+                    <div>
+                        <strong className={styles["price-card__price"]}>
+                            {price}
+                            <span className={styles["price-card__price-unit"]}>원</span>
+                        </strong>
+                        <span
+                            className={classNames({
+                                [styles["price-card__price-change"]]: true,
+                                [styles["price-card__price-change--minus"]]: isChangePlus === false,
+                            })}
+                        >
+                            <img src={isChangePlus ? "/static/images/arr_price_up.svg" : "/static/images/arr_price_down.svg"} alt="" />
+                            {priceChange?.split("-")}
+                            <span className={styles["price-card__price-unit"]}>원</span>
+                        </span>
+                    </div>
+                ) : (
+                    <div>
+                        <strong className={styles["price-card__price"]}>미등록</strong>
+                        <span className={styles["price-card__price-change"]}></span>
+                    </div>
+                )}
                 {price === "0" ? (
                     ""
                 ) : isOpen !== true ? (
-                    <Button icon={<img src="/static/images/icon_plus.svg" alt="차트 보기" />}></Button>
+                    <Button icon={<img src="/static/images/icon_plus.svg" alt="차트 보기" />} />
                 ) : (
-                    <Button icon={<img src="/static/images/icon_minus.svg" alt="차트 닫기" />}></Button>
+                    <Button icon={<img src="/static/images/icon_minus.svg" alt="차트 닫기" />} />
                 )}
             </div>
             <div
@@ -73,3 +71,4 @@ export const PriceCard = (props: Props): JSX.Element => {
         </div>
     )
 }
+export default PriceCard

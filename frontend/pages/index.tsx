@@ -11,19 +11,26 @@ import { IStore, ReduxNextPageContext } from "@Interfaces"
 import { AppActions, StarActions } from "@Actions"
 // #endregion Local Imports
 
+declare global {
+    interface Window {
+        ReactNativeWebView: any
+    }
+}
 const RN_API_GET_STAR = "RN_API_GET_STAR"
 
 const Page = (): JSX.Element => {
     const dispatch = useAppDispatch()
-    const app = useAppSelector((state: IStore) => state.app)
-    const star = useAppSelector((state: IStore) => state.star)
+    const { app, star } = useAppSelector(({ app, star }: IStore) => ({
+        app,
+        star,
+    }))
     const [swiper, setSwiper] = useState<any>(null)
     const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => ({
         ...info,
         type: CATEGORY_TYPE.STAR,
     }))
-    const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 1)
     const cate_list = CATEGORY_LIST.concat(starList)
+    const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 1)
     const listener = (event: any) => {
         const { data, type } = JSON.parse(event.data)
         switch (type) {
@@ -98,15 +105,12 @@ const Page = (): JSX.Element => {
                             {cate_list
                                 .filter(({ type }) => type === Number(key))
                                 .map(({ name, seq, icon }) => (
-                                    <IconList.InnerItem key={name} name={name} href={"/info?seq=" + seq} icon={icon} />
+                                    <IconList.InnerItem key={seq} name={name} href={"/info?seq=" + seq} icon={icon} />
                                 ))}
                         </IconList.Item>
                     </SwiperSlide>
                 ))}
             </IconList>
-            {/* <ContentsBar>
-                <Button cover>기타 통계</Button>
-            </ContentsBar> */}
         </>
     )
 }

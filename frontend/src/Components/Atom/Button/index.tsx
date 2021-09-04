@@ -89,4 +89,4 @@ const Button = (props: ButtonProps): JSX.Element => {
     )
 }
 
-export { Button }
+export default Button

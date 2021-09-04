@@ -16,7 +16,9 @@ export const CATEGORY_TYPE_STR: { [x: number]: string } = {
 } as const
 export type CATEGORY_TYPE_STR = typeof CATEGORY_TYPE_STR[keyof typeof CATEGORY_TYPE_STR]
 
-export const M_TYPE = {
+export const M_TYPE: {
+    [x: string]: string
+} = {
     "": "",
     "001": "전통시장",
     "002": "대형마트",

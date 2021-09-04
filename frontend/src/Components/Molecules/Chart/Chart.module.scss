@@ -1,7 +1,4 @@
-import styled from "styled-components"
-import { IChart } from "./Chart"
-
-export const Container = styled.div`
+.chart {
     margin-bottom: 20px;
     display: flex;
     width: 100%;
@@ -10,4 +7,4 @@ export const Container = styled.div`
         width: 3000px;
         transform: translate(-50%, 0);
     }
-`
+}

@@ -11,7 +11,7 @@ interface Props {
     children?: ReactNode
 }
 
-export const MainHeader = (props: Props): JSX.Element => {
+const MainHeader = (props: Props): JSX.Element => {
     const { children } = props
 
     return (
@@ -24,3 +24,4 @@ export const MainHeader = (props: Props): JSX.Element => {
         </header>
     )
 }
+export default MainHeader

@@ -1,12 +1,6 @@
 declare module "redux-persist/integration/react"
 declare module "react-c3js"
 
-declare global {
-    interface Window {
-        ReactNativeWebView: any
-    }
-}
-
 declare namespace Process {
     interface ProcessEnv {
         PROXY_MODE: string

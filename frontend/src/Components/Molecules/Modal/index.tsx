@@ -1,27 +1,36 @@
 // #region Global Imports
 import { Title } from "@Components/Atom"
 import React from "react"
-
+import className from "classnames"
 // #endregion Global Imports
 
 // #region Local Imports
-import { IModal } from "./Modal"
-import { StyledModalWrap, StyledModal, StyledModalHeader } from "./styled"
+import styles from "./Modal.module.scss"
 // #endregion Local Imports
-export type { IModal }
+interface Props {
+    children?: React.ReactNode
+    show?: boolean
+    title?: string
+}
 
-export const Modal: React.FunctionComponent<IModal.IProps> = (props) => {
+const Modal = (props: Props): JSX.Element => {
     const { show, title, children } = props
     return (
-        <StyledModalWrap show={show}>
-            <StyledModal>
+        <section
+            className={className({
+                [styles["modal-wrap"]]: true,
+                [styles["modal-wrap--show"]]: show,
+            })}
+        >
+            <div className={styles["modal"]}>
                 {title && (
-                    <StyledModalHeader>
+                    <header className={styles["modal__header"]}>
                         <Title>{title}</Title>
-                    </StyledModalHeader>
+                    </header>
                 )}
                 {children}
-            </StyledModal>
-        </StyledModalWrap>
+            </div>
+        </section>
     )
 }
+export default Modal

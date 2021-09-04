@@ -4,16 +4,22 @@ import "c3/c3.css"
 // #endregion Global Imports
 
 // #region Local Imports
-import { IChart } from "./Chart"
-import { Container } from "./styled"
+import styles from "./Chart.module.scss"
 // #endregion Local Imports
-
+interface Props {
+    children?: React.ReactNode
+    noPadding?: boolean
+    dateList?: any
+    dataList?: any
+    seq?: string | number
+    MONTH_BIAS: number
+}
 const formatComma = function (v: string) {
     if (v === null) return "0"
     return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
+const Chart = (props: Props): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const c3 = require("c3")
     const [chart, setChart] = useState<any>(null)
@@ -101,8 +107,9 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
             })
     }, [chart, dataList, dateList])
     return (
-        <Container>
+        <div className={styles["chart"]}>
             <div style={{ height: "240px" }} id={"chart_" + seq}></div>
-        </Container>
+        </div>
     )
 }
+export default Chart

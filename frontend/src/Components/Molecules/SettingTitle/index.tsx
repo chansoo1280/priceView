@@ -15,4 +15,4 @@ const SettingTitle = (props: Props): JSX.Element => {
     const TitleNode = `${as}` as keyof JSX.IntrinsicElements
     return <TitleNode className={styles["setting-title"]}>{children}</TitleNode>
 }
-export { SettingTitle }
+export default SettingTitle

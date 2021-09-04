@@ -4,7 +4,7 @@ import { useState } from "react"
 
 // #region Local Imports
 import { ISettingPage, ReduxNextPageContext } from "@Interfaces"
-import { Header, Button, Title, Select, AlertModal, SettingList, SettingTitle } from "@Components"
+import { Header, Button, Title, AlertModal, SettingList, SettingTitle } from "@Components"
 import { useRouter } from "next/router"
 // #endregion Local Imports
 

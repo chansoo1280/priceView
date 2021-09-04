@@ -24,26 +24,20 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const star = useAppSelector((state: IStore) => state.star)
-    let cate_idx = null
+
     const cate_info =
         CATEGORY_LIST.find((info, idx) => {
-            cate_idx = idx
             return info.seq === Number(router.query.seq)
         }) || null
     const [cateName, _] = useState(cate_info?.name)
 
-    const getIsStar = () => star.list.find((seq: number) => seq === cate_info?.seq) !== undefined
+    const getIsStar = star.list.find((seq: number) => seq === cate_info?.seq) !== undefined
+    const newDate = new Date()
 
-    const nav_info = {
-        prev: (cate_idx !== null && CATEGORY_LIST[cate_idx - 1]) || null,
-        next: (cate_idx !== null && CATEGORY_LIST[cate_idx + 1]) || null,
-    }
-
-    const MONTH_BIAS = 15 < new Date().getDate() ? 1 : 0
+    const MONTH_BIAS = 15 < newDate.getDate() ? 1 : 0
     const P_YEAR_MONTH = (() => {
-        const d = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-        const monthOfYear = d.getMonth()
-        d.setMonth(monthOfYear - (1 - MONTH_BIAS))
+        const d = new Date(newDate.getFullYear(), newDate.getMonth(), 1)
+        d.setMonth(d.getMonth() - (1 - MONTH_BIAS))
         return d
     })().format("yyyy-MM")
     const [resData, setResData] = useState<Count[]>([])
@@ -68,30 +62,28 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             dateList: null,
         })) || [],
     )
-    // const [chart, setChart] = useState<any>(null)
-    // const [chartData, setChartData] = useState([])
-    // const [selCate, setSelCate] = useState(cate_info?.seq_list[0])
+
     const [selGu, setSelGu] = useState(M_GU[""])
-    const [selType, setSelType] = useState<string>(M_TYPE[""])
+    const [selType, setSelType] = useState(M_TYPE[""])
     const updateChart = () => {
         setCateList(
             cateList.map((cateInfo) => {
                 const cateResult = resData.filter(({ A_SEQ, M_TYPE_CODE }) => Number(A_SEQ) === cateInfo.A_SEQ && M_TYPE_CODE === selType)
                 const curDate = new Date(P_YEAR_MONTH + "-01")
-                const date = (() => {
-                    const d = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-                    const monthOfYear = d.getMonth()
-                    d.setMonth(monthOfYear - (4 - MONTH_BIAS))
+                const minDate = (() => {
+                    const d = new Date(newDate.getFullYear(), newDate.getMonth(), 1)
+                    d.setMonth(d.getMonth() - (4 - MONTH_BIAS))
                     return d
                 })()
                 const dateList = ["Dates"]
                 const dataList = [cate_info?.name || ""]
-                for (let i = 0; date < curDate; i++) {
-                    const cateResultInfo = cateResult.find(({ P_YEAR_MONTH }) => P_YEAR_MONTH === date.format("yyyy-MM"))
-                    dateList.push(date.format("yyyy-MM-01"))
+
+                for (let i = 0; minDate < curDate; i++) {
+                    const cateResultInfo = cateResult.find(({ P_YEAR_MONTH }) => P_YEAR_MONTH === minDate.format("yyyy-MM"))
+                    dateList.push(minDate.format("yyyy-MM-01"))
                     const value = cateResultInfo && String(cateResultInfo?.AVER_VAL)
                     dataList.push(value !== "0" ? value || (null as unknown as string) : (null as unknown as string))
-                    date.setMonth(date.getMonth() + 1)
+                    minDate.setMonth(minDate.getMonth() + 1)
                 }
 
                 return {
@@ -114,9 +106,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             }
             return null
         })
-        if (result === null) return
-        setResData(result)
-        // setChartData(result.map((obj: any) => obj.AVER_VAL || null))
+        setResData(result || [])
     }
 
     const reqPositionData = ({ x, y }: { x: string; y: string }) => {
@@ -132,31 +122,26 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                     Authorization: "KakaoAK 4fdda60789cef4f549581038ad7564e5",
                 },
             },
-        ).then(async (response) => {
-            if (response.status === 200) {
-                return response.json().then((res) => {
-                    if (res.documents && res.documents.length === 0) {
-                        alert("위치정보를 찾지 못했습니다.")
-                        return
-                    }
-                    const { region_1depth_name, region_2depth_name } = res.documents[0]?.address
-                    if (region_1depth_name !== "서울") {
-                        alert("서울이 아닙니다")
-                        return
-                    }
-                    const guSeq = Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name) || ""
-                    setSelGu(guSeq)
-                })
+        ).then((response) => {
+            if (response.status !== 200) {
+                alert("위치정보를 찾지 못했습니다.")
+                return
             }
+            return response.json().then((res) => {
+                if (res.documents && res.documents.length === 0) {
+                    alert("위치정보를 찾지 못했습니다.")
+                    return
+                }
+                const { region_1depth_name, region_2depth_name } = res.documents[0]?.address
+                if (region_1depth_name !== "서울") {
+                    alert("서울이 아닙니다")
+                    return
+                }
+                const guSeq = Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name) || ""
+                setSelGu(guSeq)
+            })
         })
     }
-
-    // const isValidData = () => {
-    //     if (chartData.length === 0) return false
-    //     const list = chartData.filter((val) => val !== null)
-    //     if (list.length === 0) return false
-    //     return true
-    // }
 
     const listener = (event: any) => {
         const { data, type } = JSON.parse(event.data)
@@ -201,10 +186,10 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     return (
         <>
             <Header title={cateName}>
-                <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />}></Button>
-                <Tooltip posX="left" contents={getIsStar() ? "추가되었습니다." : "삭제되었습니다."}>
+                <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />} />
+                <Tooltip posX="left" contents={getIsStar ? "추가되었습니다." : "삭제되었습니다."}>
                     <Button
-                        show={!getIsStar()}
+                        show={!getIsStar}
                         onClick={() => {
                             if (cate_info === null) return
                             dispatch(
@@ -214,9 +199,9 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                             )
                         }}
                         icon={<img src="/static/images/icon_favorite.svg" alt="즐겨찾기 추가" />}
-                    ></Button>
+                    />
                     <Button
-                        show={getIsStar()}
+                        show={getIsStar}
                         onClick={() => {
                             if (cate_info === null) return
                             dispatch(
@@ -226,7 +211,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                             )
                         }}
                         icon={<img src="/static/images/icon_favorite_active.svg" alt="즐겨찾기 삭제" />}
-                    ></Button>
+                    />
                 </Tooltip>
             </Header>
             <Tab>
@@ -243,21 +228,6 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                         />
                     ))}
             </Tab>
-            {/* <ContentsBar>
-                    <Select
-                        sizeVal={SizeCode.large}
-                        value={selCate}
-                        setValue={(value: React.ChangeEvent<HTMLSelectElement>) => {
-                            setSelCate(Number(value))
-                        }}
-                    >
-                        {cate_info?.seq_list.map((seq) => (
-                            <option key={seq} value={seq}>
-                                {NAME_OBJ[seq].A_NAME}
-                            </option>
-                        ))}
-                    </Select>
-                </ContentsBar> */}
             <Space padding="0 20px">
                 <Select
                     value={selGu}
@@ -269,34 +239,21 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                         .reverse()
                         .map(([key, value]) => (
                             <option key={key} value={key}>
-                                {value || "지역 전체"}
+                                {value || "서울 전체"}
                             </option>
                         ))}
                 </Select>
                 <Button
                     onClick={() => {
-                        // https 만 지원
-                        // if (!("geolocation" in navigator)) {
-                        //     return
-                        // }
-                        // navigator.geolocation.getCurrentPosition(
-                        //     (position) => {
-                        //         reqPositionData({
-                        //             x: String(position.coords.longitude),
-                        //             y: String(position.coords.latitude),
-                        //         })
-                        //     },
-                        //     (e) => {
-                        //         alert(e.code + "-" + e.message)
-                        //     },
-                        //     { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
-                        // )
                         if (window.ReactNativeWebView) {
                             window.ReactNativeWebView.postMessage(
                                 JSON.stringify({
                                     type: RN_API_GET_POSITION,
                                 }),
                             )
+                        } else {
+                            alert("모바일이 아닙니다.")
+                            return
                         }
                     }}
                     type="default"
@@ -310,7 +267,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                     if (dataList === null || 4 <= dataList.filter((val) => val === null).length)
                         return (
                             <PriceCard key={A_SEQ} title={A_NAME} unit={A_UNIT} price={"0"} priceChange={""}>
-                                <Chart MONTH_BIAS={MONTH_BIAS} seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>
+                                <Chart MONTH_BIAS={MONTH_BIAS} seq={A_SEQ} dataList={dataList} dateList={dateList} />
                             </PriceCard>
                         )
                     const priceChange = (Number(dataList && dataList[dataList.length - 1]) || 0) - (Number(dataList && dataList[dataList.length - 2]) || 0)
@@ -336,7 +293,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                             price={formatComma((dataList && dataList[dataList.length - 1]) || "0")}
                             priceChange={formatComma(String(priceChange))}
                         >
-                            <Chart MONTH_BIAS={MONTH_BIAS} seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>
+                            <Chart MONTH_BIAS={MONTH_BIAS} seq={A_SEQ} dataList={dataList} dateList={dateList} />
                         </PriceCard>
                     )
                 })}

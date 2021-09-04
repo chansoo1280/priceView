@@ -1,23 +1,31 @@
 // #region Global Imports
-import { Modal, Button, ContentsBar } from "@Components"
+import { Modal, Button } from "@Components"
+import { Space } from "@Components/Atom"
 // #endregion Global Imports
 
 // #region Local Imports
-import { IAlertModal } from "./AlertModal"
-import { StyledAlertCon } from "./styled"
+import styles from "./AlertModal.module.scss"
 
 // #endregion Local Imports
 
-export const AlertModal = function (props: IAlertModal.IProps) {
+interface Props {
+    children?: React.ReactNode
+    show?: boolean
+    title?: string
+    onClick?: () => void
+}
+
+const AlertModal = (props: Props) => {
     const { children, onClick, ...rest } = props
     return (
         <>
             <Modal {...rest}>
-                <StyledAlertCon>{children}</StyledAlertCon>
-                <ContentsBar noPadding>
+                <div className={styles["alert-modal"]}>{children}</div>
+                <Space>
                     <Button onClick={onClick}>확인</Button>
-                </ContentsBar>
+                </Space>
             </Modal>
         </>
     )
 }
+export default AlertModal

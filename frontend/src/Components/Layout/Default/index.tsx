@@ -3,12 +3,12 @@ import Head from "next/head"
 // #endregion Global Imports
 
 // #region Local Imports
-import { Header, Button, Title } from "@Components"
-import { StyledWrap } from "./styled"
-import { ILayout } from "../Layout"
+import { LayoutProps } from "@Components"
+import styles from "./Default.module.scss"
+import classNames from "classnames"
 // #endregion Local Imports
 
-export const Default = function ({ children }: ILayout.IProps) {
+export const Default = ({ children }: LayoutProps): JSX.Element => {
     return (
         <>
             <Head>
@@ -17,7 +17,13 @@ export const Default = function ({ children }: ILayout.IProps) {
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css"></link>
             </Head>
-            <StyledWrap className="l_wrap">{children}</StyledWrap>
+            <div
+                className={classNames("l_wrap", {
+                    [styles["default-wrapz"]]: true,
+                })}
+            >
+                {children}
+            </div>
         </>
     )
 }
