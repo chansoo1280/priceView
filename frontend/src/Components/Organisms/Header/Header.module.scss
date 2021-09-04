@@ -1,7 +1,8 @@
 .header {
+    z-index: 9999;
+    transition: transform 0.3s;
     position: sticky;
     top: 0;
-    z-index: 9999;
     margin-bottom: 20px;
     padding: 0 10px;
     display: flex;
@@ -11,6 +12,9 @@
     flex: none;
     background: #ecedef;
     box-shadow: 1px 2px 24px rgba(0, 0, 0, 0.08);
+    &--hide {
+        transform: translate(0, -100%);
+    }
 }
 .header__title {
     position: absolute;

@@ -1,6 +1,6 @@
 export * from "./Button"
 export { default as Space } from "./Space"
-
+export { default as Tooltip } from "./Tooltip"
 export * from "./Select"
 export * from "./Title"
 export * from "./Atom.d"

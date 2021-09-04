@@ -57,13 +57,20 @@ class WebApp extends App<AppWithStore> {
                 <PersistGate
                     persistor={persistor}
                     loading={
-                        <div>
+                        <div className="l_loading">
                             <img src="/static/images/splash_bg.svg" alt="알고싶은 서울물가" />
                         </div>
                     }
                 >
-                    <TransitionGroup className="l_transition-wrap" style={{}}>
-                        <CSSTransition key={router.pathname} timeout={300} classNames={pageProps?.transition || ""}>
+                    <TransitionGroup className="l_transition-wrap">
+                        <CSSTransition
+                            key={router.pathname}
+                            timeout={{
+                                enter: 300,
+                                exit: 290,
+                            }}
+                            classNames={pageProps?.transition || ""}
+                        >
                             <div className={"l_transition " + nextPathname + "From" + prevPathname}>
                                 <AppLayout {...pageProps}>
                                     <Component {...pageProps} />

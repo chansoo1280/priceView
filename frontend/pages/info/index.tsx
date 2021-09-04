@@ -6,7 +6,7 @@ import { stringify } from "query-string"
 
 // #region Local Imports
 import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
-import { Header, Chart, Select, PriceCard, Space, Button, Tab } from "@Components"
+import { Header, Chart, Select, PriceCard, Space, Tooltip, Button, Tab } from "@Components"
 import { Count, IInfoPage, ReduxNextPageContext } from "@Interfaces"
 import { Http } from "@Services"
 import { StarActions } from "@Actions"
@@ -39,10 +39,11 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         next: (cate_idx !== null && CATEGORY_LIST[cate_idx + 1]) || null,
     }
 
+    const MONTH_BIAS = 15 < new Date().getDate() ? 1 : 0
     const P_YEAR_MONTH = (() => {
         const d = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
         const monthOfYear = d.getMonth()
-        d.setMonth(monthOfYear - 1)
+        d.setMonth(monthOfYear - (1 - MONTH_BIAS))
         return d
     })().format("yyyy-MM")
     const [resData, setResData] = useState<Count[]>([])
@@ -80,7 +81,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                 const date = (() => {
                     const d = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
                     const monthOfYear = d.getMonth()
-                    d.setMonth(monthOfYear - 4)
+                    d.setMonth(monthOfYear - (4 - MONTH_BIAS))
                     return d
                 })()
                 const dateList = ["Dates"]
@@ -201,30 +202,32 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         <>
             <Header title={cateName}>
                 <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />}></Button>
-                <Button
-                    show={!getIsStar()}
-                    onClick={() => {
-                        if (cate_info === null) return
-                        dispatch(
-                            StarActions.AddStar({
-                                seq: cate_info?.seq,
-                            }),
-                        )
-                    }}
-                    icon={<img src="/static/images/icon_favorite.svg" alt="즐겨찾기 추가" />}
-                ></Button>
-                <Button
-                    show={getIsStar()}
-                    onClick={() => {
-                        if (cate_info === null) return
-                        dispatch(
-                            StarActions.RemoveStar({
-                                seq: cate_info?.seq,
-                            }),
-                        )
-                    }}
-                    icon={<img src="/static/images/icon_favorite_active.svg" alt="즐겨찾기 삭제" />}
-                ></Button>
+                <Tooltip posX="left" contents={getIsStar() ? "추가되었습니다." : "삭제되었습니다."}>
+                    <Button
+                        show={!getIsStar()}
+                        onClick={() => {
+                            if (cate_info === null) return
+                            dispatch(
+                                StarActions.AddStar({
+                                    seq: cate_info?.seq,
+                                }),
+                            )
+                        }}
+                        icon={<img src="/static/images/icon_favorite.svg" alt="즐겨찾기 추가" />}
+                    ></Button>
+                    <Button
+                        show={getIsStar()}
+                        onClick={() => {
+                            if (cate_info === null) return
+                            dispatch(
+                                StarActions.RemoveStar({
+                                    seq: cate_info?.seq,
+                                }),
+                            )
+                        }}
+                        icon={<img src="/static/images/icon_favorite_active.svg" alt="즐겨찾기 삭제" />}
+                    ></Button>
+                </Tooltip>
             </Header>
             <Tab>
                 {Object.entries(M_TYPE)
@@ -307,7 +310,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                     if (dataList === null || 4 <= dataList.filter((val) => val === null).length)
                         return (
                             <PriceCard key={A_SEQ} title={A_NAME} unit={A_UNIT} price={"0"} priceChange={""}>
-                                <Chart seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>
+                                <Chart MONTH_BIAS={MONTH_BIAS} seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>
                             </PriceCard>
                         )
                     const priceChange = (Number(dataList && dataList[dataList.length - 1]) || 0) - (Number(dataList && dataList[dataList.length - 2]) || 0)
@@ -333,7 +336,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                             price={formatComma((dataList && dataList[dataList.length - 1]) || "0")}
                             priceChange={formatComma(String(priceChange))}
                         >
-                            <Chart seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>
+                            <Chart MONTH_BIAS={MONTH_BIAS} seq={A_SEQ} dataList={dataList} dateList={dateList}></Chart>
                         </PriceCard>
                     )
                 })}

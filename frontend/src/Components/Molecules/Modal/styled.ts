@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { IModal } from "./Modal"
 
 export const StyledModalWrap = styled.section`
+    z-index: 99999;
     position: fixed;
     top: 0;
     left: 0;
@@ -17,6 +18,7 @@ export const StyledModalWrap = styled.section`
 export const StyledModal = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     background: #fff;
     border: 1px solid;

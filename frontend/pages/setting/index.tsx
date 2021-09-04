@@ -11,6 +11,7 @@ import { useRouter } from "next/router"
 const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
     const router = useRouter()
     const [showDataModal, setShowDataModal] = useState(false)
+    const [showMakerModal, setShowMakerModal] = useState(false)
     const [showPrivacyModal, SetShowPrivacyModal] = useState(false)
     return (
         <>
@@ -21,11 +22,11 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
             <SettingList>
                 <SettingList.Item>
                     <Title as="h3">언어</Title>
-                    <SettingList.Text>한국어</SettingList.Text>
+                    <SettingList.Text>한국어(준비중입니다...)</SettingList.Text>
                 </SettingList.Item>
                 <SettingList.Item>
                     <Title as="h3">테마</Title>
-                    <SettingList.Text>기본</SettingList.Text>
+                    <SettingList.Text>기본(준비중입니다...)</SettingList.Text>
                 </SettingList.Item>
             </SettingList>
             <SettingTitle as="h2">앱 정보</SettingTitle>
@@ -38,16 +39,12 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
                     <Title as="h3">데이터 제공</Title>
                     <SettingList.Text>서울 열린데이터 광장</SettingList.Text>
                 </SettingList.Item>
-                <SettingList.Item>
-                    <Title as="h3">제작자</Title>
-                    <SettingList.Text>Chansoo Kim</SettingList.Text>
-                </SettingList.Item>
                 <SettingList.Item
                     onClick={() => {
-                        SetShowPrivacyModal(true)
+                        setShowMakerModal(true)
                     }}
                 >
-                    <Title as="h3">개인정보처리방침</Title>
+                    <Title as="h3">제작자</Title>
                 </SettingList.Item>
                 <SettingList.Item>
                     <Title as="h3">버전 정보</Title>
@@ -62,6 +59,17 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
                 title={"데이터 제공"}
             >
                 서울시 생필품 농수축산물 가격 정보API
+            </AlertModal>
+            <AlertModal
+                onClick={() => {
+                    setShowMakerModal(false)
+                }}
+                show={showMakerModal}
+                title={"제작자"}
+            >
+                개발: 김찬수
+                <br />
+                디자인: 박진구
             </AlertModal>
             <AlertModal
                 onClick={() => {

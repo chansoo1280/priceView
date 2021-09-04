@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { IChart } from "./Chart"
 
-export const Container = styled.div<IChart.IProps>`
+export const Container = styled.div`
     margin-bottom: 20px;
     display: flex;
     width: 100%;

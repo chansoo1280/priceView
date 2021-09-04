@@ -5,6 +5,7 @@ declare namespace IChart {
         dateList?: any
         dataList?: any
         seq?: string | number
+        MONTH_BIAS: number
     }
 }
 

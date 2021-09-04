@@ -17,11 +17,11 @@ export const Chart: React.FunctionComponent<IChart.IProps> = (props) => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const c3 = require("c3")
     const [chart, setChart] = useState<any>(null)
-    const { dataList, dateList, seq } = props
+    const { dataList, dateList, seq, MONTH_BIAS } = props
     const minDate = (() => {
         const d = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
         const monthOfYear = d.getMonth()
-        d.setMonth(monthOfYear - 4)
+        d.setMonth(monthOfYear - (4 - MONTH_BIAS))
         return d
     })()
 
