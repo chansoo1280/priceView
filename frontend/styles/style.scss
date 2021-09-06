@@ -59,6 +59,13 @@
     stroke-width: 3px !important;
 }
 
+.swiper-slide {
+    overflow-y: hidden !important;
+    &-active {
+        overflow-y: auto !important;
+    }
+}
+
 .popup-enter {
     z-index: 10;
     transform: rotateY(10deg) translate3d(100%, 0, 0);

@@ -19,7 +19,7 @@ export const Default = ({ children }: LayoutProps): JSX.Element => {
             </Head>
             <div
                 className={classNames("l_wrap", {
-                    [styles["default-wrapz"]]: true,
+                    [styles["default-wrap"]]: true,
                 })}
             >
                 {children}

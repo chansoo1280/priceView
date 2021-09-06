@@ -100,7 +100,7 @@ const Page = (): JSX.Element => {
                 }}
             >
                 {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
-                    <SwiperSlide style={{ overflowY: "auto" }} key={key}>
+                    <SwiperSlide key={key}>
                         <IconList.Item key={key}>
                             {cate_list
                                 .filter(({ type }) => type === Number(key))
