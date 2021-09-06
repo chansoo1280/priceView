@@ -41,7 +41,9 @@
 //     flex: 1;
 //     box-sizing: border-box;
 // }
-
+.c3 > svg > defs > clipPath:first-child > rect {
+    width: 9999px !important;
+}
 .c3-axis {
     font-size: 12px;
 }
