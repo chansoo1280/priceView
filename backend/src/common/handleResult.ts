@@ -26,79 +26,77 @@ export enum ResMessage {
     Conflict = 'Conflict',
     TooManyRequests = 'Too Many Requests',
 }
-const handleResult = function (result: number | object, Res: Response, description?: string) {
-    if (description === undefined) {
-        description = '';
-    }
+const handleResult = (result: number | { [x: string]: any }, Res: Response, description?: string): Response => {
+    const desc = description || ''
 
     switch (result) {
         case ResCode.OK: {
             return Res.status(ResCode.OK).send({
                 message: ResMessage.OK,
-                description: description
+                desc,
             })
         }
         case ResCode.Created: {
             return Res.status(ResCode.Created).send({
                 message: ResMessage.Created,
-                description: description
+                desc,
             })
         }
         case ResCode.Deleted: {
             return Res.status(ResCode.Deleted).send({
                 message: ResMessage.Deleted,
-                description: description
+                desc,
             })
         }
         case ResCode.NoContent: {
             return Res.status(ResCode.NoContent).send({
                 message: ResMessage.NoContent,
-                description: description
+                desc,
             })
         }
         case ResCode.BadRequest: {
             return Res.status(ResCode.BadRequest).send({
                 message: ResMessage.BadRequest,
-                description: description
+                desc,
             })
         }
         case ResCode.Unauthorized: {
             return Res.status(ResCode.Unauthorized).send({
                 message: ResMessage.Unauthorized,
-                description: description
+                desc,
             })
         }
         case ResCode.Forbidden: {
             return Res.status(ResCode.Forbidden).send({
                 message: ResMessage.Forbidden,
-                description: description
+                desc,
             })
         }
         case ResCode.NotFound: {
-            //이건 서버에서 알아서 처리
+            // 이건 서버에서 알아서 처리
             return Res.status(ResCode.NotFound).send({
                 message: ResMessage.NotFound,
-                description: description
+                desc,
             })
         }
         case ResCode.MethodNotAllowed: {
             return Res.status(ResCode.MethodNotAllowed).send({
                 message: ResMessage.MethodNotAllowed,
-                description: description
+                desc,
             })
         }
         case ResCode.Conflict: {
             // 로직상의 조건이나 순서에 부합하지 않음
             return Res.status(ResCode.Conflict).send({
                 message: ResMessage.Conflict,
-                description: description
+                desc,
             })
         }
         case ResCode.TooManyRequests: {
             // DoS, Brute-force attack 같은 비정상적인 접근
             return Res.status(ResCode.TooManyRequests).set({ 'Retry-After': 3600 }).send({
                 message: ResMessage.TooManyRequests,
-                description: description
+                desc,
             })
         }
         default: {

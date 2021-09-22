@@ -175,7 +175,7 @@ SELECT [A_SEQ]
 /* 
     name 별 카운트 조회
 */
-SELECT [count_seq]
+SELECT [countSeq]
       ,[A_NAME]
       ,[A_UNIT]
       ,[A_TOTAL_PRICE]

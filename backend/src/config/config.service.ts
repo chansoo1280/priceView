@@ -1,69 +1,66 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import path from 'path';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import path from 'path'
+import Dotenv from 'dotenv'
 
 const envPath: string = (function () {
-  if (process.env.pm_cwd) {
-    return path.resolve(process.env.pm_cwd, '.env');
-  } else {
-    return path.resolve(process.cwd(), '.env');
-  }
-})();
-require('dotenv').config({ path: envPath });
+    if (process.env.pm_cwd) {
+        return path.resolve(process.env.pm_cwd, '.env')
+    }
+    return path.resolve(process.cwd(), '.env')
+})()
+Dotenv.config({ path: envPath })
 
 class ConfigService {
-  constructor(private env: { [k: string]: string | undefined }) {}
+    constructor(private env: { [k: string]: string | undefined }) {}
 
-  private getValue(key: string, throwOnMissing = true): string {
-    const value =
-      this.env.NODE_ENV === 'test' ? this.env[key + '_TEST'] : this.env[key];
+    private getValue(key: string, throwOnMissing = true): string {
+        const value = this.env.NODE_ENV === 'test' ? this.env[`${key}_TEST`] : this.env[key]
 
-    if ((!value && throwOnMissing) || value === undefined) {
-      throw new Error(
-        `config error - missing env.${key} =  ${JSON.stringify(this.env)}`,
-      );
+        if ((!value && throwOnMissing) || value === undefined) {
+            throw new Error(`config error - missing env.${key} =  ${JSON.stringify(this.env)}`)
+        }
+        return value
     }
-    return value;
-  }
 
-  public ensureValues(keys: string[]) {
-    keys.forEach((k) => this.getValue(k, true));
-    return this;
-  }
+    public ensureValues(keys: string[]) {
+        keys.forEach((k) => this.getValue(k, true))
+        return this
+    }
 
-  public isProduction() {
-    const mode = this.env['MODE'];
-    return mode != 'DEV';
-  }
+    public isProduction() {
+        const mode = this.env.MODE
+        return mode !== 'DEV'
+    }
 
-  public getTypeOrmConfig(): TypeOrmModuleOptions {
-    return {
-      type: 'mssql',
-      host: this.getValue('MSSQL_HOST'),
-      port: parseInt(this.getValue('MSSQL_PORT')),
-      username: this.getValue('MSSQL_USER'),
-      password: this.getValue('MSSQL_PASSWORD'),
-      database: this.getValue('MSSQL_DATABASE'),
+    public getTypeOrmConfig(): TypeOrmModuleOptions {
+        return {
+            type: 'mssql',
+            host: this.getValue('MSSQL_HOST'),
+            port: Number(this.getValue('MSSQL_PORT')),
+            username: this.getValue('MSSQL_USER'),
+            password: this.getValue('MSSQL_PASSWORD'),
+            database: this.getValue('MSSQL_DATABASE'),
 
-      entities: JSON.parse(this.getValue('MSSQL_ENTITIES')),
+            entities: JSON.parse(this.getValue('MSSQL_ENTITIES')),
 
-      logging: false, // (this.env.NODE_ENV === 'test'),
-      synchronize: true, //(this.env.NODE_ENV === 'test'),
-      options: {
-        encrypt: false,
-        enableArithAbort: true,
-      },
-      requestTimeout: 130000,
-      ssl: this.isProduction(),
-    };
-  }
+            logging: false, // (this.env.NODE_ENV === 'test'),
+            synchronize: true, // (this.env.NODE_ENV === 'test'),
+            options: {
+                encrypt: false,
+                enableArithAbort: true,
+            },
+            requestTimeout: 130000,
+            ssl: this.isProduction(),
+        }
+    }
 }
 
 const configService = new ConfigService(process.env).ensureValues([
-  'MSSQL_HOST',
-  'MSSQL_PORT',
-  'MSSQL_USER',
-  'MSSQL_PASSWORD',
-  'MSSQL_DATABASE',
-]);
+    'MSSQL_HOST',
+    'MSSQL_PORT',
+    'MSSQL_USER',
+    'MSSQL_PASSWORD',
+    'MSSQL_DATABASE',
+])
 
-export { configService };
+export { configService }
