@@ -1,2 +1,1 @@
-export * from "./MainConsts";
-export { ActionConsts } from "./ActionConsts";
+export * from "./MainConsts"

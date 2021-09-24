@@ -1,44 +1,39 @@
-// #region Global Imports
-import { createStore, applyMiddleware, Middleware, StoreEnhancer } from "redux"
-import thunkMiddleware from "redux-thunk"
-import { composeWithDevTools } from "redux-devtools-extension"
-import { Context, createWrapper } from "next-redux-wrapper"
-import { persistReducer, persistStore } from "redux-persist"
+import { createWrapper } from "next-redux-wrapper"
+import { compose, createStore, Store } from "redux"
+import rootReducer from "./Reducers"
+import { configureStore } from "@reduxjs/toolkit"
 import storage from "redux-persist/lib/storage"
-// #endregion Global Imports
+import { persistReducer } from "redux-persist"
 
-// #region Local Imports
-import { Reducers } from "./Reducers"
-// #endregion Local Imports
+// declare global {
+//     interface Window {
+//         __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
+//     }
+// }
 
-const bindMiddleware = (middleware: Middleware[]): StoreEnhancer => {
-    if (process.env.NODE_ENV !== "production") {
-        return composeWithDevTools(applyMiddleware(...middleware))
-    }
-    return applyMiddleware(...middleware)
-}
-
-const makeConfiguredStore = (reducer: any) => createStore(reducer, bindMiddleware([thunkMiddleware]))
-
+// store 생성
+// export default function configureStore(): Store {
+//     const composeEnhancers = (typeof (window as any) !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
+//     const store = createStore(rootReducer, composeEnhancers())
+//     return store
+// }
 const persistConfig = {
     key: "nextjs",
-    whitelist: ["app", "star"], // make sure it does not clash with server keys
     storage,
 }
-const makeStore = (context?: Context) => {
-    const isServer = typeof window === "undefined"
-    if (isServer) {
-        return makeConfiguredStore(Reducers)
-    } else {
-        // we need it only on client side
 
-        const persistedReducer = persistReducer(persistConfig, Reducers)
-        return makeConfiguredStore(persistedReducer)
-    }
-}
-const tempStore = createStore(Reducers)
-export type AppDispatch = typeof tempStore.dispatch
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-export const persistor = persistStore(createStore(persistReducer(persistConfig, Reducers)))
+export const makeStore = () =>
+    configureStore({
+        reducer: persistedReducer,
+        devTools: process.env.NODE_ENV !== "production",
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({
+                serializableCheck: false,
+            }),
+    })
 
-export const wrapper = createWrapper(makeStore, { debug: true })
+export const wrapper = createWrapper(makeStore, {
+    debug: process.env.NODE_ENV !== "production",
+})

@@ -9,8 +9,8 @@ import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
 import { Header, Chart, Select, PriceCard, Space, Tooltip, Button, Tab } from "@Components"
 import { Count, IInfoPage, ReduxNextPageContext } from "@Interfaces"
 import { Http } from "@Services"
-import { StarActions } from "@Actions"
-import { IStore, useAppDispatch, useAppSelector } from "@Redux"
+import { RootState, StarActions } from "@Redux"
+import { useDispatch, useSelector } from "react-redux"
 // #endregion Local Imports
 
 const RN_API_GET_POSITION = "RN_API_GET_POSITION"
@@ -22,8 +22,8 @@ const formatComma = function (v: string) {
 
 const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     const router = useRouter()
-    const dispatch = useAppDispatch()
-    const star = useAppSelector((state: IStore) => state.star)
+    const dispatch = useDispatch()
+    const star = useSelector((state: RootState) => state.starReducer)
 
     const cate_info =
         CATEGORY_LIST.find((info, idx) => {
@@ -192,11 +192,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                         show={!getIsStar}
                         onClick={() => {
                             if (cate_info === null) return
-                            dispatch(
-                                StarActions.AddStar({
-                                    seq: cate_info?.seq,
-                                }),
-                            )
+                            dispatch(StarActions.addStar(cate_info?.seq))
                         }}
                         icon={<img src="/static/images/icon_favorite.svg" alt="즐겨찾기 추가" />}
                     />
@@ -204,11 +200,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                         show={getIsStar}
                         onClick={() => {
                             if (cate_info === null) return
-                            dispatch(
-                                StarActions.RemoveStar({
-                                    seq: cate_info?.seq,
-                                }),
-                            )
+                            dispatch(StarActions.removeStar(cate_info?.seq))
                         }}
                         icon={<img src="/static/images/icon_favorite_active.svg" alt="즐겨찾기 삭제" />}
                     />
