@@ -9,7 +9,7 @@ COPY . .
 WORKDIR /app/frontend
 RUN npm install
 RUN npm run build
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start", "-p", "10002"]
 
 ## Nest.js project를 build 한다
 WORKDIR /app/backend
