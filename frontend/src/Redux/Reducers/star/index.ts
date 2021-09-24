@@ -1,65 +1,79 @@
 // #region Local Imports
-import { ActionConsts } from "@Definitions"
+import { createAction, ActionType, createReducer, PayloadAction, action } from "typesafe-actions"
 // #endregion Local Imports
 
 // #region Interface Imports
-import { IAction } from "@Interfaces"
-import { IStarPage } from "./Star"
 // #endregion Interface Imports
 
-export type { IStarPage }
-
-const INITIAL_STATE: IStarPage.IStateProps = {
+// 상태의 타입 선언
+type seq = number
+interface StarReducer {
+    list: seq[]
+}
+// 상태 초기화
+const initialState: StarReducer = {
     list: [],
 }
 
-const RN_API_SET_STAR = "RN_API_SET_STAR"
+// 액션타입 선언
+export const StarActionConsts = {
+    RESET_STAR: "starReducer/RESET_STAR",
+    SET_STAR: "starReducer/SET_STAR",
+    ADD_STAR: "starReducer/ADD_STAR",
+    REMOVE_STAR: "starReducer/REMOVE_STAR",
+}
 
-export const StarReducer = (state = INITIAL_STATE, action: IAction<any>) => {
-    const payloadSeq = action.payload?.seq || null
-    const newStar = {
-        list: state.list.slice(),
-    }
-    switch (action.type) {
-        case ActionConsts.Star.SetReducer:
-            const { list } = JSON.parse(action.payload || "") || {}
-            newStar.list = list || []
-            return {
-                ...state,
-                ...newStar,
-            }
+// 액션함수 선언
+export const resetStar = createAction(StarActionConsts.RESET_STAR)()
+export const setStar = createAction(StarActionConsts.SET_STAR)<seq[]>()
+export const addStar = createAction(StarActionConsts.ADD_STAR)<seq>()
+export const removeStar = createAction(StarActionConsts.REMOVE_STAR)<seq>()
 
-        case ActionConsts.Star.AddReducer:
-            if (payloadSeq && !state.list.find((seq) => seq === payloadSeq)) {
-                newStar.list.push(payloadSeq)
-            }
+// 액션 객체타입
+export const StarActions = { resetStar, setStar, addStar, removeStar }
+
+// 리듀서 추가
+const starReducer = createReducer<StarReducer, ActionType<typeof StarActions>>(initialState, {
+    [StarActionConsts.RESET_STAR]: () => ({
+        list: [],
+    }),
+    [StarActionConsts.SET_STAR]: (state, action: any) => {
+        return {
+            ...state,
+            list: [...action.payload],
+        }
+    },
+    [StarActionConsts.ADD_STAR]: (state, action: any) => {
+        const newStarList = state.list.slice()
+        if (action.payload && !state.list.find((seq) => seq === action.payload)) {
+            newStarList.push(action.payload)
             if (window.ReactNativeWebView) {
                 window.ReactNativeWebView.postMessage(
                     JSON.stringify({
-                        type: RN_API_SET_STAR,
-                        data: newStar,
+                        type: "RN_API_SET_STAR",
+                        data: {
+                            ...state,
+                            list: newStarList,
+                        },
                     }),
                 )
             }
-            return {
-                ...state,
-                ...newStar,
-            }
-
-        case ActionConsts.Star.RemoveReducer:
-            if (payloadSeq && state.list.find((seq) => seq === payloadSeq)) {
-                const idx = state.list.indexOf(payloadSeq)
-                newStar.list.splice(idx, 1)
-            }
-            return {
-                ...state,
-                ...newStar,
-            }
-
-        case ActionConsts.Star.ResetReducer:
-            return INITIAL_STATE
-
-        default:
-            return state
-    }
-}
+        }
+        return {
+            ...state,
+            list: newStarList,
+        }
+    },
+    [StarActionConsts.REMOVE_STAR]: (state, action: any) => {
+        const newStarList = state.list.slice()
+        if (action.payload && state.list.find((seq) => seq === action.payload)) {
+            const idx = state.list.indexOf(action.payload)
+            newStarList.splice(idx, 1)
+        }
+        return {
+            ...state,
+            list: newStarList,
+        }
+    },
+})
+export default starReducer

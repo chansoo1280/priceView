@@ -11,9 +11,9 @@ import { configService } from './config/config.service'
 
 @Module({
     imports: [
-        ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '..', '..', 'static'),
-        }),
+        // ServeStaticModule.forRoot({
+        //     rootPath: join(__dirname, '..', '..', 'static'),
+        // }),
         ScheduleModule.forRoot(),
         TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
         PriceModule,

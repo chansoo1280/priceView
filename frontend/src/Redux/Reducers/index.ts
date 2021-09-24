@@ -3,16 +3,18 @@ import { combineReducers } from "redux"
 // #endregion Global Imports
 
 // #region Local Imports
-import { AppReducer } from "./app"
-import { StarReducer } from "./star"
+import appReducer from "./app"
+import starReducer from "./star"
 // #endregion Local Imports
 
 export * from "./app"
 export * from "./star"
 
-export const Reducers = combineReducers({
-    app: AppReducer,
-    star: StarReducer,
+const rootReducer = combineReducers({
+    appReducer,
+    starReducer,
 })
-// const persistedReducer = persistReducer(persistConfig, rootReducer)
-// export default persistedReducer
+
+export default rootReducer
+
+export type RootState = ReturnType<typeof rootReducer>

@@ -6,9 +6,9 @@ import { SwiperSlide } from "swiper/react"
 // #region Local Imports
 import { Title, SlideTab, IconList, MainHeader } from "@Components"
 import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR } from "@Definitions"
-import { useAppDispatch, useAppSelector } from "@Redux/hooks"
-import { IStore, ReduxNextPageContext } from "@Interfaces"
-import { AppActions, StarActions } from "@Actions"
+import { ReduxNextPageContext } from "@Interfaces"
+import { AppActions, RootState, StarActions } from "@Redux"
+import { useDispatch, useSelector } from "react-redux"
 // #endregion Local Imports
 
 declare global {
@@ -19,10 +19,10 @@ declare global {
 const RN_API_GET_STAR = "RN_API_GET_STAR"
 
 const Page = (): JSX.Element => {
-    const dispatch = useAppDispatch()
-    const { app, star } = useAppSelector(({ app, star }: IStore) => ({
-        app,
-        star,
+    const dispatch = useDispatch()
+    const { app, star } = useSelector(({ appReducer, starReducer }: RootState) => ({
+        app: appReducer,
+        star: starReducer,
     }))
     const [swiper, setSwiper] = useState<any>(null)
     const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => ({
@@ -35,7 +35,7 @@ const Page = (): JSX.Element => {
         const { data, type } = JSON.parse(event.data)
         switch (type) {
             case RN_API_GET_STAR: {
-                dispatch(StarActions.SetStar(data))
+                dispatch(StarActions.setStar(data))
                 break
             }
             default: {
@@ -77,7 +77,7 @@ const Page = (): JSX.Element => {
                             key={key}
                             onClick={() => {
                                 swiper?.slideTo(idx)
-                                dispatch(AppActions.SetSelCate(Number(key)))
+                                dispatch(AppActions.setCate(Number(key)))
                                 setSelTab(Number(key))
                             }}
                             name={value}
@@ -91,12 +91,12 @@ const Page = (): JSX.Element => {
                 {CATEGORY_TYPE_STR[selTab]} 리스트
             </Title>
             <IconList
-                setSwiper={setSwiper}
+                setSwiper={(swiper: any) => setSwiper(swiper)}
                 selTab={selTab}
                 onChange={(e: any) => {
                     const [key, value] = Object.entries(CATEGORY_TYPE_STR)[e.activeIndex]
                     setSelTab(Number(key))
-                    dispatch(AppActions.SetSelCate(Number(key)))
+                    dispatch(AppActions.setCate(Number(key)))
                 }}
             >
                 {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
