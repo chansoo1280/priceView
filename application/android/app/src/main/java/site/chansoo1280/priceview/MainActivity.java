@@ -1,4 +1,4 @@
-package com.application;
+package site.chansoo1280.priceview;
 
 import com.facebook.react.ReactActivity;
 
