@@ -21,8 +21,10 @@ const AlertModal = (props: Props) => {
         <>
             <Modal {...rest}>
                 <div className={styles["alert-modal"]}>{children}</div>
-                <Space>
-                    <Button onClick={onClick}>확인</Button>
+                <Space cover className={styles["alert-modal__btns"]}>
+                    <Button type="default" onClick={onClick} className={styles["alert-modal__btn"]}>
+                        확인
+                    </Button>
                 </Space>
             </Modal>
         </>

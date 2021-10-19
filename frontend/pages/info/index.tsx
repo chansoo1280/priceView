@@ -65,7 +65,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
 
     const [selGu, setSelGu] = useState(M_GU[""])
     const [selType, setSelType] = useState(M_TYPE[""])
-    const updateChart = () => {
+    const updateChart = (selType: string, resData: Count[]) => {
         setCateList(
             cateList.map((cateInfo) => {
                 const cateResult = resData.filter(({ A_SEQ, M_TYPE_CODE }) => Number(A_SEQ) === cateInfo.A_SEQ && M_TYPE_CODE === selType)
@@ -94,11 +94,11 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             }),
         )
     }
-    const reqPriceData = async () => {
+    const reqPriceData = async (M_GU_CODE: string) => {
         const result = await Http.Request<Count[]>("get", "/api/count/info", {
             A_SEQS: cate_info?.seq_list.join(", ") || "",
             P_YEAR_MONTH: P_YEAR_MONTH,
-            M_GU_CODE: selGu,
+            M_GU_CODE: M_GU_CODE,
         }).catch((e) => {
             switch (e.status) {
                 default: {
@@ -107,6 +107,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             return null
         })
         setResData(result || [])
+        updateChart(selType, result || [])
     }
 
     const reqPositionData = ({ x, y }: { x: string; y: string }) => {
@@ -139,6 +140,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                 }
                 const guSeq = Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name) || ""
                 setSelGu(guSeq)
+                reqPriceData(guSeq)
             })
         })
     }
@@ -176,13 +178,15 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             window.removeEventListener("message", listener)
         }
     }, [])
-
     useEffect(() => {
-        reqPriceData()
-    }, [selGu])
-    useEffect(() => {
-        updateChart()
-    }, [selType, resData])
+        reqPriceData(selGu)
+    }, [])
+    // useEffect(() => {
+    //     reqPriceData(selGu)
+    // }, [selGu])
+    // useEffect(() => {
+    //     updateChart(selType, resData)
+    // }, [selType, resData])
     return (
         <>
             <Header title={cateName}>
@@ -214,6 +218,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                             key={key}
                             onClick={() => {
                                 setSelType(key)
+                                updateChart(key, resData)
                             }}
                             name={value || "평균"}
                             isSelected={key === selType}
@@ -222,9 +227,12 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             </Tab>
             <Space padding="0 20px">
                 <Select
+                    round
                     value={selGu}
                     onChange={(e) => {
-                        setSelGu(e.target.value || "")
+                        const guSeq = e.target.value || ""
+                        setSelGu(guSeq)
+                        reqPriceData(guSeq)
                     }}
                 >
                     {Object.entries(M_GU)

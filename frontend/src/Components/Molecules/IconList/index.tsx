@@ -51,7 +51,7 @@ const IconListInner = (props: InnerProps): JSX.Element => {
             {href ? (
                 <Link href={href}>
                     <a className={styles["icon-list__btn"]}>
-                        <img className={styles["icon-list__img"]} src={icon} alt="" />
+                        {icon ? <img className={styles["icon-list__img"]} src={icon} alt="" /> : ""}
                         {name}
                     </a>
                 </Link>

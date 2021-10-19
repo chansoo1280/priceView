@@ -7,14 +7,13 @@ import * as React from "react"
 import App, { AppInitialProps, AppContext } from "next/app"
 import { withRouter } from "next/router"
 import { ThemeProvider } from "styled-components"
-import { connect, Provider, ReactReduxContext } from "react-redux"
+import { connect, ReactReduxContext } from "react-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 // #endregion Global Imports
 
 // #region Local Imports
 import { ThemeObj, ThemeType } from "@Definitions/Styled"
-// import { appWithTranslation } from "@Server/i18n";
 import { AppWithStore } from "@Interfaces"
 import { RootState, wrapper } from "@Redux"
 import TheLayout, { LayoutCode } from "@Components/Layout"

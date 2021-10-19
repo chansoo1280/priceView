@@ -18,11 +18,16 @@ const Modal = (props: Props): JSX.Element => {
     return (
         <section
             className={className({
-                [styles["modal-wrap"]]: true,
-                [styles["modal-wrap--show"]]: show,
+                [styles["modal"]]: true,
+                [styles["modal--show"]]: show,
             })}
         >
-            <div className={styles["modal"]}>
+            <div
+                className={className({
+                    [styles["modal__box"]]: true,
+                    [styles["modal--show__box"]]: show,
+                })}
+            >
                 {title && (
                     <header className={styles["modal__header"]}>
                         <Title>{title}</Title>

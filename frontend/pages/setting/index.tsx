@@ -4,7 +4,7 @@ import { useState } from "react"
 
 // #region Local Imports
 import { ISettingPage, ReduxNextPageContext } from "@Interfaces"
-import { Header, Button, Title, AlertModal, SettingList, SettingTitle } from "@Components"
+import { Header, Select, Button, Title, AlertModal, SettingList, SettingTitle } from "@Components"
 import { useRouter } from "next/router"
 // #endregion Local Imports
 
@@ -22,11 +22,14 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
             <SettingList>
                 <SettingList.Item>
                     <Title as="h3">언어</Title>
-                    <SettingList.Text>한국어(준비중입니다...)</SettingList.Text>
-                </SettingList.Item>
-                <SettingList.Item>
-                    <Title as="h3">테마</Title>
-                    <SettingList.Text>기본(준비중입니다...)</SettingList.Text>
+                    <Select
+                        onChange={(e) => {
+                            console.log(e)
+                        }}
+                    >
+                        <option value={0}>한국어</option>
+                        <option value={1}>english</option>
+                    </Select>
                 </SettingList.Item>
             </SettingList>
             <SettingTitle as="h2">앱 정보</SettingTitle>

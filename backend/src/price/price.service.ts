@@ -84,6 +84,8 @@ export class PriceService extends TypeOrmQueryService<Price> {
             ['달걀', 17, '달걀(10개)', 171],
             ['배추(중간)', 175, '배추(중간)', 271],
             ['무(세척무)', 282, '무(세척무)', 133],
+            ['조기(국산,생물)', 136, '조기(생물,국산)', 258],
+            ['조기(국산,냉동)', 144, '조기(냉동,국산)', 259],
         ]
         await Promise.all(
             mergeList.map((info, i) => {

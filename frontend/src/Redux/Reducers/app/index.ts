@@ -9,11 +9,13 @@ import { createAction, ActionType, createReducer } from "typesafe-actions"
 interface AppReducer {
     sel_cate: number | null
     sel_theme: number | null
+    sel_lang: number | null
 }
 // 상태 초기화
 const initialState: AppReducer = {
     sel_cate: null,
     sel_theme: null,
+    sel_lang: null,
 }
 
 // 액션타입 선언
