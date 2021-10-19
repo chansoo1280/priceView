@@ -115,7 +115,7 @@ export default function HomeScreen() {
           }
           case 'RN_API_SET_STAR': {
             AsyncStorage.setItem('star', JSON.stringify(req?.data));
-            console.log(JSON.stringify(req?.data))
+            console.log(JSON.stringify(req?.data));
             webview.current.postMessage(
               JSON.stringify({
                 type: 'RN_API_SET_STAR',
@@ -126,8 +126,8 @@ export default function HomeScreen() {
           case 'RN_API_GET_STAR': {
             const star = await AsyncStorage.getItem('star', (err, result) => {
               const star = JSON.parse(result);
-              return star
-            })
+              return star;
+            });
             webview.current.postMessage(
               JSON.stringify({
                 type: 'RN_API_GET_STAR',
