@@ -6,6 +6,7 @@ import { MouseEventHandler, ReactNode } from "react"
 import styles from "./PriceCard.module.scss"
 import { Button } from "@Components"
 import classNames from "classnames"
+import { useTranslation } from "next-i18next"
 
 // #endregion Local Imports
 interface Props {
@@ -20,13 +21,14 @@ interface Props {
 
 const PriceCard = (props: Props): JSX.Element => {
     const { title, unit, price, priceChange, isOpen, children, onClick } = props
+    const { t } = useTranslation("common")
 
     const isChangePlus = 0 <= Number(priceChange?.replaceAll(",", ""))
     return (
         <div className={styles["price-card"]}>
             <div className={styles["price-card__con"]} onClick={onClick}>
                 <div className={styles["price-card__header"]}>
-                    <h2 className={styles["price-card__title"]}>{title}</h2>
+                    <h2 className={styles["price-card__title"]}>{t("main." + title)}</h2>
                     <span className={styles["price-card__unit"]}>단위: {unit}</span>
                 </div>
                 {price !== "0" ? (

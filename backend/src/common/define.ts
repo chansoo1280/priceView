@@ -20,7 +20,7 @@ export const CATEGORY_LIST: any = [
     {
         name: '달걀',
         type: CATEGORY_TYPE_MEAT,
-        seq_list: ['171', '321', '320', '134', '181'],
+        seq_list: ['171', '321', '320', '181'],
     },
     {
         name: '고등어',
@@ -65,7 +65,7 @@ export const CATEGORY_LIST: any = [
     {
         name: '양파',
         type: CATEGORY_TYPE_VEGETABLE,
-        seq_list: ['24', '272', '309'],
+        seq_list: ['24', '309'],
     },
     {
         name: '오이',
@@ -109,7 +109,6 @@ export const NAME_OBJ: any = {
     '171': { A_NAME: '달걀(10개)', A_UNIT: ['10개'] },
     '321': { A_NAME: '달걀(15개)', A_UNIT: ['15개', '특란'] },
     '320': { A_NAME: '달걀(30개)', A_UNIT: ['30개', '특란'] },
-    '134': { A_NAME: '달걀(왕란)', A_UNIT: ['30개'] },
     '181': { A_NAME: '달걀(왕란)', A_UNIT: ['30개'] },
     '13': { A_NAME: '고등어', A_UNIT: ['1마리'] },
     '266': { A_NAME: '고등어(생물,국산)', A_UNIT: ['1마리'] },
@@ -152,7 +151,6 @@ export const NAME_OBJ: any = {
     '274': { A_NAME: '무(세척무, 중)', A_UNIT: ['1개'] },
     '308': { A_NAME: '무(1kg)', A_UNIT: ['1개', '1kg'] },
     '24': { A_NAME: '양파', A_UNIT: ['1.5kg'] },
-    '272': { A_NAME: '양파(작은망)', A_UNIT: ['1망', '1.5kg'] },
     '309': { A_NAME: '양파(1.5kg망)', A_UNIT: ['1망', '1.5kg'] },
     '22': { A_NAME: '오이', A_UNIT: ['1개'] },
     '311': { A_NAME: '오이(다다기)', A_UNIT: ['1개', '1 개'] },

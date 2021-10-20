@@ -6,7 +6,6 @@ import { SwiperSlide } from "swiper/react"
 // #region Local Imports
 import { Title, SlideTab, IconList, MainHeader } from "@Components"
 import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR } from "@Definitions"
-import { ReduxNextPageContext } from "@Interfaces"
 import { AppActions, RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "next-i18next"
@@ -114,7 +113,7 @@ const Page = (): JSX.Element => {
                             {cate_list
                                 .filter(({ type }) => type === Number(key))
                                 .map(({ name, seq, icon }) => (
-                                    <IconList.InnerItem key={seq} name={t("main." + name)} href={"/info?seq=" + seq} icon={icon} />
+                                    <IconList.InnerItem key={seq} name={t("main." + name)} href={"/info/" + seq} icon={icon} />
                                 ))}
                         </IconList.Item>
                     </SwiperSlide>

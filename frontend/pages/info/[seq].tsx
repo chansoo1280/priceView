@@ -11,6 +11,9 @@ import { Count, IInfoPage, ReduxNextPageContext } from "@Interfaces"
 import { Http } from "@Services"
 import { RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { GetStaticPaths } from "next"
 // #endregion Local Imports
 
 const RN_API_GET_POSITION = "RN_API_GET_POSITION"
@@ -22,12 +25,14 @@ const formatComma = function (v: string) {
 
 const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     const router = useRouter()
+    const { seq } = router.query
     const dispatch = useDispatch()
+    const { t } = useTranslation("common")
     const star = useSelector((state: RootState) => state.starReducer)
 
     const cate_info =
         CATEGORY_LIST.find((info, idx) => {
-            return info.seq === Number(router.query.seq)
+            return info.seq === Number(seq)
         }) || null
     const [cateName, _] = useState(cate_info?.name)
 
@@ -76,7 +81,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                     return d
                 })()
                 const dateList = ["Dates"]
-                const dataList = [cate_info?.name || ""]
+                const dataList = [t("main." + cate_info?.name || "")]
 
                 for (let i = 0; minDate < curDate; i++) {
                     const cateResultInfo = cateResult.find(({ P_YEAR_MONTH }) => P_YEAR_MONTH === minDate.format("yyyy-MM"))
@@ -189,7 +194,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     // }, [selType, resData])
     return (
         <>
-            <Header title={cateName}>
+            <Header title={t("main." + cateName)}>
                 <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />} />
                 <Tooltip posX="left" contents={getIsStar ? "추가되었습니다." : "삭제되었습니다."}>
                     <Button
@@ -220,7 +225,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                                 setSelType(key)
                                 updateChart(key, resData)
                             }}
-                            name={value || "평균"}
+                            name={t("main.type." + (value || "overall-average"))}
                             isSelected={key === selType}
                         />
                     ))}
@@ -239,7 +244,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                         .reverse()
                         .map(([key, value]) => (
                             <option key={key} value={key}>
-                                {value || "서울 전체"}
+                                {t("main.gu." + (value || "서울전체"))}
                             </option>
                         ))}
                 </Select>
@@ -301,9 +306,21 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         </>
     )
 }
-Info.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IInfoPage.InitialProps> => {
-    return {
+// Info.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IInfoPage.InitialProps> => {
+//     return {
+//         transition: "slide",
+//     }
+// }
+export const getStaticProps = async ({ locale }: { locale: string }) => ({
+    props: {
+        ...(await serverSideTranslations(locale, ["common"])),
         transition: "slide",
+    },
+})
+export const getStaticPaths: GetStaticPaths<{ seq: string }> = async () => {
+    return {
+        paths: [], //indicates that no page needs be created at build time
+        fallback: "blocking", //indicates the type of fallback
     }
 }
 export default Info

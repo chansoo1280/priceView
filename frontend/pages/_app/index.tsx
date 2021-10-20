@@ -25,8 +25,8 @@ class WebApp extends App<AppWithStore> {
     constructor(props: any) {
         super(props)
         this.state = {
-            nextPathname: this.props.router.pathname,
-            prevPathname: this.props.router.pathname,
+            nextPathname: this.formatPathname(this.props.router.pathname),
+            prevPathname: this.formatPathname(this.props.router.pathname),
         }
     }
     static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
@@ -34,11 +34,14 @@ class WebApp extends App<AppWithStore> {
 
         return { pageProps: pageProps }
     }
+    formatPathname = (url: string) => {
+        return url.replace(/[0-9]{1,}\//g, "").replace("/[seq]", "")
+    }
     handleRouteChange = (url: string) => {
         this.setState({
             ...this.state,
-            nextPathname: url.split("?")[0],
-            prevPathname: this.props.router.pathname,
+            nextPathname: this.formatPathname(url.split("?")[0]),
+            prevPathname: this.formatPathname(this.props.router.pathname),
         })
     }
     componentDidMount() {
