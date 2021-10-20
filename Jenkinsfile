@@ -10,7 +10,7 @@ node {
         sh 'docker build -t price-view ./backend'
         sh 'docker tag price-view:latest 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com/price-view:latest'
         sh 'docker push 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com/price-view:latest'
-        sh 'docker build -t price-view-fe ./frontend'
+        sh 'docker build --no-cache -t price-view-fe ./frontend'
         sh 'docker tag price-view-fe:latest 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com/price-view-fe:latest'
         sh 'docker push 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com/price-view-fe:latest'
         sh 'docker ps'
