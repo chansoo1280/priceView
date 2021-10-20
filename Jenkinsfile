@@ -1,6 +1,7 @@
 node {
     stage 'Pull'
     sh 'dir'
+    sh 'rm -rf *'
     git url: 'https://github.com/chansoo1280/priceView.git', credentialsId: 'git-chansoo1280'
 
     stage 'init'
