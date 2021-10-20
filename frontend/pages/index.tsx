@@ -11,6 +11,7 @@ import { AppActions, RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useRouter } from "next/router"
 // #endregion Local Imports
 
 declare global {
@@ -22,11 +23,16 @@ const RN_API_GET_STAR = "RN_API_GET_STAR"
 
 const Page = (): JSX.Element => {
     const { t, i18n } = useTranslation("common")
+    const router = useRouter()
     const dispatch = useDispatch()
     const { app, star } = useSelector(({ appReducer, starReducer }: RootState) => ({
         app: appReducer,
         star: starReducer,
     }))
+    if (app.sel_lang !== i18n.language) {
+        router.replace("/", "/", { locale: app.sel_lang || "ko" })
+    }
+
     const [swiper, setSwiper] = useState<any>(null)
     const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => ({
         ...info,

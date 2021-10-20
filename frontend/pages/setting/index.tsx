@@ -9,10 +9,13 @@ import { useTranslation } from "next-i18next"
 import { ISettingPage, ReduxNextPageContext } from "@Interfaces"
 import { Header, Select, Button, Title, AlertModal, SettingList, SettingTitle } from "@Components"
 import { useRouter } from "next/router"
+import { AppActions } from "@Reducers"
+import { useDispatch } from "react-redux"
 // #endregion Local Imports
 
 const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
     const router = useRouter()
+    const dispatch = useDispatch()
     const { t, i18n } = useTranslation("common")
     const [showDataModal, setShowDataModal] = useState(false)
     const [showMakerModal, setShowMakerModal] = useState(false)
@@ -28,6 +31,7 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
                     <Select
                         value={i18n.language}
                         onChange={(e) => {
+                            dispatch(AppActions.setLang(e.target.value))
                             router.replace("/setting", "/setting", { locale: e.target.value })
                         }}
                     >
