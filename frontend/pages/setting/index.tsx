@@ -1,5 +1,8 @@
 // #region Global Imports
 import { useState } from "react"
+import Link from "next/link"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 // #endregion Global Imports
 
 // #region Local Imports
@@ -10,36 +13,37 @@ import { useRouter } from "next/router"
 
 const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
     const router = useRouter()
+    const { t, i18n } = useTranslation("common")
     const [showDataModal, setShowDataModal] = useState(false)
     const [showMakerModal, setShowMakerModal] = useState(false)
-    const [showPrivacyModal, SetShowPrivacyModal] = useState(false)
     return (
         <>
-            <Header title="설정">
-                <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />}></Button>
+            <Header title={t("header.title.setting")}>
+                <Button onClick={() => router.replace("/", "/")} icon={<img src="/static/images/icon_back.svg" alt={t("header.back")} />}></Button>
             </Header>
-            <SettingTitle as="h2">사용성</SettingTitle>
+            <SettingTitle as="h2">{t("setting.usability")}</SettingTitle>
             <SettingList>
                 <SettingList.Item>
-                    <Title as="h3">언어</Title>
+                    <Title as="h3">{t("setting.langage")}</Title>
                     <Select
+                        value={i18n.language}
                         onChange={(e) => {
-                            console.log(e)
+                            router.replace("/setting", "/setting", { locale: e.target.value })
                         }}
                     >
-                        <option value={0}>한국어</option>
-                        <option value={1}>english</option>
+                        <option value={"ko"}>한국어</option>
+                        <option value={"en"}>english</option>
                     </Select>
                 </SettingList.Item>
             </SettingList>
-            <SettingTitle as="h2">앱 정보</SettingTitle>
+            <SettingTitle as="h2">{t("setting.app-info")}</SettingTitle>
             <SettingList>
                 <SettingList.Item
                     onClick={() => {
                         setShowDataModal(true)
                     }}
                 >
-                    <Title as="h3">데이터 제공</Title>
+                    <Title as="h3">{t("setting.data-provider")}</Title>
                     <SettingList.Text>서울 열린데이터 광장</SettingList.Text>
                 </SettingList.Item>
                 <SettingList.Item
@@ -47,10 +51,18 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
                         setShowMakerModal(true)
                     }}
                 >
-                    <Title as="h3">제작자</Title>
+                    <Title as="h3">{t("setting.producer")}</Title>
                 </SettingList.Item>
                 <SettingList.Item>
-                    <Title as="h3">버전 정보</Title>
+                    <Title as="h3">{t("setting.policy")}</Title>
+                    <SettingList.Text>
+                        <a href="https://chansoo1280.site/privacy/priceview/" target="_blank">
+                            {t("setting.privacy-policy")}
+                        </a>
+                    </SettingList.Text>
+                </SettingList.Item>
+                <SettingList.Item>
+                    <Title as="h3">{t("setting.version-info")}</Title>
                     <SettingList.Text>0.0.0.1</SettingList.Text>
                 </SettingList.Item>
             </SettingList>
@@ -59,7 +71,7 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
                     setShowDataModal(false)
                 }}
                 show={showDataModal}
-                title={"데이터 제공"}
+                title={t("setting.data-provider")}
             >
                 서울시 생필품 농수축산물 가격 정보API
             </AlertModal>
@@ -68,27 +80,24 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
                     setShowMakerModal(false)
                 }}
                 show={showMakerModal}
-                title={"제작자"}
+                title={t("setting.producer")}
             >
-                개발: 김찬수
+                {t("setting.developer")}: {t("김찬수")}
                 <br />
-                디자인: 박진구
-            </AlertModal>
-            <AlertModal
-                onClick={() => {
-                    SetShowPrivacyModal(false)
-                }}
-                show={showPrivacyModal}
-                title={"개인정보처리방침"}
-            >
-                본 앱은 사용자의 정보를 수집하지 않습니다.
+                {t("setting.designer")}: {t("박진구")}
             </AlertModal>
         </>
     )
 }
-Setting.getInitialProps = async (ctx: ReduxNextPageContext): Promise<ISettingPage.InitialProps> => {
-    return {
+// Setting.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
+//     return {
+//         transition: "popup",
+//     }
+// }
+export const getStaticProps = async ({ locale }: { locale: string }) => ({
+    props: {
+        ...(await serverSideTranslations(locale, ["common"])),
         transition: "popup",
-    }
-}
+    },
+})
 export default Setting

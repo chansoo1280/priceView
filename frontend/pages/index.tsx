@@ -9,6 +9,8 @@ import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR } from "@Definitions"
 import { ReduxNextPageContext } from "@Interfaces"
 import { AppActions, RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 // #endregion Local Imports
 
 declare global {
@@ -19,6 +21,7 @@ declare global {
 const RN_API_GET_STAR = "RN_API_GET_STAR"
 
 const Page = (): JSX.Element => {
+    const { t, i18n } = useTranslation("common")
     const dispatch = useDispatch()
     const { app, star } = useSelector(({ appReducer, starReducer }: RootState) => ({
         app: appReducer,
@@ -80,7 +83,7 @@ const Page = (): JSX.Element => {
                                 dispatch(AppActions.setCate(Number(key)))
                                 setSelTab(Number(key))
                             }}
-                            name={value}
+                            name={t("main." + value)}
                             isStar={Number(key) === CATEGORY_TYPE.STAR}
                             isSelected={Number(key) === selTab}
                         />
@@ -105,7 +108,7 @@ const Page = (): JSX.Element => {
                             {cate_list
                                 .filter(({ type }) => type === Number(key))
                                 .map(({ name, seq, icon }) => (
-                                    <IconList.InnerItem key={seq} name={name} href={"/info?seq=" + seq} icon={icon} />
+                                    <IconList.InnerItem key={seq} name={t("main." + name)} href={"/info?seq=" + seq} icon={icon} />
                                 ))}
                         </IconList.Item>
                     </SwiperSlide>
@@ -114,7 +117,9 @@ const Page = (): JSX.Element => {
         </>
     )
 }
-Page.getInitialProps = async (ctx: ReduxNextPageContext) => {
-    return {}
-}
+export const getStaticProps = async ({ locale }: { locale: string }): Promise<any> => ({
+    props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+    },
+})
 export default Page

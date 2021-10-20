@@ -10,6 +10,7 @@ import { ThemeProvider } from "styled-components"
 import { connect, ReactReduxContext } from "react-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
+import { appWithTranslation } from "next-i18next"
 // #endregion Global Imports
 
 // #region Local Imports
@@ -51,6 +52,7 @@ class WebApp extends App<AppWithStore> {
         const { nextPathname, prevPathname }: any = this.state
         const AppLayout = TheLayout[pageProps?.layout || LayoutCode.Default]
         const theme = ThemeObj[ThemeType[app.sel_theme] || ThemeType.WHITE]
+
         return (
             <ThemeProvider theme={theme}>
                 <ReactReduxContext.Consumer>
@@ -90,4 +92,4 @@ const mapStateToProps = (state: RootState) => ({
     app: state.appReducer,
 })
 
-export default wrapper.withRedux(connect(mapStateToProps)(withRouter(WebApp)))
+export default wrapper.withRedux(connect(mapStateToProps)(withRouter(appWithTranslation(WebApp))))

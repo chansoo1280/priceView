@@ -1,0 +1,50 @@
+{
+    "김찬수": "김찬수",
+    "박진구": "박진구",
+    "header": {
+        "title": {
+            "setting": "설정"
+        },
+        "back": "뒤로가기"
+    },
+    "main": {
+        "favorites": "즐겨찾기",
+        "meat": "고기",
+        "fish": "생선",
+        "vegetable": "야채",
+        "pork": "돼지고기",
+        "beef": "쇠고기",
+        "chicken": "닭고기",
+        "egg": "달걀",
+        "mackerel": "고등어",
+        "croaker": "조기",
+        "pollock": "명태",
+        "dongtae": "동태",
+        "squid": "오징어",
+        "napa-cabbage": "배추",
+        "lettuce": "상추",
+        "radish": "무",
+        "onion": "양파",
+        "cucumber": "오이",
+        "pear": "배",
+        "apple": "사과",
+        "kabocha": "호박",
+        "zucchini": "애호박"
+    },
+    "setting": {
+        "usability": "사용성",
+        "langage": "언어",
+        "app-info": "앱 정보",
+        "data-provider": "데이터 제공자",
+        "producer": "제작자",
+        "version-info": "버전 정보",
+        "developer": "개발자",
+        "designer": "디자이너",
+        "policy": "정책",
+        "privacy-policy": "개인정보처리방침"
+    },
+    "message": {
+        "was-added": "추가되었습니다.",
+        "was-removed": "삭제되었습니다."
+    }
+}
