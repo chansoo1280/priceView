@@ -1,7 +1,6 @@
 node {
     stage 'Pull'
     sh 'dir'
-    sh 'docker system prune'
     git url: 'https://github.com/chansoo1280/priceView.git', credentialsId: 'git-chansoo1280'
 
     stage 'init'
@@ -20,7 +19,7 @@ node {
             cd /root
             docker-compose pull
             docker-compose up --force-recreate --build -d
-            docker image prune -f
+            docker system prune -f
         '''
     }
 }
