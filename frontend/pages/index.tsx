@@ -33,11 +33,11 @@ const Page = (): JSX.Element => {
     }
 
     const [swiper, setSwiper] = useState<any>(null)
+
     const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => ({
         ...info,
         type: CATEGORY_TYPE.STAR,
     }))
-    const cate_list = CATEGORY_LIST.concat(starList)
     const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 1)
     const listener = (event: any) => {
         const { data, type } = JSON.parse(event.data)
@@ -111,7 +111,7 @@ const Page = (): JSX.Element => {
                 {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
                     <SwiperSlide key={key}>
                         <IconList.Item key={key}>
-                            {cate_list
+                            {CATEGORY_LIST.concat(starList)
                                 .filter(({ type }) => type === Number(key))
                                 .map(({ name, seq, icon }) => (
                                     <IconList.InnerItem key={seq} name={t("main." + name)} href={"/info/" + seq} icon={icon} />

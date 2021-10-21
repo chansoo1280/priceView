@@ -10,7 +10,7 @@ const App = () => {
   const [canGoBack, SetCanGoBack] = useState(false);
   let exitAppTimeout = null;
   let exitApp = false;
-  // const url = 'http://172.30.1.23:3000/';
+  // const url = 'http://192.168.0.64:3000/';
   const url = 'https://price.chansoo1280.site/';
   const requestPermissions = async function () {
     if (Platform.OS === 'ios') {
@@ -116,7 +116,6 @@ const App = () => {
           }
           case 'RN_API_SET_STAR': {
             AsyncStorage.setItem('star', JSON.stringify(req?.data));
-            console.log(JSON.stringify(req?.data));
             webview.current.postMessage(
               JSON.stringify({
                 type: 'RN_API_SET_STAR',
@@ -125,14 +124,11 @@ const App = () => {
             );
           }
           case 'RN_API_GET_STAR': {
-            const star = await AsyncStorage.getItem('star', (err, result) => {
-              const star = JSON.parse(result);
-              return star;
-            });
+            const star = await AsyncStorage.getItem('star', (err, result) => result);
             webview.current.postMessage(
               JSON.stringify({
                 type: 'RN_API_GET_STAR',
-                data: star,
+                data: JSON.parse(star),
               }),
             );
           }

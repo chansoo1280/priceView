@@ -7,7 +7,7 @@ import { stringify } from "query-string"
 // #region Local Imports
 import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
 import { Header, Chart, Select, PriceCard, Space, Tooltip, Button, Tab } from "@Components"
-import { Count, IInfoPage, ReduxNextPageContext } from "@Interfaces"
+import { Count, IInfoPage } from "@Interfaces"
 import { Http } from "@Services"
 import { RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"

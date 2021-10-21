@@ -32,7 +32,7 @@ export const removeStar = createAction(StarActionConsts.REMOVE_STAR)<seq>()
 // 액션 객체타입
 export const StarActions = { resetStar, setStar, addStar, removeStar }
 
-const saveStarList = (newStarList: seq[]) => {
+const saveStarList = (newStarList: seq[] | null) => {
     if (window.ReactNativeWebView) {
         window.ReactNativeWebView.postMessage(
             JSON.stringify({
@@ -49,6 +49,12 @@ const starReducer = createReducer<StarReducer, ActionType<typeof StarActions>>(i
         list: [],
     }),
     [StarActionConsts.SET_STAR]: (state, action: any) => {
+        if (action.payload === null) {
+            return {
+                ...state,
+                list: [],
+            }
+        }
         return {
             ...state,
             list: [...action.payload],
