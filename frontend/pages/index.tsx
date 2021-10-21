@@ -28,9 +28,6 @@ const Page = (): JSX.Element => {
         app: appReducer,
         star: starReducer,
     }))
-    if (app.sel_lang !== i18n.language) {
-        router.replace("/", "/", { locale: app.sel_lang || "ko" })
-    }
 
     const [swiper, setSwiper] = useState<any>(null)
 
@@ -52,6 +49,9 @@ const Page = (): JSX.Element => {
         }
     }
     useEffect(() => {
+        if (app.sel_lang !== i18n.language) {
+            router.replace("/", "/", { locale: app.sel_lang || "ko" })
+        }
         if (window.ReactNativeWebView) {
             window.ReactNativeWebView.postMessage(
                 JSON.stringify({
