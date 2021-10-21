@@ -77,7 +77,7 @@ const Page = (): JSX.Element => {
         <>
             <MainHeader>
                 <Title as="h2" className="ir">
-                    카테고리 탭
+                    {t("header.category-sel")}
                 </Title>
                 <SlideTab>
                     {Object.entries(CATEGORY_TYPE_STR).map(([key, value], idx) => (
@@ -96,7 +96,8 @@ const Page = (): JSX.Element => {
                 </SlideTab>
             </MainHeader>
             <Title as="h2" className="ir">
-                {CATEGORY_TYPE_STR[selTab]} 리스트
+                {t("main." + CATEGORY_TYPE_STR[selTab])}
+                {t("word.list")}
             </Title>
             <IconList
                 setSwiper={(swiper: any) => setSwiper(swiper)}

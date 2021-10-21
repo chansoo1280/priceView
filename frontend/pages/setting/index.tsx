@@ -1,12 +1,11 @@
 // #region Global Imports
 import { useState } from "react"
-import Link from "next/link"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 // #endregion Global Imports
 
 // #region Local Imports
-import { ISettingPage, ReduxNextPageContext } from "@Interfaces"
+import { ISettingPage } from "@Interfaces"
 import { Header, Select, Button, Title, AlertModal, SettingList, SettingTitle } from "@Components"
 import { useRouter } from "next/router"
 import { AppActions } from "@Reducers"
@@ -67,7 +66,7 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
                 </SettingList.Item>
                 <SettingList.Item>
                     <Title as="h3">{t("setting.version-info")}</Title>
-                    <SettingList.Text>0.0.0.1</SettingList.Text>
+                    <SettingList.Text>1.0</SettingList.Text>
                 </SettingList.Item>
             </SettingList>
             <AlertModal
@@ -93,11 +92,6 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
         </>
     )
 }
-// Setting.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
-//     return {
-//         transition: "popup",
-//     }
-// }
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
     props: {
         ...(await serverSideTranslations(locale, ["common"])),

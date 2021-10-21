@@ -130,17 +130,17 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             },
         ).then((response) => {
             if (response.status !== 200) {
-                alert("위치정보를 찾지 못했습니다.")
+                alert(t("message.location-information-not-found"))
                 return
             }
             return response.json().then((res) => {
                 if (res.documents && res.documents.length === 0) {
-                    alert("위치정보를 찾지 못했습니다.")
+                    alert(t("message.location-information-not-found"))
                     return
                 }
                 const { region_1depth_name, region_2depth_name } = res.documents[0]?.address
                 if (region_1depth_name !== "서울") {
-                    alert("서울이 아닙니다")
+                    alert(t("message.is-not-Seoul"))
                     return
                 }
                 const guSeq = Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name) || ""
@@ -186,24 +186,18 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     useEffect(() => {
         reqPriceData(selGu)
     }, [])
-    // useEffect(() => {
-    //     reqPriceData(selGu)
-    // }, [selGu])
-    // useEffect(() => {
-    //     updateChart(selType, resData)
-    // }, [selType, resData])
     return (
         <>
             <Header title={t("main." + cateName)}>
-                <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt="뒤로가기" />} />
-                <Tooltip posX="left" contents={getIsStar ? "추가되었습니다." : "삭제되었습니다."}>
+                <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt={t("message.back")} />} />
+                <Tooltip posX="left" contents={getIsStar ? t("message.was-added") : t("message.was-removed")}>
                     <Button
                         show={!getIsStar}
                         onClick={() => {
                             if (cate_info === null) return
                             dispatch(StarActions.addStar(cate_info?.seq))
                         }}
-                        icon={<img src="/static/images/icon_favorite.svg" alt="즐겨찾기 추가" />}
+                        icon={<img src="/static/images/icon_favorite.svg" alt={t("message.add-to-favorites")} />}
                     />
                     <Button
                         show={getIsStar}
@@ -211,7 +205,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                             if (cate_info === null) return
                             dispatch(StarActions.removeStar(cate_info?.seq))
                         }}
-                        icon={<img src="/static/images/icon_favorite_active.svg" alt="즐겨찾기 삭제" />}
+                        icon={<img src="/static/images/icon_favorite_active.svg" alt={t("message.remove-to-favorites")} />}
                     />
                 </Tooltip>
             </Header>
@@ -257,14 +251,14 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                                 }),
                             )
                         } else {
-                            alert("모바일이 아닙니다.")
+                            alert(t("message.not-mobile-device"))
                             return
                         }
                     }}
                     type="default"
-                    icon={<img src="/static/images/icon_location.svg" alt="내위치" />}
+                    icon={<img src="/static/images/icon_location.svg" alt={t("word.my-location")} />}
                 />
-                <span style={{ marginLeft: "auto" }}>{P_YEAR_MONTH} 기준</span>
+                <span style={{ marginLeft: "auto" }}>{P_YEAR_MONTH}</span>
             </Space>
             <Space padding="24px 20px" gap="24px" direction="column">
                 {cateList.map((cateInfo) => {
@@ -306,11 +300,6 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         </>
     )
 }
-// Info.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IInfoPage.InitialProps> => {
-//     return {
-//         transition: "slide",
-//     }
-// }
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
     props: {
         ...(await serverSideTranslations(locale, ["common"])),

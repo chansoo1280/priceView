@@ -5,6 +5,7 @@ import "c3/c3.css"
 
 // #region Local Imports
 import styles from "./Chart.module.scss"
+import { useTranslation } from "next-i18next"
 // #endregion Local Imports
 interface Props {
     children?: React.ReactNode
@@ -22,6 +23,7 @@ const formatComma = function (v: string) {
 const Chart = (props: Props): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const c3 = require("c3")
+    const { t } = useTranslation("common")
     const [chart, setChart] = useState<any>(null)
     const { dataList, dateList, seq, MONTH_BIAS } = props
     const minDate = (() => {
@@ -47,7 +49,7 @@ const Chart = (props: Props): JSX.Element => {
                     format: function (v: any, id: any, i: any, j: any) {
                         if (i === 0) return ""
                         if (v === null) return null
-                        return formatComma(v) + "원"
+                        return formatComma(v) + t("word.won")
                     },
                 },
             },
@@ -58,7 +60,7 @@ const Chart = (props: Props): JSX.Element => {
                 format: {
                     // title: function (d) { return 'Data ' + d; },
                     value: function (v: any, id: any, i: any, j: any) {
-                        return formatComma(v) + "원"
+                        return formatComma(v) + t("word.won")
                     },
                     //            value: d3.format(',') // apply this format to both y and y2
                 },
@@ -78,7 +80,7 @@ const Chart = (props: Props): JSX.Element => {
                     tick: {
                         format: function (x: any, i: any, j: any) {
                             if (x <= minDate) return ""
-                            return x.getMonth() + 1 + "월"
+                            return x.getMonth() + 1 + t("word.month")
                         },
                     },
                 },
@@ -101,7 +103,7 @@ const Chart = (props: Props): JSX.Element => {
                 columns: [dateList, dataList],
                 labels: {
                     format: function (v: any) {
-                        return formatComma(v) + "원"
+                        return formatComma(v) + t("word.won")
                     },
                 },
             })

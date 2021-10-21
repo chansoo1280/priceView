@@ -35,7 +35,10 @@ class WebApp extends App<AppWithStore> {
         return { pageProps: pageProps }
     }
     formatPathname = (url: string) => {
-        return url.replace(/[0-9]{1,}\//g, "").replace("/[seq]", "")
+        return url
+            .replace(/[0-9]{1,}\//g, "")
+            .replace("/[seq]", "")
+            .replace("en/", "")
     }
     handleRouteChange = (url: string) => {
         this.setState({

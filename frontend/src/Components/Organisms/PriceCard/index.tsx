@@ -29,13 +29,15 @@ const PriceCard = (props: Props): JSX.Element => {
             <div className={styles["price-card__con"]} onClick={onClick}>
                 <div className={styles["price-card__header"]}>
                     <h2 className={styles["price-card__title"]}>{t("main." + title)}</h2>
-                    <span className={styles["price-card__unit"]}>단위: {unit}</span>
+                    <span className={styles["price-card__unit"]}>
+                        {t("word.unit")}: {t("main.unit." + unit)}
+                    </span>
                 </div>
                 {price !== "0" ? (
                     <div>
                         <strong className={styles["price-card__price"]}>
                             {price}
-                            <span className={styles["price-card__price-unit"]}>원</span>
+                            <span className={styles["price-card__price-unit"]}>{t("word.won")}</span>
                         </strong>
                         <span
                             className={classNames({
@@ -45,21 +47,21 @@ const PriceCard = (props: Props): JSX.Element => {
                         >
                             <img src={isChangePlus ? "/static/images/arr_price_up.svg" : "/static/images/arr_price_down.svg"} alt="" />
                             {priceChange?.split("-")}
-                            <span className={styles["price-card__price-unit"]}>원</span>
+                            <span className={styles["price-card__price-unit"]}>{t("word.won")}</span>
                         </span>
                     </div>
                 ) : (
                     <div>
-                        <strong className={styles["price-card__price"]}>미등록</strong>
+                        <strong className={styles["price-card__price"]}>{t("word.unregistered")}</strong>
                         <span className={styles["price-card__price-change"]}></span>
                     </div>
                 )}
                 {price === "0" ? (
                     ""
                 ) : isOpen !== true ? (
-                    <Button icon={<img src="/static/images/icon_plus.svg" alt="차트 보기" />} />
+                    <Button icon={<img src="/static/images/icon_plus.svg" alt={t("message.open-chart")} />} />
                 ) : (
-                    <Button icon={<img src="/static/images/icon_minus.svg" alt="차트 닫기" />} />
+                    <Button icon={<img src="/static/images/icon_minus.svg" alt={t("message.close-chart")} />} />
                 )}
             </div>
             <div

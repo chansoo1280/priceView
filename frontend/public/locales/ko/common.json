@@ -5,7 +5,16 @@
         "title": {
             "setting": "설정"
         },
-        "back": "뒤로가기"
+        "back": "뒤로가기",
+        "category-sel": "카테고리 선택"
+    },
+    "word": {
+        "list": "리스트",
+        "my-location": "나의 위치",
+        "unregistered": "미등록",
+        "unit": "단위",
+        "won": "원",
+        "month": "월"
     },
     "main": {
         "favorites": "즐겨찾기",
@@ -88,6 +97,23 @@
         "kabocha(incubator)": "호박(인큐베이터)",
         "kabocha(incubator),intermediate-quality": "호박(인큐베이터),중간",
         "zucchini": "애호박",
+        "unit": {
+            "1개": "1개",
+            "1 개": "1 개",
+            "10개": "10개",
+            "15개": "15개",
+            "30개": "30개",
+            "1망": "1망",
+            "1마리": "1마리",
+            "1포기": "1포기",
+            "특란": "특란",
+            "1근": "1근",
+            "100g": "100g",
+            "500g": "500g",
+            "600g": "600g",
+            "1kg": "1kg",
+            "1.5kg": "1.5kg"
+        },
         "type": {
             "overall-average": "전체평균",
             "traditional-market": "전통시장",
@@ -136,6 +162,13 @@
     },
     "message": {
         "was-added": "추가되었습니다.",
-        "was-removed": "삭제되었습니다."
+        "was-removed": "삭제되었습니다.",
+        "add-to-favorites": "즐겨찾기 추가",
+        "remove-to-favorites": "즐겨찾기 삭제",
+        "not-mobile-device": "모바일 기기가 아닙니다.",
+        "location-information-not-found": "위치정보를 찾지 못했습니다.",
+        "is-not-Seoul": "서울이 아닙니다.",
+        "open-chart": "차트 보기",
+        "close-chart": "차트 닫기"
     }
 }
