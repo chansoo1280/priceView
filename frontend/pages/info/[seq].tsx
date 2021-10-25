@@ -18,11 +18,6 @@ import { GetStaticPaths } from "next"
 
 const RN_API_GET_POSITION = "RN_API_GET_POSITION"
 
-const formatComma = function (v: string) {
-    if (v === null) return "0"
-    return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
-
 const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     const router = useRouter()
     const { seq } = router.query
@@ -83,12 +78,12 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                 const dateList = ["Dates"]
                 const dataList = [t("main." + cate_info?.name || "")]
 
-                for (let i = 0; minDate < curDate; i++) {
+                for (; minDate < curDate; minDate.setMonth(minDate.getMonth() + 1)) {
                     const cateResultInfo = cateResult.find(({ P_YEAR_MONTH }) => P_YEAR_MONTH === minDate.format("yyyy-MM"))
+                    const value = (cateResultInfo && String(cateResultInfo?.AVER_VAL)) || (null as unknown as string)
+
                     dateList.push(minDate.format("yyyy-MM-01"))
-                    const value = cateResultInfo && String(cateResultInfo?.AVER_VAL)
-                    dataList.push(value !== "0" ? value || (null as unknown as string) : (null as unknown as string))
-                    minDate.setMonth(minDate.getMonth() + 1)
+                    dataList.push(value !== "0" ? value : (null as unknown as string))
                 }
 
                 return {
@@ -115,8 +110,8 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         updateChart(selType, result || [])
     }
 
-    const reqPositionData = ({ x, y }: { x: string; y: string }) => {
-        fetch(
+    const reqPositionData = ({ x, y }: { x: string; y: string }): Promise<string | undefined> => {
+        return fetch(
             `https://dapi.kakao.com/v2/local/geo/coord2address.json?${stringify({
                 x,
                 y,
@@ -143,22 +138,23 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                     alert(t("message.is-not-Seoul"))
                     return
                 }
-                const guSeq = Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name) || ""
-                setSelGu(guSeq)
-                reqPriceData(guSeq)
+                return Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name) || ""
             })
         })
     }
 
-    const listener = (event: any) => {
+    const listener = async (event: any) => {
         const { data, type } = JSON.parse(event.data)
         switch (type) {
             case RN_API_GET_POSITION: {
                 //alert(data.coords.latitude + "-" + data.coords.longitude)
-                reqPositionData({
-                    y: data.coords.latitude,
-                    x: data.coords.longitude,
-                })
+                const guSeq =
+                    (await reqPositionData({
+                        y: data.coords.latitude,
+                        x: data.coords.longitude,
+                    })) || ""
+                setSelGu(guSeq)
+                reqPriceData(guSeq)
                 break
             }
             default: {
@@ -212,7 +208,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             <Tab>
                 {Object.entries(M_TYPE)
                     .reverse()
-                    .map(([key, value], idx) => (
+                    .map(([key, value]) => (
                         <Tab.Item
                             key={key}
                             onClick={() => {
@@ -261,36 +257,33 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                 <span style={{ marginLeft: "auto" }}>{P_YEAR_MONTH}</span>
             </Space>
             <Space padding="24px 20px" gap="24px" direction="column">
-                {cateList.map((cateInfo) => {
-                    const { A_SEQ, A_NAME, A_UNIT, dataList, dateList, isOpen } = cateInfo
-                    if (dataList === null || 4 <= dataList.filter((val) => val === null).length)
+                {cateList.map(({ A_SEQ, A_NAME, A_UNIT, dataList, dateList, isOpen }) => {
+                    if (dataList === null || 4 <= dataList.filter((val) => val === null).length) {
                         return (
                             <PriceCard key={A_SEQ} title={A_NAME} unit={A_UNIT} price={"0"} priceChange={""}>
                                 <Chart MONTH_BIAS={MONTH_BIAS} seq={A_SEQ} dataList={dataList} dateList={dateList} />
                             </PriceCard>
                         )
-                    const priceChange = (Number(dataList && dataList[dataList.length - 1]) || 0) - (Number(dataList && dataList[dataList.length - 2]) || 0)
+                    }
+                    const lastPrice1 = Number(dataList && dataList[dataList.length - 1]) || 0
+                    const lastPrice2 = Number(dataList && dataList[dataList.length - 2]) || 0
+                    const priceChange = lastPrice1 - lastPrice2
                     return (
                         <PriceCard
                             key={A_SEQ}
                             onClick={() => {
                                 setCateList(
-                                    cateList.map((obj) => {
-                                        if (A_SEQ === obj.A_SEQ) {
-                                            return {
-                                                ...cateInfo,
-                                                isOpen: !isOpen,
-                                            }
-                                        }
-                                        return obj
-                                    }),
+                                    cateList.map((obj) => ({
+                                        ...obj,
+                                        isOpen: A_SEQ === obj.A_SEQ ? !isOpen : obj.isOpen,
+                                    })),
                                 )
                             }}
                             isOpen={isOpen}
                             title={A_NAME}
                             unit={A_UNIT}
-                            price={formatComma((dataList && dataList[dataList.length - 1]) || "0")}
-                            priceChange={formatComma(String(priceChange))}
+                            price={String(lastPrice1)}
+                            priceChange={String(priceChange)}
                         >
                             <Chart MONTH_BIAS={MONTH_BIAS} seq={A_SEQ} dataList={dataList} dateList={dateList} />
                         </PriceCard>

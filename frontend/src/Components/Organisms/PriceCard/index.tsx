@@ -19,10 +19,17 @@ interface Props {
     isOpen?: boolean
 }
 
+const formatComma = function (v: string | null) {
+    if (v === null) return "0"
+    return v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
 const PriceCard = (props: Props): JSX.Element => {
     const { title, unit, price, priceChange, isOpen, children, onClick } = props
     const { t } = useTranslation("common")
-    const isChangePlus = priceChange !== undefined && 0 <= Number(priceChange?.replace(/,/g, ""))
+    const formattedPrice = formatComma(price || null)
+    const formattedPriceChange = formatComma(priceChange || null)
+    const isChangePlus = formattedPriceChange !== undefined && 0 <= Number(formattedPriceChange?.replace(/,/g, ""))
     return (
         <div className={styles["price-card"]}>
             <div className={styles["price-card__con"]} onClick={onClick}>
@@ -32,10 +39,10 @@ const PriceCard = (props: Props): JSX.Element => {
                         {t("word.unit")}: {t("main.unit." + unit)}
                     </span>
                 </div>
-                {price !== "0" ? (
+                {formattedPrice !== "0" ? (
                     <div>
                         <strong className={styles["price-card__price"]}>
-                            {price}
+                            {formattedPrice}
                             <span className={styles["price-card__price-unit"]}>{t("word.won")}</span>
                         </strong>
                         <span
@@ -45,7 +52,7 @@ const PriceCard = (props: Props): JSX.Element => {
                             })}
                         >
                             <img src={isChangePlus ? "/static/images/arr_price_up.svg" : "/static/images/arr_price_down.svg"} alt="" />
-                            {priceChange?.split("-")}
+                            {formattedPriceChange?.split("-")}
                             <span className={styles["price-card__price-unit"]}>{t("word.won")}</span>
                         </span>
                     </div>
@@ -55,7 +62,7 @@ const PriceCard = (props: Props): JSX.Element => {
                         <span className={styles["price-card__price-change"]}></span>
                     </div>
                 )}
-                {price === "0" ? (
+                {formattedPrice === "0" ? (
                     ""
                 ) : isOpen !== true ? (
                     <Button icon={<img src="/static/images/icon_plus.svg" alt={t("message.open-chart")} />} />

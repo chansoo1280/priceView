@@ -29,12 +29,12 @@ const Page = (): JSX.Element => {
         star: starReducer,
     }))
 
-    const [swiper, setSwiper] = useState<any>(null)
-
     const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => ({
         ...info,
         type: CATEGORY_TYPE.STAR,
     }))
+    const categoryTypeStrList = Object.entries(CATEGORY_TYPE_STR)
+    const [swiper, setSwiper] = useState<any>(null)
     const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 1)
     const listener = (event: any) => {
         const { data, type } = JSON.parse(event.data)
@@ -80,7 +80,7 @@ const Page = (): JSX.Element => {
                     {t("header.category-sel")}
                 </Title>
                 <SlideTab>
-                    {Object.entries(CATEGORY_TYPE_STR).map(([key, value], idx) => (
+                    {categoryTypeStrList.map(([key, value], idx) => (
                         <SlideTab.Item
                             key={key}
                             onClick={() => {
@@ -103,12 +103,12 @@ const Page = (): JSX.Element => {
                 setSwiper={(swiper: any) => setSwiper(swiper)}
                 selTab={selTab}
                 onChange={(e: any) => {
-                    const [key, value] = Object.entries(CATEGORY_TYPE_STR)[e.activeIndex]
+                    const [key, value] = categoryTypeStrList[e.activeIndex]
                     setSelTab(Number(key))
                     dispatch(AppActions.setCate(Number(key)))
                 }}
             >
-                {Object.entries(CATEGORY_TYPE_STR).map(([key, value]) => (
+                {categoryTypeStrList.map(([key, value]) => (
                     <SwiperSlide key={key}>
                         <IconList.Item key={key}>
                             {CATEGORY_LIST.concat(starList)
