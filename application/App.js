@@ -1,9 +1,13 @@
 import React, {useState, useRef, useEffect} from 'react';
 import Geolocation from 'react-native-geolocation-service';
-import {BackHandler, Platform, ToastAndroid, PermissionsAndroid} from 'react-native';
+import {
+  BackHandler,
+  Platform,
+  ToastAndroid,
+  PermissionsAndroid,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { WebView } from 'react-native-webview';
-
+import {WebView} from 'react-native-webview';
 
 const App = () => {
   const webview = useRef(null);
@@ -113,6 +117,7 @@ const App = () => {
               },
               {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
             );
+            break;
           }
           case 'RN_API_SET_STAR': {
             AsyncStorage.setItem('star', JSON.stringify(req?.data));
@@ -122,15 +127,20 @@ const App = () => {
                 data: 'success',
               }),
             );
+            break;
           }
           case 'RN_API_GET_STAR': {
-            const star = await AsyncStorage.getItem('star', (err, result) => result);
+            const star = await AsyncStorage.getItem(
+              'star',
+              (err, result) => result,
+            );
             webview.current.postMessage(
               JSON.stringify({
                 type: 'RN_API_GET_STAR',
                 data: JSON.parse(star),
               }),
             );
+            break;
           }
         }
       }}
