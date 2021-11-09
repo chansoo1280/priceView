@@ -1,99 +1,112 @@
-export const CATEGORY_TYPE_MEAT = 1
-export const CATEGORY_TYPE_FISH = 2
-export const CATEGORY_TYPE_VEGETABLE = 3
-export const CATEGORY_LIST: any = [
+export const CATE_OBJ = {
+    MEAT: 1,
+    FISH: 2,
+    VEGETABLE: 3,
+} as const
+export type CATE_OBJ = typeof CATE_OBJ[keyof typeof CATE_OBJ]
+
+export const SUBCATE_LIST: {
+    name: string
+    type: number
+    seq_list: string[]
+}[] = [
     {
         name: '돼지고기',
-        type: CATEGORY_TYPE_MEAT,
+        type: CATE_OBJ.MEAT,
         seq_list: ['285', '52', '99'],
     },
     {
         name: '쇠고기',
-        type: CATEGORY_TYPE_MEAT,
+        type: CATE_OBJ.MEAT,
         seq_list: ['278', '58', '82', '131', '106'],
     },
     {
         name: '닭고기',
-        type: CATEGORY_TYPE_MEAT,
+        type: CATE_OBJ.MEAT,
         seq_list: ['18', '275', '283', '138'],
     },
     {
         name: '달걀',
-        type: CATEGORY_TYPE_MEAT,
+        type: CATE_OBJ.MEAT,
         seq_list: ['171', '321', '320', '181'],
     },
     {
         name: '고등어',
-        type: CATEGORY_TYPE_FISH,
+        type: CATE_OBJ.FISH,
         seq_list: ['13', '266', '267', '268', '269', '316', '318'],
     },
     {
         name: '조기',
-        type: CATEGORY_TYPE_FISH,
+        type: CATE_OBJ.FISH,
         seq_list: ['303', '258', '259', '261', '260', '135', '313', '314'],
     },
     {
         name: '명태',
-        type: CATEGORY_TYPE_FISH,
+        type: CATE_OBJ.FISH,
         seq_list: ['302', '262', '263', '264', '265', '184', '152', '315'],
     },
     {
         name: '동태',
-        type: CATEGORY_TYPE_FISH,
+        type: CATE_OBJ.FISH,
         seq_list: ['288'],
     },
     {
         name: '오징어',
-        type: CATEGORY_TYPE_FISH,
+        type: CATE_OBJ.FISH,
         seq_list: ['253', '54', '254', '256', '255', '257'],
     },
     {
         name: '배추',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['26', '125', '271', '307'],
     },
     {
         name: '상추',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['23', '310'],
     },
     {
         name: '무',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['25', '133', '274', '308'],
     },
     {
         name: '양파',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['24', '309'],
     },
     {
         name: '오이',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['22', '311'],
     },
     {
         name: '배',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['27', '284', '276', '248', '306'],
     },
     {
         name: '사과',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['28', '50', '305', '270', '244', '279'],
     },
     {
         name: '호박',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['277', '119', '118'],
     },
     {
         name: '애호박',
-        type: CATEGORY_TYPE_VEGETABLE,
+        type: CATE_OBJ.VEGETABLE,
         seq_list: ['312'],
     },
 ]
-export const NAME_OBJ: any = {
+export const NAME_OBJ: {
+    [x: string]: {
+        A_NAME: string
+        A_UNIT: string[]
+    }
+} = {
     '285': { A_NAME: '돼지고기', A_UNIT: ['600g', '1근'] },
     '52': { A_NAME: '돼지고기(삼겹살)', A_UNIT: ['600g', '1근'] },
     '99': { A_NAME: '돼지고기(생삼겹살)', A_UNIT: ['600g', '1근'] },
@@ -170,12 +183,17 @@ export const NAME_OBJ: any = {
     '118': { A_NAME: '호박(인큐베이터),중간', A_UNIT: ['1개'] },
     '312': { A_NAME: '애호박', A_UNIT: ['1개', '1 개'] },
 }
-export const TYPE_NAME_OBJ: any = {
+export const TYPE_NAME_OBJ: {
+    [x: string]: string
+} = {
     '': '',
     '001': '전통시장',
     '002': '대형마트',
-}
-export const GU_NAME_OBJ: any = {
+} as const
+export const GU_NAME_OBJ: {
+    [x: string]: string
+} = {
+    '': '',
     '680000': '강남구',
     '440000': '마포구',
     '305000': '강북구',
@@ -201,33 +219,6 @@ export const GU_NAME_OBJ: any = {
     '560000': '영등포구',
     '260000': '중랑구',
     '230000': '동대문구',
-}
-export const M_TYPE_CODE_LIST = ['', '001', '002']
-export const M_GU_CODE_LIST = [
-    '',
-    '305000',
-    '440000',
-    '470000',
-    '170000',
-    '350000',
-    '320000',
-    '740000',
-    '410000',
-    '215000',
-    '680000',
-    '650000',
-    '380000',
-    '710000',
-    '290000',
-    '590000',
-    '545000',
-    '620000',
-    '110000',
-    '140000',
-    '200000',
-    '500000',
-    '560000',
-    '530000',
-    '230000',
-    '260000',
-]
+} as const
+export const M_TYPE_CODE_LIST = Object.keys(TYPE_NAME_OBJ)
+export const M_GU_CODE_LIST = Object.keys(GU_NAME_OBJ)

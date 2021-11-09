@@ -8,6 +8,7 @@ import { AppService } from './app.service'
 import { PriceModule } from './price/price.module'
 import { CountModule } from './count/count.module'
 import { configService } from './config/config.service'
+import { ItemModule } from './item/item.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { configService } from './config/config.service'
         TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
         PriceModule,
         CountModule,
+        ItemModule,
     ],
     controllers: [AppController],
     providers: [AppService],
