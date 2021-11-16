@@ -16,6 +16,14 @@ async function bootstrap() {
             transform: true, // 요청에서 넘어온 자료들의 형변환
         }),
     )
-    await app.listen(10001)
+
+    await app.listen(
+        // eslint-disable-next-line no-nested-ternary
+        (process.env.NODE_ENV === 'test'
+            ? process.env.PORT_TEST
+            : process.env.NODE_ENV === 'development'
+            ? process.env.PORT_DEV
+            : process.env.PORT) || 10001,
+    )
 }
 bootstrap()

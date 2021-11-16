@@ -1,16 +1,4 @@
-import {
-    Entity,
-    Column,
-    BaseEntity,
-    PrimaryGeneratedColumn,
-    ManyToOne,
-    JoinColumn,
-    OneToMany,
-    CreateDateColumn,
-    UpdateDateColumn,
-    DeleteDateColumn,
-    Unique,
-} from 'typeorm'
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, Unique } from 'typeorm'
 
 @Entity()
 export class Count extends BaseEntity {

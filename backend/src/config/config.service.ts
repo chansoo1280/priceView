@@ -14,7 +14,11 @@ class ConfigService {
     constructor(private env: { [k: string]: string | undefined }) {}
 
     private getValue(key: string, throwOnMissing = true): string {
-        const value = this.env.NODE_ENV === 'test' ? this.env[`${key}_TEST`] : this.env[key]
+        const value =
+            this.env[
+                // eslint-disable-next-line no-nested-ternary
+                this.env.NODE_ENV === 'test' ? `${key}_TEST` : this.env.NODE_ENV === 'development' ? `${key}_DEV` : key
+            ] || ''
 
         if ((!value && throwOnMissing) || value === undefined) {
             throw new Error(`config error - missing env.${key} =  ${JSON.stringify(this.env)}`)
@@ -33,6 +37,7 @@ class ConfigService {
     }
 
     public getTypeOrmConfig(): TypeOrmModuleOptions {
+        console.log(this.getValue('MSSQL_ENTITIES'))
         return {
             type: 'mssql',
             host: this.getValue('MSSQL_HOST'),
