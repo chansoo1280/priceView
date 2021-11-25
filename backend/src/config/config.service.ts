@@ -37,7 +37,6 @@ class ConfigService {
     }
 
     public getTypeOrmConfig(): TypeOrmModuleOptions {
-        console.log(this.getValue('MSSQL_ENTITIES'))
         return {
             type: 'mssql',
             host: this.getValue('MSSQL_HOST'),
@@ -48,13 +47,14 @@ class ConfigService {
 
             entities: JSON.parse(this.getValue('MSSQL_ENTITIES')),
 
-            logging: false, // (this.env.NODE_ENV === 'test'),
-            synchronize: true, // (this.env.NODE_ENV === 'test'),
+            logging: true, // (this.env.NODE_ENV === 'test'),
+            synchronize: false, // (this.env.NODE_ENV === 'test'),
             options: {
                 encrypt: false,
                 enableArithAbort: true,
             },
-            requestTimeout: 130000,
+            requestTimeout: 0,
+            connectionTimeout: 0,
             ssl: this.isProduction(),
         }
     }
