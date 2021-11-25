@@ -1,7 +1,7 @@
 import { Controller, Get, Req, Res } from '@nestjs/common'
 import { Response, Request } from 'express'
 import handleResult, { ResCode } from 'src/common/handleResult'
-import { CATE_OBJ, GU_NAME_OBJ, NAME_OBJ, SUBCATE_LIST, TYPE_NAME_OBJ } from 'src/common/define'
+import { CATE_NAME, CATE_OBJ, GU_NAME_OBJ, NAME_OBJ, SUBCATE_LIST, TYPE_NAME_OBJ } from 'src/common/define'
 import { ItemService } from './item.service'
 
 @Controller('item')
@@ -10,15 +10,14 @@ export class ItemController {
 
     @Get()
     async getItems(@Req() req: Request, @Res() res: Response): Promise<Response> {
-        console.log(this)
         return handleResult(NAME_OBJ, res)
     }
 
     @Get('/cate')
     async getCates(@Req() req: Request, @Res() res: Response): Promise<Response> {
-        console.log(this)
         return handleResult(
             {
+                CATE_NAME,
                 CATE_OBJ,
                 SUBCATE_LIST,
             },
@@ -28,7 +27,6 @@ export class ItemController {
 
     @Get('/option')
     async getOptions(@Req() req: Request, @Res() res: Response): Promise<Response> {
-        console.log(this)
         return handleResult(
             {
                 TYPE_NAME_OBJ,

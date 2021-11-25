@@ -5,99 +5,106 @@ export const CATE_OBJ = {
 } as const
 export type CATE_OBJ = typeof CATE_OBJ[keyof typeof CATE_OBJ]
 
+export const CATE_NAME = {
+    [CATE_OBJ.MEAT]: 'meat',
+    [CATE_OBJ.FISH]: 'fish',
+    [CATE_OBJ.VEGETABLE]: 'vegetable',
+} as const
+export type CATE_NAME = typeof CATE_NAME[keyof typeof CATE_NAME]
+
 export const SUBCATE_LIST: {
     name: string
-    type: number
+    cate: CATE_OBJ
     seqList: string[]
 }[] = [
     {
         name: '돼지고기',
-        type: CATE_OBJ.MEAT,
+        cate: CATE_OBJ.MEAT,
         seqList: ['285', '52', '99'],
     },
     {
         name: '쇠고기',
-        type: CATE_OBJ.MEAT,
+        cate: CATE_OBJ.MEAT,
         seqList: ['278', '58', '82', '131', '106'],
     },
     {
         name: '닭고기',
-        type: CATE_OBJ.MEAT,
+        cate: CATE_OBJ.MEAT,
         seqList: ['18', '275', '283', '138'],
     },
     {
         name: '달걀',
-        type: CATE_OBJ.MEAT,
+        cate: CATE_OBJ.MEAT,
         seqList: ['171', '321', '320', '181'],
     },
     {
         name: '고등어',
-        type: CATE_OBJ.FISH,
+        cate: CATE_OBJ.FISH,
         seqList: ['13', '266', '267', '268', '269', '316', '318'],
     },
     {
         name: '조기',
-        type: CATE_OBJ.FISH,
+        cate: CATE_OBJ.FISH,
         seqList: ['303', '258', '259', '261', '260', '135', '313', '314'],
     },
     {
         name: '명태',
-        type: CATE_OBJ.FISH,
+        cate: CATE_OBJ.FISH,
         seqList: ['302', '262', '263', '264', '265', '184', '152', '315'],
     },
     {
         name: '동태',
-        type: CATE_OBJ.FISH,
+        cate: CATE_OBJ.FISH,
         seqList: ['288'],
     },
     {
         name: '오징어',
-        type: CATE_OBJ.FISH,
+        cate: CATE_OBJ.FISH,
         seqList: ['253', '54', '254', '256', '255', '257'],
     },
     {
         name: '배추',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['26', '125', '271', '307'],
     },
     {
         name: '상추',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['23', '310'],
     },
     {
         name: '무',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['25', '133', '274', '308'],
     },
     {
         name: '양파',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['24', '309'],
     },
     {
         name: '오이',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['22', '311'],
     },
     {
         name: '배',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['27', '284', '276', '248', '306'],
     },
     {
         name: '사과',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['28', '50', '305', '270', '244', '279'],
     },
     {
         name: '호박',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['277', '119', '118'],
     },
     {
         name: '애호박',
-        type: CATE_OBJ.VEGETABLE,
+        cate: CATE_OBJ.VEGETABLE,
         seqList: ['312'],
     },
 ]

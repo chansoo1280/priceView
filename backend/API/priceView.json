@@ -1,0 +1,327 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "description": "서울특별시 물가조회 api 문서입니다.\n\nprice: 물가정보 / \ncount: 물가정보를 바탕으로 만든 월별 물가평균 데이터 / \nitem: 물가정보의 종류 define들\n\n",
+        "id": "be28cdea-82fd-4fbb-8fc8-f11af552ab66",
+        "name": "priceView"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:5000",
+              "path": "/api"
+            },
+            "id": "7028efc9-519c-4d51-987e-de4e96e63c5e",
+            "name": "/api - Get",
+            "headers": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "P_YEAR_MONTH",
+                    "value": "2021-11"
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:5000",
+              "path": "/api/count"
+            },
+            "id": "63a980c1-8cd2-468c-9680-ac0bf60bbbca",
+            "name": "/api/count - Get",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "secret",
+                "value": "d3tgsd546!%Y&~!~"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "P_YEAR_MONTH",
+                    "value": "2021-06"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "M_TYPE_CODE",
+                    "value": ""
+                  },
+                  {
+                    "enabled": true,
+                    "name": "M_GU_CODE",
+                    "value": ""
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:5000",
+              "path": "/api/count/28"
+            },
+            "id": "0ed2f53a-8d1e-4eab-a459-815eefbe4069",
+            "name": "/api/count/:seq - Get",
+            "headers": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:5000",
+              "path": "/api/item"
+            },
+            "id": "17fb939d-452c-46de-a4e7-194707709897",
+            "name": "/api/item - Get",
+            "headers": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:5000",
+              "path": "/api/item/cate"
+            },
+            "id": "ec135158-1e59-4461-a7ed-bae81cd3c2b2",
+            "name": "/api/item/cate - Get",
+            "headers": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:5000",
+              "path": "/api/item/option"
+            },
+            "id": "62a33447-59a0-4a43-b943-9e8d8d13b8bf",
+            "name": "/api/item/option - Get",
+            "headers": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "P_YEAR_MONTH",
+                    "value": "2020-05"
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:5000",
+              "path": "/api/price"
+            },
+            "id": "a58d46e0-3b98-47f0-9121-192eadfb2f66",
+            "name": "/api/price - Get",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "secret",
+                "value": "d3tgsd546!%Y&~!~"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "A_NAME",
+                    "value": "애호박"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "A_UNIT",
+                    "value": "[\"1개\", \"1 개\"]"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "P_YEAR_MONTH",
+                    "value": "2020-02"
+                  }
+                ]
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost:5000",
+              "path": "/api/price/cnt"
+            },
+            "id": "e6591859-6618-4cc3-9e9b-0884d953e899",
+            "name": "/api/price/cnt - Get",
+            "headers": []
+          }
+        }
+      ]
+    }
+  ]
+}
