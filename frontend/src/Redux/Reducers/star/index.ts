@@ -7,7 +7,7 @@ import { createAction, ActionType, createReducer, PayloadAction, action } from "
 
 // 상태의 타입 선언
 type seq = number
-interface StarReducer {
+export interface StarReducer {
     list: seq[]
 }
 // 상태 초기화

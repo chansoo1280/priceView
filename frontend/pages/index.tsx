@@ -5,20 +5,15 @@ import { SwiperSlide } from "swiper/react"
 
 // #region Local Imports
 import { Title, SlideTab, IconList, MainHeader } from "@Components"
-import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR } from "@Definitions"
+import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR, RN_API } from "@Definitions"
 import { AppActions, RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
+import { WebViewMessage } from "@Services/API/WebViewMessage"
+import Swiper from "swiper"
 // #endregion Local Imports
-
-declare global {
-    interface Window {
-        ReactNativeWebView: any
-    }
-}
-const RN_API_GET_STAR = "RN_API_GET_STAR"
 
 const Page = (): JSX.Element => {
     const { t, i18n } = useTranslation("common")
@@ -34,44 +29,54 @@ const Page = (): JSX.Element => {
         type: CATEGORY_TYPE.STAR,
     }))
     const categoryTypeStrList = Object.entries(CATEGORY_TYPE_STR)
-    const [swiper, setSwiper] = useState<any>(null)
+    const [swiper, setSwiper] = useState<Swiper>()
     const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 1)
-    const listener = (event: any) => {
-        const { data, type } = JSON.parse(event.data)
-        switch (type) {
-            case RN_API_GET_STAR: {
-                dispatch(StarActions.setStar(data))
-                break
-            }
-            default: {
-                break
-            }
-        }
+    // const listener = (event: any) => {
+    //     const { data, type } = JSON.parse(event.data)
+    //     switch (type) {
+    //         case RN_API_GET_STAR: {
+    //             dispatch(StarActions.setStar(data))
+    //             break
+    //         }
+    //         default: {
+    //             break
+    //         }
+    //     }
+    // }
+    const getStarList = async () => {
+        const data = await WebViewMessage<typeof RN_API.RN_API_GET_STAR>(RN_API.RN_API_GET_STAR)
+        if (data === null) return
+        dispatch(StarActions.setStar(data))
+    }
+    const setSlideIdx = (key: string) => {
+        dispatch(AppActions.setCate(Number(key)))
+        setSelTab(Number(key))
     }
     useEffect(() => {
         if (app.sel_lang !== i18n.language) {
             router.replace("/", "/", { locale: app.sel_lang || "ko" })
         }
-        if (window.ReactNativeWebView) {
-            window.ReactNativeWebView.postMessage(
-                JSON.stringify({
-                    type: RN_API_GET_STAR,
-                }),
-            )
-            /** android */
-            document.addEventListener("message", listener)
-            /** ios */
-            window.addEventListener("message", listener)
-        } else {
-            // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
-            // alert("모바일이 아닙니다.")
-        }
-        return () => {
-            /** android */
-            document.removeEventListener("message", listener)
-            /** ios */
-            window.removeEventListener("message", listener)
-        }
+        getStarList()
+        // if (window.ReactNativeWebView) {
+        //     window.ReactNativeWebView.postMessage(
+        //         JSON.stringify({
+        //             type: RN_API_GET_STAR,
+        //         }),
+        //     )
+        //     /** android */
+        //     document.addEventListener("message", listener)
+        //     /** ios */
+        //     window.addEventListener("message", listener)
+        // } else {
+        //     // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
+        //     // alert("모바일이 아닙니다.")
+        // }
+        // return () => {
+        //     /** android */
+        //     document.removeEventListener("message", listener)
+        //     /** ios */
+        //     window.removeEventListener("message", listener)
+        // }
     }, [])
     return (
         <>
@@ -85,8 +90,7 @@ const Page = (): JSX.Element => {
                             key={key}
                             onClick={() => {
                                 swiper?.slideTo(idx)
-                                dispatch(AppActions.setCate(Number(key)))
-                                setSelTab(Number(key))
+                                setSlideIdx(key)
                             }}
                             name={t("main." + value)}
                             isStar={Number(key) === CATEGORY_TYPE.STAR}
@@ -100,12 +104,11 @@ const Page = (): JSX.Element => {
                 {t("word.list")}
             </Title>
             <IconList
-                setSwiper={(swiper: any) => setSwiper(swiper)}
+                setSwiper={setSwiper}
                 selTab={selTab}
                 onChange={(e: any) => {
                     const [key, value] = categoryTypeStrList[e.activeIndex]
-                    setSelTab(Number(key))
-                    dispatch(AppActions.setCate(Number(key)))
+                    setSlideIdx(key)
                 }}
             >
                 {categoryTypeStrList.map(([key, value]) => (
