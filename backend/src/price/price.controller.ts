@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query, Req, Res } from '@nestjs/common'
 import handleResult, { ResCode } from 'src/common/handleResult'
 import { Response, Request } from 'express'
 import { SECRET } from 'src/common/constants'
-import { NAME_OBJ } from 'src/common/define'
+import { ITEM_OBJ } from '@Definitions'
 import { PriceService } from './price.service'
 import { SelectCntPriceDto } from './dto/select_cnt-price.dto'
 import { InitPriceDto } from './dto/init-count.dto'
@@ -54,9 +54,9 @@ export class PriceController {
         @Query() { P_YEAR_MONTH }: SelectCntPriceDto,
         @Res() res: Response,
     ): Promise<Response> {
-        const { A_NAME, A_UNIT } = NAME_OBJ[Number(M_SEQ)]
+        const { A_NAME_DATA, A_UNIT } = ITEM_OBJ[Number(M_SEQ)]
         const result = await this.priceService.getCnt({
-            name: A_NAME,
+            name: A_NAME_DATA,
             A_UNIT,
             P_YEAR_MONTH,
         })

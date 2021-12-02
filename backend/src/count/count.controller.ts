@@ -1,5 +1,5 @@
 import { Controller, Get, Query, Req, Res } from '@nestjs/common'
-import { GU_NAME_OBJ, M_GU_CODE_LIST, M_TYPE_CODE_LIST, NAME_OBJ, TYPE_NAME_OBJ } from 'src/common/define'
+import { M_GU, M_GU_CODE_LIST, M_TYPE_CODE_LIST, ITEM_OBJ, M_TYPE_DATA } from '@Definitions'
 import handleResult, { ResCode } from 'src/common/handleResult'
 import { Price } from 'src/price/price.entity'
 import { PriceService } from 'src/price/price.service'
@@ -23,7 +23,7 @@ export class CountController {
         const insertCount = async (P_YEAR_MONTH: Price['P_YEAR_MONTH'], A_SEQ: number, A_UNIT: string[]) => {
             console.log(A_SEQ)
             const result = await this.priceService.getCnt({
-                name: NAME_OBJ[A_SEQ].A_NAME,
+                name: ITEM_OBJ[A_SEQ].A_NAME_DATA,
                 A_UNIT,
                 P_YEAR_MONTH,
             })
@@ -61,14 +61,14 @@ export class CountController {
                         await this.countService.createCount({
                             C_CODE,
                             A_SEQ: String(A_SEQ),
-                            A_NAME: NAME_OBJ[A_SEQ].A_NAME,
+                            A_NAME: ITEM_OBJ[A_SEQ].A_NAME_DATA,
                             A_UNIT: A_UNIT[0],
                             P_YEAR: P_YEAR_MONTH.slice(0, 4),
                             P_YEAR_MONTH,
                             M_TYPE_CODE: M_TYPE_CODE_LIST[i],
-                            M_TYPE_NAME: TYPE_NAME_OBJ[M_TYPE_CODE_LIST[i]] || '',
+                            M_TYPE_NAME: M_TYPE_DATA[M_TYPE_CODE_LIST[i]] || '',
                             M_GU_CODE: M_GU_CODE_LIST[j],
-                            M_GU_NAME: GU_NAME_OBJ[M_GU_CODE_LIST[j]] || '',
+                            M_GU_NAME: M_GU[M_GU_CODE_LIST[j]] || '',
                             length: insertList.length,
                             AVER_VAL: A_TOTAL_PRICE / insertList.length || 0,
                         })
@@ -77,9 +77,9 @@ export class CountController {
             }
         }
         console.log(P_YEAR_MONTH)
-        await Object.keys(NAME_OBJ).reduce(async (previousPromise: any, A_SEQ) => {
+        await Object.keys(ITEM_OBJ).reduce(async (previousPromise: any, A_SEQ) => {
             await previousPromise
-            return insertCount(P_YEAR_MONTH, Number(A_SEQ), NAME_OBJ[Number(A_SEQ)].A_UNIT)
+            return insertCount(P_YEAR_MONTH, Number(A_SEQ), ITEM_OBJ[Number(A_SEQ)].A_UNIT)
         }, Promise.resolve())
         // await insertCount("2020-02", Number("312"), ["1개"])
         console.log('done')

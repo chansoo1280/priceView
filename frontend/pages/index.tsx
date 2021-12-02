@@ -5,7 +5,7 @@ import { SwiperSlide } from "swiper/react"
 
 // #region Local Imports
 import { Title, SlideTab, IconList, MainHeader } from "@Components"
-import { RN_API } from "@Definitions"
+import { RN_API, SUBCATE_LIST } from "@Definitions"
 import { AppActions, RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "next-i18next"
@@ -14,11 +14,10 @@ import { useRouter } from "next/router"
 import { WebViewMessage } from "@Services/API/WebViewMessage"
 import Swiper from "swiper"
 import { Http } from "@Services"
+import { CATE, CATE_NAME, CATE_NAME_LIST } from "@Interfaces"
 // #endregion Local Imports
 
-const Page = ({ result }: any): JSX.Element => {
-    const { CATE_NAME, CATE_OBJ, SUBCATE_LIST } = result
-
+const Page = (): JSX.Element => {
     const { t, i18n } = useTranslation("common")
     const router = useRouter()
     const dispatch = useDispatch()
@@ -27,27 +26,20 @@ const Page = ({ result }: any): JSX.Element => {
         star: starReducer,
     }))
 
-    const starList = SUBCATE_LIST.filter(({ seq }: any) => star.list.includes(seq)).map((info: any) => ({
+    const starList = SUBCATE_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => ({
         ...info,
-        type: CATE_OBJ.STAR,
+        cate: CATE.STAR,
     }))
-    const categoryStrList = Object.entries(CATE_NAME)
     const [swiper, setSwiper] = useState<Swiper>()
-    const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 1)
-    const getStarList = async () => {
-        const data = await WebViewMessage<typeof RN_API.RN_API_GET_STAR>(RN_API.RN_API_GET_STAR)
-        if (data === null) return
-        dispatch(StarActions.setStar(data))
-    }
+    const [selTab, setSelTab] = useState<CATE>((app.sel_cate !== null ? app.sel_cate : 1) as CATE)
     const setSlideIdx = (key: string) => {
         dispatch(AppActions.setCate(Number(key)))
-        setSelTab(Number(key))
+        setSelTab(Number(key) as CATE)
     }
     useEffect(() => {
         if (app.sel_lang !== i18n.language) {
             router.replace("/", "/", { locale: app.sel_lang || "ko" })
         }
-        // getStarList()
     }, [])
     return (
         <>
@@ -56,7 +48,7 @@ const Page = ({ result }: any): JSX.Element => {
                     {t("header.category-sel")}
                 </Title>
                 <SlideTab>
-                    {categoryStrList.map(([key, value], idx) => (
+                    {CATE_NAME_LIST.map(([key, value], idx) => (
                         <SlideTab.Item
                             key={key}
                             onClick={() => {
@@ -64,7 +56,7 @@ const Page = ({ result }: any): JSX.Element => {
                                 setSlideIdx(key)
                             }}
                             name={t("main." + value)}
-                            isStar={Number(key) === CATE_OBJ.STAR}
+                            isStar={Number(key) === CATE.STAR}
                             isSelected={Number(key) === selTab}
                         />
                     ))}
@@ -78,15 +70,15 @@ const Page = ({ result }: any): JSX.Element => {
                 setSwiper={setSwiper}
                 selTab={selTab}
                 onChange={(e: any) => {
-                    const [key, value] = categoryStrList[e.activeIndex]
+                    const [key, value] = CATE_NAME_LIST[e.activeIndex]
                     setSlideIdx(key)
                 }}
             >
-                {categoryStrList.map(([key, value]) => (
+                {CATE_NAME_LIST.map(([key, value]) => (
                     <SwiperSlide key={key}>
                         <IconList.Item key={key}>
                             {SUBCATE_LIST.concat(starList)
-                                .filter(({ cate }: any) => cate === Number(key))
+                                .filter(({ cate }) => cate === Number(key))
                                 .map(({ name, seq, icon }: any) => (
                                     <IconList.InnerItem key={seq} name={t("main." + name)} href={"/info/" + seq} icon={icon} />
                                 ))}
@@ -98,26 +90,9 @@ const Page = ({ result }: any): JSX.Element => {
     )
 }
 export const getStaticProps = async ({ locale }: { locale: string }): Promise<any> => {
-    const reqCate = async () => {
-        const result = await Http.Request<any>("get", "/api/item/cate").catch((e) => {
-            switch (e.status) {
-                default: {
-                }
-            }
-            return null
-        })
-        return result
-    }
-    const result = await reqCate()
-    if (!result) {
-        return {
-            notFound: true,
-        }
-    }
     return {
         props: {
             ...(await serverSideTranslations(locale, ["common"])),
-            result,
         },
     }
 }

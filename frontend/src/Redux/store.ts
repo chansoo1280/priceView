@@ -6,18 +6,6 @@ import storage from "redux-persist/lib/storage"
 import { persistStore } from "redux-persist"
 import { persistReducer } from "redux-persist"
 
-// declare global {
-//     interface Window {
-//         __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
-//     }
-// }
-
-// store 생성
-// export default function configureStore(): Store {
-//     const composeEnhancers = (typeof (window as any) !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose
-//     const store = createStore(rootReducer, composeEnhancers())
-//     return store
-// }
 const persistConfig = {
     key: "nextjs",
     storage,

@@ -7,7 +7,7 @@ import Link from "next/link"
 // #region Local Imports
 import styles from "./IconList.module.scss"
 import { Swiper } from "swiper/react"
-import { CATEGORY_TYPE_STR } from "@Definitions"
+import { CATE_NAME_LIST } from "@Interfaces"
 // #endregion Local Imports
 interface Props {
     children?: React.ReactNode
@@ -20,7 +20,7 @@ interface Props {
 
 const InternalIconList = (props: Props): JSX.Element => {
     const { children, setSwiper, onChange, selTab } = props
-    const initIdx = Object.entries(CATEGORY_TYPE_STR).findIndex(([key, value]) => selTab === Number(key))
+    const initIdx = CATE_NAME_LIST.findIndex(([key, value]) => selTab === Number(key))
     return (
         <div className={styles["icon-list"]}>
             <Swiper style={{ height: "100%" }} observer={true} initialSlide={initIdx} onSlideChange={onChange} onSwiper={setSwiper}>

@@ -5,7 +5,7 @@ import { stringify } from "query-string"
 // #endregion Global Imports
 
 // #region Local Imports
-import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ, RN_API } from "@Definitions"
+import { ITEM_OBJ, M_GU, M_TYPE, RN_API, SUBCATE_LIST } from "@Definitions"
 import { Header, Chart, Select, PriceCard, Space, Tooltip, Button, Tab } from "@Components"
 import { Count, IInfoPage } from "@Interfaces"
 import { Http } from "@Services"
@@ -17,7 +17,7 @@ import { GetStaticPaths } from "next"
 import { WebViewMessage } from "@Services/API/WebViewMessage"
 // #endregion Local Imports
 
-const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
+const Info = (): JSX.Element => {
     const router = useRouter()
     const { seq } = router.query
     const dispatch = useDispatch()
@@ -25,7 +25,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     const star = useSelector((state: RootState) => state.starReducer)
 
     const cate_info =
-        CATEGORY_LIST.find((info, idx) => {
+        SUBCATE_LIST.find((info, idx) => {
             return info.seq === Number(seq)
         }) || null
     const [cateName, _] = useState(cate_info?.name)
@@ -51,11 +51,11 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
             dateList: (string | null)[] | null
         }[]
     >(
-        cate_info?.seq_list.map((seq) => ({
+        cate_info?.seqList.map((seq) => ({
             A_SEQ: seq,
             chart: null,
-            A_NAME: NAME_OBJ[seq].A_NAME,
-            A_UNIT: NAME_OBJ[seq].A_UNIT[0],
+            A_NAME: ITEM_OBJ[seq].A_NAME,
+            A_UNIT: ITEM_OBJ[seq].A_UNIT[0],
             isOpen: false,
             dataList: null,
             dateList: null,
@@ -95,7 +95,7 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     }
     const reqPriceData = async (M_GU_CODE: string) => {
         const result = await Http.Request<Count[]>("get", "/api/count/info", {
-            A_SEQS: cate_info?.seq_list.join(", ") || "",
+            A_SEQS: cate_info?.seqList.join(", ") || "",
             P_YEAR_MONTH: P_YEAR_MONTH,
             M_GU_CODE: M_GU_CODE,
         }).catch((e) => {
@@ -259,12 +259,14 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         </>
     )
 }
-export const getStaticProps = async ({ locale }: { locale: string }) => ({
-    props: {
-        ...(await serverSideTranslations(locale, ["common"])),
-        transition: "slide",
-    },
-})
+export const getStaticProps = async ({ locale }: { locale: string }) => {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, ["common"])),
+            transition: "slide",
+        },
+    }
+}
 export const getStaticPaths: GetStaticPaths<{ seq: string }> = async () => {
     return {
         paths: [], //indicates that no page needs be created at build time

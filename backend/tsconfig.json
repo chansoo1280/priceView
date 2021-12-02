@@ -16,7 +16,13 @@
     "rootDir": "./",
     "incremental": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@Definitions/*": ["src/common/Definitions/*"],
+      "@Definitions": ["src/common/Definitions"],
+      "@Interfaces": ["src/common/Interfaces"],
+      "@Interfaces/*": ["src/common/Interfaces/*"],
+  }
   },
   "exclude": ["node_modules", "dist"]
 }
