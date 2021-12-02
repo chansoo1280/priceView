@@ -5,7 +5,7 @@ import { SwiperSlide } from "swiper/react"
 
 // #region Local Imports
 import { Title, SlideTab, IconList, MainHeader } from "@Components"
-import { CATEGORY_TYPE, CATEGORY_LIST, CATEGORY_TYPE_STR, RN_API } from "@Definitions"
+import { RN_API } from "@Definitions"
 import { AppActions, RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "next-i18next"
@@ -13,9 +13,12 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
 import { WebViewMessage } from "@Services/API/WebViewMessage"
 import Swiper from "swiper"
+import { Http } from "@Services"
 // #endregion Local Imports
 
-const Page = (): JSX.Element => {
+const Page = ({ result }: any): JSX.Element => {
+    const { CATE_NAME, CATE_OBJ, SUBCATE_LIST } = result
+
     const { t, i18n } = useTranslation("common")
     const router = useRouter()
     const dispatch = useDispatch()
@@ -24,25 +27,13 @@ const Page = (): JSX.Element => {
         star: starReducer,
     }))
 
-    const starList = CATEGORY_LIST.filter(({ seq }) => star.list.includes(seq)).map((info) => ({
+    const starList = SUBCATE_LIST.filter(({ seq }: any) => star.list.includes(seq)).map((info: any) => ({
         ...info,
-        type: CATEGORY_TYPE.STAR,
+        type: CATE_OBJ.STAR,
     }))
-    const categoryTypeStrList = Object.entries(CATEGORY_TYPE_STR)
+    const categoryStrList = Object.entries(CATE_NAME)
     const [swiper, setSwiper] = useState<Swiper>()
     const [selTab, setSelTab] = useState<number>(app.sel_cate !== null ? app.sel_cate : 1)
-    // const listener = (event: any) => {
-    //     const { data, type } = JSON.parse(event.data)
-    //     switch (type) {
-    //         case RN_API_GET_STAR: {
-    //             dispatch(StarActions.setStar(data))
-    //             break
-    //         }
-    //         default: {
-    //             break
-    //         }
-    //     }
-    // }
     const getStarList = async () => {
         const data = await WebViewMessage<typeof RN_API.RN_API_GET_STAR>(RN_API.RN_API_GET_STAR)
         if (data === null) return
@@ -56,27 +47,7 @@ const Page = (): JSX.Element => {
         if (app.sel_lang !== i18n.language) {
             router.replace("/", "/", { locale: app.sel_lang || "ko" })
         }
-        getStarList()
-        // if (window.ReactNativeWebView) {
-        //     window.ReactNativeWebView.postMessage(
-        //         JSON.stringify({
-        //             type: RN_API_GET_STAR,
-        //         }),
-        //     )
-        //     /** android */
-        //     document.addEventListener("message", listener)
-        //     /** ios */
-        //     window.addEventListener("message", listener)
-        // } else {
-        //     // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
-        //     // alert("모바일이 아닙니다.")
-        // }
-        // return () => {
-        //     /** android */
-        //     document.removeEventListener("message", listener)
-        //     /** ios */
-        //     window.removeEventListener("message", listener)
-        // }
+        // getStarList()
     }, [])
     return (
         <>
@@ -85,7 +56,7 @@ const Page = (): JSX.Element => {
                     {t("header.category-sel")}
                 </Title>
                 <SlideTab>
-                    {categoryTypeStrList.map(([key, value], idx) => (
+                    {categoryStrList.map(([key, value], idx) => (
                         <SlideTab.Item
                             key={key}
                             onClick={() => {
@@ -93,30 +64,30 @@ const Page = (): JSX.Element => {
                                 setSlideIdx(key)
                             }}
                             name={t("main." + value)}
-                            isStar={Number(key) === CATEGORY_TYPE.STAR}
+                            isStar={Number(key) === CATE_OBJ.STAR}
                             isSelected={Number(key) === selTab}
                         />
                     ))}
                 </SlideTab>
             </MainHeader>
             <Title as="h2" className="ir">
-                {t("main." + CATEGORY_TYPE_STR[selTab])}
+                {t("main." + CATE_NAME[selTab])}
                 {t("word.list")}
             </Title>
             <IconList
                 setSwiper={setSwiper}
                 selTab={selTab}
                 onChange={(e: any) => {
-                    const [key, value] = categoryTypeStrList[e.activeIndex]
+                    const [key, value] = categoryStrList[e.activeIndex]
                     setSlideIdx(key)
                 }}
             >
-                {categoryTypeStrList.map(([key, value]) => (
+                {categoryStrList.map(([key, value]) => (
                     <SwiperSlide key={key}>
                         <IconList.Item key={key}>
-                            {CATEGORY_LIST.concat(starList)
-                                .filter(({ type }) => type === Number(key))
-                                .map(({ name, seq, icon }) => (
+                            {SUBCATE_LIST.concat(starList)
+                                .filter(({ cate }: any) => cate === Number(key))
+                                .map(({ name, seq, icon }: any) => (
                                     <IconList.InnerItem key={seq} name={t("main." + name)} href={"/info/" + seq} icon={icon} />
                                 ))}
                         </IconList.Item>
@@ -126,9 +97,28 @@ const Page = (): JSX.Element => {
         </>
     )
 }
-export const getStaticProps = async ({ locale }: { locale: string }): Promise<any> => ({
-    props: {
-        ...(await serverSideTranslations(locale, ["common"])),
-    },
-})
+export const getStaticProps = async ({ locale }: { locale: string }): Promise<any> => {
+    const reqCate = async () => {
+        const result = await Http.Request<any>("get", "/api/item/cate").catch((e) => {
+            switch (e.status) {
+                default: {
+                }
+            }
+            return null
+        })
+        return result
+    }
+    const result = await reqCate()
+    if (!result) {
+        return {
+            notFound: true,
+        }
+    }
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, ["common"])),
+            result,
+        },
+    }
+}
 export default Page

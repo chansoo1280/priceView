@@ -1,7 +1,8 @@
-import { Controller, Get, Query, Req, Res } from '@nestjs/common'
+import { Controller, Get, Param, Query, Req, Res } from '@nestjs/common'
 import handleResult, { ResCode } from 'src/common/handleResult'
 import { Response, Request } from 'express'
 import { SECRET } from 'src/common/constants'
+import { NAME_OBJ } from 'src/common/define'
 import { PriceService } from './price.service'
 import { SelectCntPriceDto } from './dto/select_cnt-price.dto'
 import { InitPriceDto } from './dto/init-count.dto'
@@ -47,14 +48,16 @@ export class PriceController {
         return handleResult(ResCode.OK, res)
     }
 
-    @Get('/cnt')
+    @Get('/:M_SEQ')
     async getCnt(
-        @Query() { A_NAME, A_UNIT, P_YEAR_MONTH }: SelectCntPriceDto,
+        @Param() { M_SEQ }: { M_SEQ: string },
+        @Query() { P_YEAR_MONTH }: SelectCntPriceDto,
         @Res() res: Response,
     ): Promise<Response> {
+        const { A_NAME, A_UNIT } = NAME_OBJ[Number(M_SEQ)]
         const result = await this.priceService.getCnt({
             name: A_NAME,
-            A_UNIT: JSON.parse(A_UNIT),
+            A_UNIT,
             P_YEAR_MONTH,
         })
         return handleResult(result, res)

@@ -12,39 +12,6 @@ import { SelectCountDto } from './dto/select-count.dto'
 export class CountController {
     constructor(private countService: CountService, private priceService: PriceService) {}
 
-    @Get('/info')
-    async getStatistics(
-        @Query() { A_SEQS, P_YEAR_MONTH, M_GU_CODE }: SelectCountDto,
-        @Res() res: Response,
-    ): Promise<Response> {
-        const P_YEAR_MONTH_LIST = (() => {
-            const fillZero = (str: string) => {
-                if (str.length === 1) return `0${str}`
-                return str
-            }
-            const list = []
-            let year = Number(P_YEAR_MONTH.split('-')[0])
-            let month = Number(P_YEAR_MONTH.split('-')[1])
-            for (let i = 0; i < 4; i += 1) {
-                list.push(`${fillZero(String(year))}-${fillZero(String(month))}`)
-                if (month !== 1) {
-                    month -= 1
-                } else {
-                    month = 12
-                    year -= 1
-                }
-            }
-            return list
-        })()
-        const A_SEQ_LIST = A_SEQS.split(', ')
-        const result = await this.countService.getStatistics({
-            A_SEQ_LIST,
-            P_YEAR_MONTH_LIST,
-            M_GU_CODE,
-        })
-        return handleResult(result, res)
-    }
-
     @Get()
     async initDB(
         @Query()
@@ -112,10 +79,43 @@ export class CountController {
         console.log(P_YEAR_MONTH)
         await Object.keys(NAME_OBJ).reduce(async (previousPromise: any, A_SEQ) => {
             await previousPromise
-            return insertCount(P_YEAR_MONTH, Number(A_SEQ), NAME_OBJ[A_SEQ].A_UNIT)
+            return insertCount(P_YEAR_MONTH, Number(A_SEQ), NAME_OBJ[Number(A_SEQ)].A_UNIT)
         }, Promise.resolve())
         // await insertCount("2020-02", Number("312"), ["1개"])
         console.log('done')
         return handleResult(ResCode.OK, res)
+    }
+
+    @Get('/info')
+    async getStatistics(
+        @Query() { A_SEQS, P_YEAR_MONTH, M_GU_CODE }: SelectCountDto,
+        @Res() res: Response,
+    ): Promise<Response> {
+        const P_YEAR_MONTH_LIST = (() => {
+            const fillZero = (str: string) => {
+                if (str.length === 1) return `0${str}`
+                return str
+            }
+            const list = []
+            let year = Number(P_YEAR_MONTH.split('-')[0])
+            let month = Number(P_YEAR_MONTH.split('-')[1])
+            for (let i = 0; i < 4; i += 1) {
+                list.push(`${fillZero(String(year))}-${fillZero(String(month))}`)
+                if (month !== 1) {
+                    month -= 1
+                } else {
+                    month = 12
+                    year -= 1
+                }
+            }
+            return list
+        })()
+        const A_SEQ_LIST = A_SEQS.split(', ')
+        const result = await this.countService.getStatistics({
+            A_SEQ_LIST,
+            P_YEAR_MONTH_LIST,
+            M_GU_CODE,
+        })
+        return handleResult(result, res)
     }
 }

@@ -5,7 +5,7 @@
       "entity": {
         "type": "Project",
         "description": "서울특별시 물가조회 api 문서입니다.\n\nprice: 물가정보 / \ncount: 물가정보를 바탕으로 만든 월별 물가평균 데이터 / \nitem: 물가정보의 종류 define들\n\n",
-        "id": "be28cdea-82fd-4fbb-8fc8-f11af552ab66",
+        "id": "688abd58-e1db-498b-9007-638596f86a42",
         "name": "priceView"
       },
       "children": [
@@ -36,7 +36,7 @@
               "host": "localhost:5000",
               "path": "/api"
             },
-            "id": "7028efc9-519c-4d51-987e-de4e96e63c5e",
+            "id": "a3db627d-1c73-4ff8-a6d2-0943f9c48dd1",
             "name": "/api - Get",
             "headers": []
           }
@@ -74,7 +74,7 @@
               "host": "localhost:5000",
               "path": "/api/count"
             },
-            "id": "63a980c1-8cd2-468c-9680-ac0bf60bbbca",
+            "id": "164df7da-c240-425b-905f-b804c6d7579d",
             "name": "/api/count - Get",
             "headers": [
               {
@@ -107,17 +107,17 @@
                   {
                     "enabled": true,
                     "name": "P_YEAR_MONTH",
-                    "value": "2021-06"
-                  },
-                  {
-                    "enabled": true,
-                    "name": "M_TYPE_CODE",
-                    "value": ""
+                    "value": "2021-08"
                   },
                   {
                     "enabled": true,
                     "name": "M_GU_CODE",
                     "value": ""
+                  },
+                  {
+                    "enabled": true,
+                    "name": "A_SEQS",
+                    "value": "[285, 52, 99]"
                   }
                 ]
               },
@@ -126,10 +126,10 @@
                 "version": "V11"
               },
               "host": "localhost:5000",
-              "path": "/api/count/28"
+              "path": "/api/count/info"
             },
-            "id": "0ed2f53a-8d1e-4eab-a459-815eefbe4069",
-            "name": "/api/count/:seq - Get",
+            "id": "1bf02e7a-3680-47e6-817e-39913dbdc5e6",
+            "name": "/api/count/info - Get",
             "headers": []
           }
         },
@@ -160,7 +160,7 @@
               "host": "localhost:5000",
               "path": "/api/item"
             },
-            "id": "17fb939d-452c-46de-a4e7-194707709897",
+            "id": "3d86dec1-31be-4702-94e3-656e6626d556",
             "name": "/api/item - Get",
             "headers": []
           }
@@ -192,7 +192,7 @@
               "host": "localhost:5000",
               "path": "/api/item/cate"
             },
-            "id": "ec135158-1e59-4461-a7ed-bae81cd3c2b2",
+            "id": "7fc676ff-4281-4106-a69d-0470b957a155",
             "name": "/api/item/cate - Get",
             "headers": []
           }
@@ -224,7 +224,7 @@
               "host": "localhost:5000",
               "path": "/api/item/option"
             },
-            "id": "62a33447-59a0-4a43-b943-9e8d8d13b8bf",
+            "id": "f9504331-8ae1-4712-b58f-3084ba1e2f0a",
             "name": "/api/item/option - Get",
             "headers": []
           }
@@ -251,7 +251,7 @@
                   {
                     "enabled": true,
                     "name": "P_YEAR_MONTH",
-                    "value": "2020-05"
+                    "value": "2021-11"
                   }
                 ]
               },
@@ -262,7 +262,7 @@
               "host": "localhost:5000",
               "path": "/api/price"
             },
-            "id": "a58d46e0-3b98-47f0-9121-192eadfb2f66",
+            "id": "e7ae479f-a7d8-4623-994e-fcb0aca5ad7f",
             "name": "/api/price - Get",
             "headers": [
               {
@@ -294,16 +294,6 @@
                 "items": [
                   {
                     "enabled": true,
-                    "name": "A_NAME",
-                    "value": "애호박"
-                  },
-                  {
-                    "enabled": true,
-                    "name": "A_UNIT",
-                    "value": "[\"1개\", \"1 개\"]"
-                  },
-                  {
-                    "enabled": true,
                     "name": "P_YEAR_MONTH",
                     "value": "2020-02"
                   }
@@ -314,10 +304,10 @@
                 "version": "V11"
               },
               "host": "localhost:5000",
-              "path": "/api/price/cnt"
+              "path": "/api/price/312"
             },
-            "id": "e6591859-6618-4cc3-9e9b-0884d953e899",
-            "name": "/api/price/cnt - Get",
+            "id": "9b09de6b-c6ae-4f0d-b39b-bf4a9315ebef",
+            "name": "/api/price/:M_SEQ - Get",
             "headers": []
           }
         }

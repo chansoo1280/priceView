@@ -5,7 +5,7 @@ import { stringify } from "query-string"
 // #endregion Global Imports
 
 // #region Local Imports
-import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ } from "@Definitions"
+import { CATEGORY_LIST, M_GU, M_TYPE, NAME_OBJ, RN_API } from "@Definitions"
 import { Header, Chart, Select, PriceCard, Space, Tooltip, Button, Tab } from "@Components"
 import { Count, IInfoPage } from "@Interfaces"
 import { Http } from "@Services"
@@ -14,9 +14,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { GetStaticPaths } from "next"
+import { WebViewMessage } from "@Services/API/WebViewMessage"
 // #endregion Local Imports
-
-const RN_API_GET_POSITION = "RN_API_GET_POSITION"
 
 const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
     const router = useRouter()
@@ -143,42 +142,18 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
         })
     }
 
-    const listener = async (event: any) => {
-        const { data, type } = JSON.parse(event.data)
-        switch (type) {
-            case RN_API_GET_POSITION: {
-                //alert(data.coords.latitude + "-" + data.coords.longitude)
-                const guSeq =
-                    (await reqPositionData({
-                        y: data.coords.latitude,
-                        x: data.coords.longitude,
-                    })) || ""
-                setSelGu(guSeq)
-                reqPriceData(guSeq)
-                break
-            }
-            default: {
-                break
-            }
-        }
+    const getPosition = async () => {
+        const data = await WebViewMessage<typeof RN_API.RN_API_GET_POSITION>(RN_API.RN_API_GET_POSITION)
+        if (data === null) return
+        const guSeq =
+            (await reqPositionData({
+                y: data.coords.latitude,
+                x: data.coords.longitude,
+            })) || ""
+        setSelGu(guSeq)
+        reqPriceData(guSeq)
     }
-    useEffect(() => {
-        if (window.ReactNativeWebView) {
-            /** android */
-            document.addEventListener("message", listener)
-            /** ios */
-            window.addEventListener("message", listener)
-        } else {
-            // 모바일이 아니라면 모바일 아님을 alert로 띄웁니다.
-            // alert("모바일이 아닙니다.")
-        }
-        return () => {
-            /** android */
-            document.removeEventListener("message", listener)
-            /** ios */
-            window.removeEventListener("message", listener)
-        }
-    }, [])
+
     useEffect(() => {
         reqPriceData(selGu)
     }, [])
@@ -239,17 +214,8 @@ const Info = ({}: IInfoPage.InitialProps): JSX.Element => {
                         ))}
                 </Select>
                 <Button
-                    onClick={() => {
-                        if (window.ReactNativeWebView) {
-                            window.ReactNativeWebView.postMessage(
-                                JSON.stringify({
-                                    type: RN_API_GET_POSITION,
-                                }),
-                            )
-                        } else {
-                            alert(t("message.not-mobile-device"))
-                            return
-                        }
+                    onClick={async () => {
+                        await getPosition()
                     }}
                     type="default"
                     icon={<img src="/static/images/icon_location.svg" alt={t("word.my-location")} />}
