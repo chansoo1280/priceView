@@ -20,6 +20,9 @@
         margin-bottom: 10px;
         font-size: 26px;
     }
+    &__sub{
+        overflow:hidden;
+    }
     &__unit {
         font-size: 16px;
         font-weight: 500;
@@ -34,6 +37,9 @@
         font-size: 24px;
         font-weight: 500;
         text-align: right;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
     }
     &__price-change {
         display: flex;

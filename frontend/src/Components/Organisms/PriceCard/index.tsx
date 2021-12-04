@@ -40,7 +40,7 @@ const PriceCard = (props: Props): JSX.Element => {
                     </span>
                 </div>
                 {formattedPrice !== "0" ? (
-                    <div>
+                    <div className={styles["price-card__sub"]}>
                         <strong className={styles["price-card__price"]}>
                             {formattedPrice}
                             <span className={styles["price-card__price-unit"]}>{t("word.won")}</span>
@@ -51,13 +51,20 @@ const PriceCard = (props: Props): JSX.Element => {
                                 [styles["price-card__price-change--minus"]]: isChangePlus === false,
                             })}
                         >
-                            <img src={isChangePlus ? "/static/images/arr_price_up.svg" : "/static/images/arr_price_down.svg"} alt="" />
+                            <img
+                                src={
+                                    isChangePlus
+                                        ? "/static/images/arr_price_up.svg"
+                                        : "/static/images/arr_price_down.svg"
+                                }
+                                alt=""
+                            />
                             {formattedPriceChange?.split("-")}
                             <span className={styles["price-card__price-unit"]}>{t("word.won")}</span>
                         </span>
                     </div>
                 ) : (
-                    <div>
+                    <div className={styles["price-card__sub"]}>
                         <strong className={styles["price-card__price"]}>{t("word.unregistered")}</strong>
                         <span className={styles["price-card__price-change"]}></span>
                     </div>

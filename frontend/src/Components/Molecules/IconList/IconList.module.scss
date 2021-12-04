@@ -14,7 +14,7 @@ $icon-list-prefix: "icon-list";
     grid-gap: 12px 8px;
 }
 .#{$icon-list-prefix}__btn {
-    padding: 30px 0;
+    padding: 30px 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,6 +26,8 @@ $icon-list-prefix: "icon-list";
     box-shadow: -2px -2px 8px rgba(255, 255, 255, 1), 2px 2px 8px rgba(0, 0, 0, 0.32);
     font-size: 28px;
     color: #4b4b4b;
+    word-break:keep-all;
+    text-align:center;;
 }
 .#{$icon-list-prefix}__img {
     height: 112px;

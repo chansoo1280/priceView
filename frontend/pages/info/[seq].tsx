@@ -7,7 +7,7 @@ import { stringify } from "query-string"
 // #region Local Imports
 import { ITEM_OBJ, M_GU, M_TYPE, RN_API, SUBCATE_LIST } from "@Definitions"
 import { Header, Chart, Select, PriceCard, Space, Tooltip, Button, Tab } from "@Components"
-import { Count, IInfoPage } from "@Interfaces"
+import { Count } from "@Interfaces"
 import { Http } from "@Services"
 import { RootState, StarActions } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
@@ -67,7 +67,9 @@ const Info = (): JSX.Element => {
     const updateChart = (selType: string, resData: Count[]) => {
         setCateList(
             cateList.map((cateInfo) => {
-                const cateResult = resData.filter(({ A_SEQ, M_TYPE_CODE }) => Number(A_SEQ) === cateInfo.A_SEQ && M_TYPE_CODE === selType)
+                const cateResult = resData.filter(
+                    ({ A_SEQ, M_TYPE_CODE }) => Number(A_SEQ) === cateInfo.A_SEQ && M_TYPE_CODE === selType,
+                )
                 const curDate = new Date(P_YEAR_MONTH + "-01")
                 const minDate = (() => {
                     const d = new Date(newDate.getFullYear(), newDate.getMonth(), 1)
@@ -78,7 +80,9 @@ const Info = (): JSX.Element => {
                 const dataList = [t("main." + cate_info?.name || "")]
 
                 for (; minDate < curDate; minDate.setMonth(minDate.getMonth() + 1)) {
-                    const cateResultInfo = cateResult.find(({ P_YEAR_MONTH }) => P_YEAR_MONTH === minDate.format("yyyy-MM"))
+                    const cateResultInfo = cateResult.find(
+                        ({ P_YEAR_MONTH }) => P_YEAR_MONTH === minDate.format("yyyy-MM"),
+                    )
                     const value = (cateResultInfo && String(cateResultInfo?.AVER_VAL)) || (null as unknown as string)
 
                     dateList.push(minDate.format("yyyy-MM-01"))
@@ -160,7 +164,10 @@ const Info = (): JSX.Element => {
     return (
         <>
             <Header title={t("main." + cateName)}>
-                <Button onClick={() => router.back()} icon={<img src="/static/images/icon_back.svg" alt={t("message.back")} />} />
+                <Button
+                    onClick={() => router.back()}
+                    icon={<img src="/static/images/icon_back.svg" alt={t("message.back")} />}
+                />
                 <Tooltip posX="left" contents={getIsStar ? t("message.was-added") : t("message.was-removed")}>
                     <Button
                         show={!getIsStar}
@@ -176,7 +183,9 @@ const Info = (): JSX.Element => {
                             if (cate_info === null) return
                             dispatch(StarActions.removeStar(cate_info?.seq))
                         }}
-                        icon={<img src="/static/images/icon_favorite_active.svg" alt={t("message.remove-to-favorites")} />}
+                        icon={
+                            <img src="/static/images/icon_favorite_active.svg" alt={t("message.remove-to-favorites")} />
+                        }
                     />
                 </Tooltip>
             </Header>
@@ -197,6 +206,7 @@ const Info = (): JSX.Element => {
             </Tab>
             <Space padding="0 20px">
                 <Select
+                    maxWidth="50vw"
                     round
                     value={selGu}
                     onChange={(e) => {

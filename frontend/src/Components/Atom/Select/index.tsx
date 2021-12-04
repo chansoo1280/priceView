@@ -12,10 +12,11 @@ interface Props {
     setValue?: Dispatch<SetStateAction<number>>
     onChange?: (e: ChangeEvent<HTMLSelectElement>) => void
     round?: boolean
+    maxWidth?: string
 }
 
 const Select = (props: Props): JSX.Element => {
-    const { setValue, onChange, round, ...rest } = props
+    const { setValue, onChange, round, maxWidth, ...rest } = props
     const onChangeSelect = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
         setValue!(Number(e.target.value) || 0)
     }, [])
@@ -26,6 +27,9 @@ const Select = (props: Props): JSX.Element => {
                     [styles["select"]]: true,
                     [styles["select--round"]]: round,
                 })}
+                style={{
+                    maxWidth,
+                }}
                 {...rest}
                 onChange={onChange || onChangeSelect}
             />

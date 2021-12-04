@@ -5,15 +5,13 @@ import { SwiperSlide } from "swiper/react"
 
 // #region Local Imports
 import { Title, SlideTab, IconList, MainHeader } from "@Components"
-import { RN_API, SUBCATE_LIST } from "@Definitions"
-import { AppActions, RootState, StarActions } from "@Redux"
+import { SUBCATE_LIST } from "@Definitions"
+import { AppActions, RootState } from "@Redux"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
-import { WebViewMessage } from "@Services/API/WebViewMessage"
 import Swiper from "swiper"
-import { Http } from "@Services"
 import { CATE, CATE_NAME, CATE_NAME_LIST } from "@Interfaces"
 // #endregion Local Imports
 
@@ -31,10 +29,11 @@ const Page = (): JSX.Element => {
         cate: CATE.STAR,
     }))
     const [swiper, setSwiper] = useState<Swiper>()
-    const [selTab, setSelTab] = useState<CATE>((app.sel_cate !== null ? app.sel_cate : 1) as CATE)
+    const [selTab, setSelTab] = useState<CATE>(app.sel_cate !== null ? app.sel_cate : CATE.MEAT)
     const setSlideIdx = (key: string) => {
-        dispatch(AppActions.setCate(Number(key)))
-        setSelTab(Number(key) as CATE)
+        const seLcate = Number(key) as CATE
+        dispatch(AppActions.setCate(seLcate))
+        setSelTab(seLcate)
     }
     useEffect(() => {
         if (app.sel_lang !== i18n.language) {
@@ -80,7 +79,12 @@ const Page = (): JSX.Element => {
                             {SUBCATE_LIST.concat(starList)
                                 .filter(({ cate }) => cate === Number(key))
                                 .map(({ name, seq, icon }: any) => (
-                                    <IconList.InnerItem key={seq} name={t("main." + name)} href={"/info/" + seq} icon={icon} />
+                                    <IconList.InnerItem
+                                        key={seq}
+                                        name={t("main." + name)}
+                                        href={"/info/" + seq}
+                                        icon={icon}
+                                    />
                                 ))}
                         </IconList.Item>
                     </SwiperSlide>

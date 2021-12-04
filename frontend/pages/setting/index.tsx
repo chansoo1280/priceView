@@ -5,14 +5,13 @@ import { useTranslation } from "next-i18next"
 // #endregion Global Imports
 
 // #region Local Imports
-import { ISettingPage } from "@Interfaces"
-import { Header, Select, Button, Title, AlertModal, SettingList, SettingTitle } from "@Components"
+import { Header, Select, Button, Title, AlertModal, SettingList } from "@Components"
 import { useRouter } from "next/router"
 import { AppActions } from "@Reducers"
 import { useDispatch } from "react-redux"
 // #endregion Local Imports
 
-const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
+const Setting = (): JSX.Element => {
     const router = useRouter()
     const dispatch = useDispatch()
     const { t, i18n } = useTranslation("common")
@@ -21,9 +20,12 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
     return (
         <>
             <Header title={t("header.title.setting")}>
-                <Button onClick={() => router.replace("/", "/")} icon={<img src="/static/images/icon_back.svg" alt={t("header.back")} />}></Button>
+                <Button
+                    onClick={() => router.replace("/", "/")}
+                    icon={<img src="/static/images/icon_back.svg" alt={t("header.back")} />}
+                ></Button>
             </Header>
-            <SettingTitle as="h2">{t("setting.usability")}</SettingTitle>
+            <SettingList.Title as="h2">{t("setting.usability")}</SettingList.Title>
             <SettingList>
                 <SettingList.Item>
                     <Title as="h3">{t("setting.langage")}</Title>
@@ -39,7 +41,7 @@ const Setting = ({}: ISettingPage.InitialProps): JSX.Element => {
                     </Select>
                 </SettingList.Item>
             </SettingList>
-            <SettingTitle as="h2">{t("setting.app-info")}</SettingTitle>
+            <SettingList.Title as="h2">{t("setting.app-info")}</SettingList.Title>
             <SettingList>
                 <SettingList.Item
                     onClick={() => {

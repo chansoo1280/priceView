@@ -1,4 +1,5 @@
 // #region Local Imports
+import { CATE } from "@Interfaces"
 import { createAction, ActionType, createReducer } from "typesafe-actions"
 // #endregion Local Imports
 
@@ -7,7 +8,7 @@ import { createAction, ActionType, createReducer } from "typesafe-actions"
 
 // 상태의 타입 선언
 interface AppReducer {
-    sel_cate: number | null
+    sel_cate: CATE | null
     sel_theme: number | null
     sel_lang: string | "ko"
 }

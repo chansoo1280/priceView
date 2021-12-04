@@ -31,7 +31,11 @@ const TabInner = (props: InnerProps): JSX.Element => {
         return (
             <li>
                 <button className={classes} onClick={onClick}>
-                    {isSelected ? <img src="/static/images/icon_favorite-menu.svg" alt={name} /> : <img src="/static/images/icon_favorite-menu.svg" alt={name} />}
+                    {isSelected ? (
+                        <img src="/static/images/icon_favorite-menu.svg" alt={name} />
+                    ) : (
+                        <img src="/static/images/icon_favorite-menu.svg" alt={name} />
+                    )}
                 </button>
             </li>
         )

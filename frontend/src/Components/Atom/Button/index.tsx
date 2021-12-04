@@ -50,7 +50,19 @@ type ButtonProps = Partial<AnchorButtonProps & NativeButtonProps>
 
 type Loading = number | boolean
 const Button = (props: ButtonProps): JSX.Element => {
-    const { href, icon, loading = false, show, htmlType = "button", type, shape, className, children, block, ...rest } = props
+    const {
+        href,
+        icon,
+        loading = false,
+        show,
+        htmlType = "button",
+        type,
+        shape,
+        className,
+        children,
+        block,
+        ...rest
+    } = props
     const [innerLoading, setLoading] = React.useState<Loading>(!!loading)
     const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => {
         const { onClick, disabled } = props

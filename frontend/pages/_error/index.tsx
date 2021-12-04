@@ -8,10 +8,14 @@ import { NextPage } from "next"
 // #endregion Local Imports
 
 // #region Interface Imports
-import { IErrorPage } from "@Interfaces"
 // #endregion Interface Imports
 
-const Error: NextPage<IErrorPage.IProps, IErrorPage.InitialProps> = ({
+interface Props {
+    namespacesRequired: string[]
+    statusCode: number | undefined
+}
+
+const Error: NextPage<Props> = ({
     // t,
     statusCode,
 }) => {

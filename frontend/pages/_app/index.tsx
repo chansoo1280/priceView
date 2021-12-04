@@ -15,7 +15,6 @@ import { appWithTranslation } from "next-i18next"
 
 // #region Local Imports
 import { ThemeObj, ThemeType } from "@Definitions/Styled"
-import { AppWithStore } from "@Interfaces"
 import { RootState, wrapper } from "@Redux"
 import TheLayout, { LayoutCode } from "@Components/Layout"
 import "@Services/API/DateFormat"

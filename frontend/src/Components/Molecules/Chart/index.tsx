@@ -80,7 +80,7 @@ const Chart = (props: Props): JSX.Element => {
                     tick: {
                         format: function (x: any, i: any, j: any) {
                             if (x <= minDate) return ""
-                            return x.getMonth() + 1 + t("word.month")
+                            return x.getFullYear() + "-" + (x.getMonth() + 1)
                         },
                     },
                 },

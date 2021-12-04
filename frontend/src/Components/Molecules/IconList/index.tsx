@@ -23,7 +23,13 @@ const InternalIconList = (props: Props): JSX.Element => {
     const initIdx = CATE_NAME_LIST.findIndex(([key, value]) => selTab === Number(key))
     return (
         <div className={styles["icon-list"]}>
-            <Swiper style={{ height: "100%" }} observer={true} initialSlide={initIdx} onSlideChange={onChange} onSwiper={setSwiper}>
+            <Swiper
+                style={{ height: "100%" }}
+                observer={true}
+                initialSlide={initIdx}
+                onSlideChange={onChange}
+                onSwiper={setSwiper}
+            >
                 {children}
             </Swiper>
         </div>

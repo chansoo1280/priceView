@@ -21,7 +21,11 @@ const MainHeader = (props: Props): JSX.Element => {
             <h1 className={styles["main-header__title"]}>
                 <img src="/static/images/logo.svg" alt="알고싶은 서울물가" />
             </h1>
-            <Button href="/setting" className={styles["main-header__btn-setting"]} icon={<img src="/static/images/icon_setting.svg" alt={t("header.title.setting")} />}></Button>
+            <Button
+                href="/setting"
+                className={styles["main-header__btn-setting"]}
+                icon={<img src="/static/images/icon_setting.svg" alt={t("header.title.setting")} />}
+            ></Button>
             {children}
         </header>
     )
