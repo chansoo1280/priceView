@@ -54,8 +54,8 @@ const Info = (): JSX.Element => {
         cate_info?.seqList.map((seq) => ({
             A_SEQ: seq,
             chart: null,
-            A_NAME: ITEM_OBJ[seq].A_NAME,
-            A_UNIT: ITEM_OBJ[seq].A_UNIT[0],
+            A_NAME: ITEM_OBJ[seq as keyof typeof ITEM_OBJ].A_NAME || "",
+            A_UNIT: ITEM_OBJ[seq as keyof typeof ITEM_OBJ].A_UNIT[0] || "",
             isOpen: false,
             dataList: null,
             dateList: null,

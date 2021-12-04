@@ -1,4 +1,4 @@
-import { CATE, Seq, Subcate } from "@Interfaces"
+import { CATE, Subcate } from "@Interfaces"
 
 export const SUBCATE_LIST: Subcate[] = [
     {
@@ -114,13 +114,7 @@ export const SUBCATE_LIST: Subcate[] = [
         seqList: [312],
     },
 ]
-export const ITEM_OBJ: {
-    [x: Seq]: {
-        A_NAME: string
-        A_NAME_DATA: string
-        A_UNIT: string[]
-    }
-} = {
+export const ITEM_OBJ = {
     285: { A_NAME: "pork", A_NAME_DATA: "돼지고기", A_UNIT: ["600g", "1근"] },
     52: { A_NAME: "pork(pork-belly)", A_NAME_DATA: "돼지고기(삼겹살)", A_UNIT: ["600g", "1근"] },
     99: { A_NAME: "pork(raw-pork-belly)", A_NAME_DATA: "돼지고기(생삼겹살)", A_UNIT: ["600g", "1근"] },
@@ -196,7 +190,7 @@ export const ITEM_OBJ: {
     119: { A_NAME: "kabocha(incubator)", A_NAME_DATA: "호박(인큐베이터)", A_UNIT: ["1개"] },
     118: { A_NAME: "kabocha(incubator),intermediate-quality", A_NAME_DATA: "호박(인큐베이터),중간", A_UNIT: ["1개"] },
     312: { A_NAME: "zucchini", A_NAME_DATA: "애호박", A_UNIT: ["1개", "1 개"] },
-}
+} as const
 export const M_TYPE: {
     [x: string]: string
 } = {
