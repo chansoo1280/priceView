@@ -7,10 +7,14 @@ import { stringify } from "query-string"
 import { HttpModel } from "@Interfaces"
 // #endregion Interface Imports
 
-const BaseUrl = `http://localhost:5000`
-// const BaseUrl = `https://price.chansoo1280.site`
+const BaseUrl = process.env.NODE_ENV !== "production" ? `http://localhost:5000` : `https://price.chansoo1280.site`
 export const Http = {
-    Request: async <A>(methodType: string, url: string, params?: HttpModel.IRequestQueryPayload, payload?: HttpModel.IRequestPayload): Promise<A> => {
+    Request: async <A>(
+        methodType: string,
+        url: string,
+        params?: HttpModel.IRequestQueryPayload,
+        payload?: HttpModel.IRequestPayload,
+    ): Promise<A> => {
         return new Promise((resolve, reject) => {
             const query = params
                 ? `?${stringify({
