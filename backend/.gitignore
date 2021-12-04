@@ -38,6 +38,6 @@ lerna-debug.log*
 
 # /src/common/constants.ts
 /ormconfig.json
-# .env
+.env
 
 /files
