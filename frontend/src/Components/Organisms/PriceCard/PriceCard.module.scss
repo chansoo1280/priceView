@@ -10,10 +10,11 @@
         justify-content: space-between;
         align-items: center;
         gap: 8px;
-        height: 96px;
+        min-height: 96px;
         color: #4b4b4b;
     }
     &__header {
+        max-width:60%;
         margin-right: auto;
     }
     &__title {
@@ -21,7 +22,6 @@
         font-size: 26px;
     }
     &__sub{
-        overflow:hidden;
     }
     &__unit {
         font-size: 16px;
@@ -34,12 +34,9 @@
     &__price {
         margin-bottom: 7px;
         display: block;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 500;
         text-align: right;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space: nowrap;
     }
     &__price-change {
         display: flex;

@@ -10,8 +10,8 @@ export default function HomeScreen() {
   const [canGoBack, SetCanGoBack] = useState(false);
   let exitAppTimeout = null;
   let exitApp = false;
-  const url = 'http://172.30.1.23:3000/';
-  // const url = 'https://price.chansoo1280.site/';
+  // const url = 'http://172.30.1.23:3000/';
+  const url = 'https://price.chansoo1280.site/';
   const requestPermissions = async function () {
     if (Platform.OS === 'ios') {
       Geolocation.requestAuthorization();
