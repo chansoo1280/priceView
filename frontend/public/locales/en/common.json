@@ -169,6 +169,7 @@
         "location-information-not-found": "location information not found",
         "is-not-Seoul": "not Seoul",
         "open-chart": "open chart",
-        "close-chart": "close chart"
+        "close-chart": "close chart",
+        "do-not-have-permission": "do not have permission"
     }
 }

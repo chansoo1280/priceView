@@ -169,6 +169,7 @@
         "location-information-not-found": "위치정보를 찾지 못했습니다.",
         "is-not-Seoul": "서울이 아닙니다.",
         "open-chart": "차트 보기",
-        "close-chart": "차트 닫기"
+        "close-chart": "차트 닫기",
+        "do-not-have-permission": "권한이 없습니다."
     }
 }

@@ -149,6 +149,9 @@ const Info = (): JSX.Element => {
     const getPosition = async () => {
         const data = await WebViewMessage<typeof RN_API.RN_API_GET_POSITION>(RN_API.RN_API_GET_POSITION)
         if (data === null) return
+        if (data === false) {
+            alert(t("message.do-not-have-permission"))
+        }
         const guSeq =
             (await reqPositionData({
                 y: data.coords.latitude,

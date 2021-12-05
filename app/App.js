@@ -107,7 +107,12 @@ export default function HomeScreen() {
                 // See error code charts below.
                 //alert(error.code+"-"+error.message);
                 if (error.code === 1) {
-                  alert('위치권한이 없습니다.');
+                  webview.current.postMessage(
+                    JSON.stringify({
+                      type: 'RN_API_GET_POSITION',
+                      data: false,
+                    }),
+                  );
                 }
               },
               {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
