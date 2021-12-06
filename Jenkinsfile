@@ -7,7 +7,7 @@ node {
         withAWS(credentials: 'aws-chansoo1280', region: 'ap-northeast-2') {
             load "$JENKINS_HOME/.envvars/priceView.groovy"
             sh(script: 'aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com')
-            sh 'docker build -t price-view ./backend'
+            sh 'docker build --no-cache -t price-view ./backend'
             sh 'docker tag price-view:latest 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com/price-view:latest'
             sh 'docker push 633540653248.dkr.ecr.ap-northeast-2.amazonaws.com/price-view:latest'
             sh 'docker build -t price-view-fe ./frontend'
