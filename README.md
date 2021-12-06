@@ -1,13 +1,13 @@
 <div id="top"></div>
 
-<h1 align="center">서울시 물가조회</h1>
+<h1 align="center">알고싶은 서울물가</h1>
 <div align="center">
   <a href="https://github.com/chansoo1280/priceView">
-    <img src="https://user-images.githubusercontent.com/62010067/141707497-d6172063-8505-4ffd-adb1-faea3b3f735e.png" alt="서울시 물가조회" width="300" height="300">
+    <img src="https://user-images.githubusercontent.com/62010067/144936941-baa1596e-5e49-4916-8c8e-113f06d679d9.png" alt="알고싶은 서울물가" width="300" height="300">
   </a>
 
   <p align="center">
-    서울시 물가조회 앱
+    알고싶은 서울물가 앱
     <br />
     <a href="https://github.com/chansoo1280/priceView"><strong>Explore the docs »</strong></a>
     <br />
@@ -36,7 +36,6 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#preview">Preview</a></li>
     <li><a href="#contributing">Contributing</a></li>
@@ -76,7 +75,7 @@
 
 ## About The Project
 
-> 모바일 통합 계정관리 앱
+> 서울특별시 물가조회 앱
 
 ### Built With
 
@@ -86,7 +85,7 @@
 - [Next.js](https://nextjs.org/)
 - [React.js](https://reactjs.org/)
 
-서버는 aws의 EKS를 사용하여 운영중입니다.
+서버는 aws의 EC2에 docker nginx를 사용하여 운영중입니다.
 
 - [AWS](https://aws.amazon.com/ko/?nc2=h_lg)
 
@@ -160,27 +159,6 @@
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Usage
-
-1. 계정목록을 저장할 폴더 선택하기
-2. 계정목록 파일 만들기
-3. 계정정보를 등록하기
-4. enjoy!
-
-### 백업
-
-1. 핀번호 입력 후 설정으로 이동
-2. 파일 백업하기 버튼 클릭
-3. 파일 이름 입력 후 완료 버튼 클릭
-
-### 복원
-
-1. 핀번호 입력 후 설정으로 이동
-2. 파일 가져오기 버튼 클릭
-3. 사용할 파일 선택
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 ## Roadmap
 
 - [ ] Add Ios 지원
@@ -190,7 +168,7 @@
   - [ ] dark
   - [ ] color
 - [ ] Multi-language Support
-  - [ ] en
+  - [x] en
   - [ ] jp
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -215,6 +193,5 @@ Project Link: [https://github.com/chansoo1280/priceView](https://github.com/chan
 ## Acknowledgments
 
 - [XEIcon](https://xpressengine.github.io/XEIcon/)
-- [figma](https://www.figma.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
