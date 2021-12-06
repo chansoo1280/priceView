@@ -5,10 +5,14 @@ WORKDIR /app
 ## 프로젝트의 모든 파일을 WORKDIR(/app)로 복사한다
 COPY . .
 
+COPY /var/jenkins_home/.envvars/priceView/.env /app/.env
+
 ## Nest.js project를 build 한다
 WORKDIR /app
 RUN npm install
 RUN npm run build
+
+COPY ./docker-compose.yml /root/docker-compose.yml
 
 # Step 2
 ## base image for Step 2: Node 10-alpine(light weight)
