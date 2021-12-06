@@ -2,16 +2,16 @@
 import { useState } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { useDispatch } from "react-redux"
 // #endregion Global Imports
 
 // #region Local Imports
 import { Header, Select, Button, Title, AlertModal, SettingList } from "@Components"
-import { useRouter } from "next/router"
 import { AppActions } from "@Reducers"
-import { useDispatch } from "react-redux"
 // #endregion Local Imports
 
-const Setting = (): JSX.Element => {
+const Page = (): JSX.Element => {
     const router = useRouter()
     const dispatch = useDispatch()
     const { t, i18n } = useTranslation("common")
@@ -32,8 +32,9 @@ const Setting = (): JSX.Element => {
                     <Select
                         value={i18n.language}
                         onChange={(e) => {
-                            dispatch(AppActions.setLang(e.target.value))
-                            router.replace("/setting", "/setting", { locale: e.target.value })
+                            const value = e.target.value
+                            dispatch(AppActions.setLang(value))
+                            router.replace("/setting", "/setting", { locale: value })
                         }}
                     >
                         <option value={"ko"}>한국어</option>
@@ -100,4 +101,4 @@ export const getStaticProps = async ({ locale }: { locale: string }) => ({
         transition: "popup",
     },
 })
-export default Setting
+export default Page

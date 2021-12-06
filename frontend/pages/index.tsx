@@ -1,17 +1,17 @@
 // #region Global Imports
-import { useEffect, useState } from "react"
 import { SwiperSlide } from "swiper/react"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useRouter } from "next/router"
+import Swiper from "swiper"
 // #endregion Global Imports
 
 // #region Local Imports
 import { Title, SlideTab, IconList, MainHeader } from "@Components"
 import { SUBCATE_LIST } from "@Definitions"
 import { AppActions, RootState } from "@Redux"
-import { useDispatch, useSelector } from "react-redux"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useRouter } from "next/router"
-import Swiper from "swiper"
 import { CATE, CATE_NAME, CATE_NAME_LIST } from "@Interfaces"
 // #endregion Local Imports
 
@@ -47,11 +47,11 @@ const Page = (): JSX.Element => {
                     {t("header.category-sel")}
                 </Title>
                 <SlideTab>
-                    {CATE_NAME_LIST.map(([key, value], idx) => (
+                    {CATE_NAME_LIST.map(([key, value]) => (
                         <SlideTab.Item
                             key={key}
                             onClick={() => {
-                                swiper?.slideTo(idx)
+                                swiper?.slideTo(Number(key))
                                 setSlideIdx(key)
                             }}
                             name={t("main." + value)}
@@ -69,11 +69,11 @@ const Page = (): JSX.Element => {
                 setSwiper={setSwiper}
                 selTab={selTab}
                 onChange={(e: any) => {
-                    const [key, value] = CATE_NAME_LIST[e.activeIndex]
+                    const [key] = CATE_NAME_LIST[e.activeIndex]
                     setSlideIdx(key)
                 }}
             >
-                {CATE_NAME_LIST.map(([key, value]) => (
+                {CATE_NAME_LIST.map(([key]) => (
                     <SwiperSlide key={key}>
                         <IconList.Item key={key}>
                             {SUBCATE_LIST.concat(starList)
@@ -93,11 +93,9 @@ const Page = (): JSX.Element => {
         </>
     )
 }
-export const getStaticProps = async ({ locale }: { locale: string }): Promise<any> => {
-    return {
-        props: {
-            ...(await serverSideTranslations(locale, ["common"])),
-        },
-    }
-}
+export const getStaticProps = async ({ locale }: { locale: string }): Promise<any> => ({
+    props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+    },
+})
 export default Page

@@ -1,31 +1,29 @@
 // #region Global Imports
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { stringify } from "query-string"
+import { useDispatch, useSelector } from "react-redux"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { GetStaticPaths } from "next"
 // #endregion Global Imports
 
 // #region Local Imports
 import { ITEM_OBJ, M_GU, M_TYPE, RN_API, SUBCATE_LIST } from "@Definitions"
 import { Header, Chart, Select, PriceCard, Space, Tooltip, Button, Tab } from "@Components"
 import { Count } from "@Interfaces"
-import { Http } from "@Services"
+import { Http, reqPositionData, WebViewMessage } from "@Services"
 import { RootState, StarActions } from "@Redux"
-import { useDispatch, useSelector } from "react-redux"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { GetStaticPaths } from "next"
-import { WebViewMessage } from "@Services/API/WebViewMessage"
 // #endregion Local Imports
 
-const Info = (): JSX.Element => {
+const Page = (): JSX.Element => {
     const router = useRouter()
     const { seq } = router.query
     const dispatch = useDispatch()
     const { t } = useTranslation("common")
-    const star = useSelector((state: RootState) => state.starReducer)
+    const { star } = useSelector((state: RootState) => ({ star: state.starReducer }))
 
     const cate_info =
-        SUBCATE_LIST.find((info, idx) => {
+        SUBCATE_LIST.find((info) => {
             return info.seq === Number(seq)
         }) || null
     const [cateName, _] = useState(cate_info?.name)
@@ -113,39 +111,6 @@ const Info = (): JSX.Element => {
         updateChart(selType, result || [])
     }
 
-    const reqPositionData = ({ x, y }: { x: string; y: string }): Promise<string | undefined> => {
-        return fetch(
-            `https://dapi.kakao.com/v2/local/geo/coord2address.json?${stringify({
-                x,
-                y,
-            })}`,
-            {
-                method: `get`,
-                headers: {
-                    "content-type": "application/json",
-                    Authorization: "KakaoAK 4fdda60789cef4f549581038ad7564e5",
-                },
-            },
-        ).then((response) => {
-            if (response.status !== 200) {
-                alert(t("message.location-information-not-found"))
-                return
-            }
-            return response.json().then((res) => {
-                if (res.documents && res.documents.length === 0) {
-                    alert(t("message.location-information-not-found"))
-                    return
-                }
-                const { region_1depth_name, region_2depth_name } = res.documents[0]?.address
-                if (region_1depth_name !== "서울") {
-                    alert(t("message.is-not-Seoul"))
-                    return
-                }
-                return Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name) || ""
-            })
-        })
-    }
-
     const getPosition = async () => {
         const data = await WebViewMessage<typeof RN_API.RN_API_GET_POSITION>(RN_API.RN_API_GET_POSITION)
         if (data === null) return
@@ -156,6 +121,23 @@ const Info = (): JSX.Element => {
             (await reqPositionData({
                 y: data.coords.latitude,
                 x: data.coords.longitude,
+            }).then((response) => {
+                if (response.status !== 200) {
+                    alert(t("message.location-information-not-found"))
+                    return
+                }
+                return response.json().then((res) => {
+                    if (res.documents && res.documents.length === 0) {
+                        alert(t("message.location-information-not-found"))
+                        return
+                    }
+                    const { region_1depth_name, region_2depth_name } = res.documents[0]?.address
+                    if (region_1depth_name !== "서울") {
+                        alert(t("message.is-not-Seoul"))
+                        return
+                    }
+                    return Object.keys(M_GU).find((key) => M_GU[key] === region_2depth_name)
+                })
             })) || ""
         setSelGu(guSeq)
         reqPriceData(guSeq)
@@ -272,18 +254,14 @@ const Info = (): JSX.Element => {
         </>
     )
 }
-export const getStaticProps = async ({ locale }: { locale: string }) => {
-    return {
-        props: {
-            ...(await serverSideTranslations(locale, ["common"])),
-            transition: "slide",
-        },
-    }
-}
-export const getStaticPaths: GetStaticPaths<{ seq: string }> = async () => {
-    return {
-        paths: [], //indicates that no page needs be created at build time
-        fallback: "blocking", //indicates the type of fallback
-    }
-}
-export default Info
+export const getStaticProps = async ({ locale }: { locale: string }) => ({
+    props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+        transition: "slide",
+    },
+})
+export const getStaticPaths: GetStaticPaths<{ seq: string }> = async () => ({
+    paths: [], //indicates that no page needs be created at build time
+    fallback: "blocking", //indicates the type of fallback
+})
+export default Page

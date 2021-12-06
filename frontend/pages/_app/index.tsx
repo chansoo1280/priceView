@@ -3,23 +3,23 @@ import "/styles/style.scss"
 import "/styles/reset.css"
 // Import Swiper styles
 import "swiper/swiper.scss"
-import * as React from "react"
-import App, { AppInitialProps, AppContext, AppProps } from "next/app"
-import { useRouter, withRouter } from "next/router"
+
+import { AppInitialProps, AppContext, AppProps } from "next/app"
+import { useRouter } from "next/router"
 import { ThemeProvider } from "styled-components"
-import { connect, ReactReduxContext, useDispatch, useSelector } from "react-redux"
+import { ReactReduxContext, useSelector } from "react-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import { CSSTransition, TransitionGroup } from "react-transition-group"
 import { appWithTranslation } from "next-i18next"
+import { useEffect, useState } from "react"
+import { NextComponentType } from "next"
 // #endregion Global Imports
 
 // #region Local Imports
 import { ThemeObj, ThemeType } from "@Definitions/Styled"
 import { RootState, wrapper } from "@Redux"
 import TheLayout, { LayoutCode } from "@Components/Layout"
-import "@Services/API/DateFormat"
-import { useEffect, useState } from "react"
-import { NextComponentType } from "next"
+import "@Services/DateFormat"
 // #endregion Local Imports
 
 const formatPathname = (url: string) =>
