@@ -10,8 +10,6 @@ WORKDIR /app
 RUN npm install
 RUN npm run build
 
-COPY ./docker-compose.yml /root/docker-compose.yml
-
 # Step 2
 ## base image for Step 2: Node 10-alpine(light weight)
 FROM node:10-alpine
