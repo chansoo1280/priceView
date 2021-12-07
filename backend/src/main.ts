@@ -17,7 +17,7 @@ async function bootstrap() {
         }),
     )
 
-    await app.listen(
+    const server = await app.listen(
         // eslint-disable-next-line no-nested-ternary
         (process.env.NODE_ENV === 'test'
             ? process.env.PORT_TEST
@@ -25,5 +25,6 @@ async function bootstrap() {
             ? process.env.PORT_DEV
             : process.env.PORT) || 10001,
     )
+    server.setTimeout(1800000); // 600,000=> 10Min, 1200,000=>20Min, 1800,000=>30Min
 }
 bootstrap()
