@@ -25,7 +25,7 @@ const Page = (): JSX.Element => {
                     icon={<img src="/static/images/icon_back.svg" alt={t("header.back")} />}
                 ></Button>
             </Header>
-            <SettingList.Title as="h2">앱</SettingList.Title>
+            {/* <SettingList.Title as="h2">앱</SettingList.Title>
             <SettingList>
                 <SettingList.Item>
                     <Title as="h3">앱 평가</Title>
@@ -36,7 +36,7 @@ const Page = (): JSX.Element => {
                 <SettingList.Item>
                     <Title as="h3">문의하기</Title>
                 </SettingList.Item>
-            </SettingList>
+            </SettingList> */}
             <SettingList.Title as="h2">{t("setting.usability")}</SettingList.Title>
             <SettingList>
                 <SettingList.Item>
@@ -56,9 +56,9 @@ const Page = (): JSX.Element => {
             </SettingList>
             <SettingList.Title as="h2">약관</SettingList.Title>
             <SettingList>
-                <SettingList.Item>
+                {/* <SettingList.Item>
                     <Title as="h3">이용약관</Title>
-                </SettingList.Item>
+                </SettingList.Item> */}
                 <SettingList.Item>
                     <Title as="h3">{t("setting.privacy-policy")}</Title>
                     <SettingList.Text>
