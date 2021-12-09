@@ -25,6 +25,18 @@ const Page = (): JSX.Element => {
                     icon={<img src="/static/images/icon_back.svg" alt={t("header.back")} />}
                 ></Button>
             </Header>
+            <SettingList.Title as="h2">앱</SettingList.Title>
+            <SettingList>
+                <SettingList.Item>
+                    <Title as="h3">앱 평가</Title>
+                </SettingList.Item>
+                <SettingList.Item>
+                    <Title as="h3">사용방법</Title>
+                </SettingList.Item>
+                <SettingList.Item>
+                    <Title as="h3">문의하기</Title>
+                </SettingList.Item>
+            </SettingList>
             <SettingList.Title as="h2">{t("setting.usability")}</SettingList.Title>
             <SettingList>
                 <SettingList.Item>
@@ -40,6 +52,20 @@ const Page = (): JSX.Element => {
                         <option value={"ko"}>한국어</option>
                         <option value={"en"}>english</option>
                     </Select>
+                </SettingList.Item>
+            </SettingList>
+            <SettingList.Title as="h2">약관</SettingList.Title>
+            <SettingList>
+                <SettingList.Item>
+                    <Title as="h3">이용약관</Title>
+                </SettingList.Item>
+                <SettingList.Item>
+                    <Title as="h3">{t("setting.privacy-policy")}</Title>
+                    <SettingList.Text>
+                        <a href="https://chansoo1280.site/privacy/priceview/" target="_blank">
+                            새창으로 보기
+                        </a>
+                    </SettingList.Text>
                 </SettingList.Item>
             </SettingList>
             <SettingList.Title as="h2">{t("setting.app-info")}</SettingList.Title>
@@ -59,14 +85,14 @@ const Page = (): JSX.Element => {
                 >
                     <Title as="h3">{t("setting.producer")}</Title>
                 </SettingList.Item>
-                <SettingList.Item>
+                {/* <SettingList.Item>
                     <Title as="h3">{t("setting.policy")}</Title>
                     <SettingList.Text>
                         <a href="https://chansoo1280.site/privacy/priceview/" target="_blank">
                             {t("setting.privacy-policy")}
                         </a>
                     </SettingList.Text>
-                </SettingList.Item>
+                </SettingList.Item> */}
                 <SettingList.Item>
                     <Title as="h3">{t("setting.version-info")}</Title>
                     <SettingList.Text>1.0</SettingList.Text>
