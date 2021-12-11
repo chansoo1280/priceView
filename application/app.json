@@ -1,4 +1,17 @@
 {
   "name": "application",
-  "displayName": "application"
+  "displayName": "application",
+  "expo": {
+    "name": "Ads Showcase",
+    "android": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-1378042447494891~4672187309" 
+      }
+    },
+    "ios": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-1378042447494891~4672187309" 
+      }
+    }
+  }
 }

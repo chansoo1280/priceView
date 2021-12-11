@@ -5,9 +5,17 @@ import {
   Platform,
   ToastAndroid,
   PermissionsAndroid,
+  View,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WebView} from 'react-native-webview';
+import {
+  AdMobBanner,
+  AdMobInterstitial,
+  PublisherBanner,
+  AdMobRewarded,
+  setTestDeviceIDAsync,
+} from 'expo-ads-admob';
 
 const App = () => {
   const webview = useRef(null);
@@ -63,93 +71,103 @@ const App = () => {
   }, [canGoBack]);
 
   return (
-    <WebView
-      ref={webview}
-      source={{uri: url}}
-      // onNavigationStateChange={(navState) => {
-      //   console.log(navState);
-      //   SetCanGoBack(navState.canGoBack);
-      // }}
-      injectedJavaScript={`
-    (function() {
-      function wrap(fn) {
-        return function wrapper() {
-          var res = fn.apply(this, arguments);
+    <View style={{
+      width: "100%",
+      height: "100%"
+    }}>
+      <WebView
+        ref={webview}
+        source={{uri: url}}
+        // onNavigationStateChange={(navState) => {
+        //   console.log(navState);
+        //   SetCanGoBack(navState.canGoBack);
+        // }}
+        injectedJavaScript={`
+      (function() {
+        function wrap(fn) {
+          return function wrapper() {
+            var res = fn.apply(this, arguments);
+            window.ReactNativeWebView.postMessage('navigationStateChange');
+            return res;
+          }
+        }
+  
+        history.pushState = wrap(history.pushState);
+        history.replaceState = wrap(history.replaceState);
+        window.addEventListener('popstate', function() {
           window.ReactNativeWebView.postMessage('navigationStateChange');
-          return res;
-        }
-      }
-
-      history.pushState = wrap(history.pushState);
-      history.replaceState = wrap(history.replaceState);
-      window.addEventListener('popstate', function() {
-        window.ReactNativeWebView.postMessage('navigationStateChange');
-      });
-    })();
-
-    true;
-  `}
-      onMessage={async message => {
-        const {nativeEvent} = message;
-        if (nativeEvent?.data === 'navigationStateChange') {
-          SetCanGoBack(nativeEvent.canGoBack);
-          return;
-        }
-        const req = JSON.parse(nativeEvent?.data || '""');
-        switch (req.type) {
-          case 'RN_API_GET_POSITION': {
-            await requestPermissions();
-            Geolocation.getCurrentPosition(
-              position => {
-                webview.current.postMessage(
-                  JSON.stringify({
-                    type: 'RN_API_GET_POSITION',
-                    data: position,
-                  }),
-                );
-              },
-              error => {
-                // See error code charts below.
-                //alert(error.code+"-"+error.message);
-                if (error.code === 1) {
+        });
+      })();
+  
+      true;
+    `}
+        onMessage={async message => {
+          const {nativeEvent} = message;
+          if (nativeEvent?.data === 'navigationStateChange') {
+            SetCanGoBack(nativeEvent.canGoBack);
+            return;
+          }
+          const req = JSON.parse(nativeEvent?.data || '""');
+          switch (req.type) {
+            case 'RN_API_GET_POSITION': {
+              await requestPermissions();
+              Geolocation.getCurrentPosition(
+                position => {
                   webview.current.postMessage(
                     JSON.stringify({
                       type: 'RN_API_GET_POSITION',
-                      data: false,
+                      data: position,
                     }),
                   );
-                }
-              },
-              {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-            );
-            break;
+                },
+                error => {
+                  // See error code charts below.
+                  //alert(error.code+"-"+error.message);
+                  if (error.code === 1) {
+                    webview.current.postMessage(
+                      JSON.stringify({
+                        type: 'RN_API_GET_POSITION',
+                        data: false,
+                      }),
+                    );
+                  }
+                },
+                {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+              );
+              break;
+            }
+            case 'RN_API_SET_STAR': {
+              AsyncStorage.setItem('star', JSON.stringify(req?.data));
+              webview.current.postMessage(
+                JSON.stringify({
+                  type: 'RN_API_SET_STAR',
+                  data: 'success',
+                }),
+              );
+              break;
+            }
+            case 'RN_API_GET_STAR': {
+              const star = await AsyncStorage.getItem(
+                'star',
+                (err, result) => result,
+              );
+              webview.current.postMessage(
+                JSON.stringify({
+                  type: 'RN_API_GET_STAR',
+                  data: JSON.parse(star),
+                }),
+              );
+              break;
+            }
           }
-          case 'RN_API_SET_STAR': {
-            AsyncStorage.setItem('star', JSON.stringify(req?.data));
-            webview.current.postMessage(
-              JSON.stringify({
-                type: 'RN_API_SET_STAR',
-                data: 'success',
-              }),
-            );
-            break;
-          }
-          case 'RN_API_GET_STAR': {
-            const star = await AsyncStorage.getItem(
-              'star',
-              (err, result) => result,
-            );
-            webview.current.postMessage(
-              JSON.stringify({
-                type: 'RN_API_GET_STAR',
-                data: JSON.parse(star),
-              }),
-            );
-            break;
-          }
-        }
-      }}
-    />
+        }}
+      />
+      <AdMobBanner
+  adUnitID="ca-app-pub-3940256099942544/6300978111"
+  // adUnitID="ca-app-pub-1378042447494891/1854452276" // Test ID, Replace with your-admob-unit-id
+  servePersonalizedAds // true or false
+  onDidFailToReceiveAdWithError={this.bannerError} />
+    </View>
   );
 };
 
