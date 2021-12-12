@@ -5,6 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import { AdMobBanner } from 'expo-ads-admob';
 import { WebViewWrapper } from '@Service';
+const RN_API = {
+	RN_API_GET_STAR: 'RN_API_GET_STAR',
+	RN_API_GET_POSITION: 'RN_API_GET_POSITION',
+	RN_API_GET_VERSION: 'RN_API_GET_VERSION'
+};
 
 const App = () => {
 	const webview = createRef();
@@ -50,22 +55,22 @@ const App = () => {
 					}
 					const req = JSON.parse(nativeEvent.data || '""');
 					switch (req.type) {
-						case 'RN_API_GET_VERSION': {
+						case RN_API.RN_API_GET_VERSION: {
 							webview.current.postMessage(
 								JSON.stringify({
-									type: 'RN_API_GET_VERSION',
+									type: RN_API.RN_API_GET_VERSION,
 									data: '1.4'
 								})
 							);
 							break;
 						}
-						case 'RN_API_GET_POSITION': {
+						case RN_API.RN_API_GET_POSITION: {
 							await requestPermissions();
 							Geolocation.getCurrentPosition(
 								(position) => {
 									webview.current.postMessage(
 										JSON.stringify({
-											type: 'RN_API_GET_POSITION',
+											type: RN_API.RN_API_GET_POSITION,
 											data: position
 										})
 									);
@@ -76,7 +81,7 @@ const App = () => {
 									if (error.code === 1) {
 										webview.current.postMessage(
 											JSON.stringify({
-												type: 'RN_API_GET_POSITION',
+												type: RN_API.RN_API_GET_POSITION,
 												data: false
 											})
 										);
@@ -86,21 +91,21 @@ const App = () => {
 							);
 							break;
 						}
-						case 'RN_API_SET_STAR': {
+						case RN_API.RN_API_SET_STAR: {
 							AsyncStorage.setItem('star', JSON.stringify(req.data));
 							webview.current.postMessage(
 								JSON.stringify({
-									type: 'RN_API_SET_STAR',
+									type: RN_API.RN_API_SET_STAR,
 									data: 'success'
 								})
 							);
 							break;
 						}
-						case 'RN_API_GET_STAR': {
+						case RN_API.RN_API_GET_STAR: {
 							const star = await AsyncStorage.getItem('star', (err, result) => result);
 							webview.current.postMessage(
 								JSON.stringify({
-									type: 'RN_API_GET_STAR',
+									type: RN_API.RN_API_GET_STAR,
 									data: JSON.parse(star)
 								})
 							);
