@@ -151,6 +151,9 @@
     "setting": {
         "usability": "usability",
         "langage": "langage",
+        "app": "app",
+        "review-message": "Do you like this app?",
+        "go-review": "Rate the app",
         "app-info": "info of app",
         "data-provider": "data provider",
         "producer": "producer",
@@ -158,7 +161,8 @@
         "developer": "developer",
         "designer": "designer",
         "policy": "policy",
-        "privacy-policy": "privacy policy"
+        "privacy-policy": "privacy policy",
+        "open-to-new-tab": "view in new window"
     },
     "message": {
         "was-added": "was added",

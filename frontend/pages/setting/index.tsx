@@ -25,18 +25,23 @@ const Page = (): JSX.Element => {
                     icon={<img src="/static/images/icon_back.svg" alt={t("header.back")} />}
                 ></Button>
             </Header>
-            {/* <SettingList.Title as="h2">앱</SettingList.Title>
+            <SettingList.Title as="h2">{t("setting.app")}</SettingList.Title>
             <SettingList>
                 <SettingList.Item>
-                    <Title as="h3">앱 평가</Title>
+                    <Title as="h3">{t("setting.review-message")}</Title>
+                    <SettingList.Text>
+                        <a
+                            href="https://play.google.com/store/apps/details?id=site.chansoo1280.priceview"
+                            target="_blank"
+                        >
+                            {t("setting.go-review")}
+                        </a>
+                    </SettingList.Text>
                 </SettingList.Item>
-                <SettingList.Item>
-                    <Title as="h3">사용방법</Title>
-                </SettingList.Item>
-                <SettingList.Item>
-                    <Title as="h3">문의하기</Title>
-                </SettingList.Item>
-            </SettingList> */}
+                {/* <SettingList.Item>
+                    <Title as="h3">1대1 문의</Title>
+                </SettingList.Item> */}
+            </SettingList>
             <SettingList.Title as="h2">{t("setting.usability")}</SettingList.Title>
             <SettingList>
                 <SettingList.Item>
@@ -54,7 +59,7 @@ const Page = (): JSX.Element => {
                     </Select>
                 </SettingList.Item>
             </SettingList>
-            <SettingList.Title as="h2">약관</SettingList.Title>
+            <SettingList.Title as="h2">{t("setting.policy")}</SettingList.Title>
             <SettingList>
                 {/* <SettingList.Item>
                     <Title as="h3">이용약관</Title>
@@ -63,7 +68,7 @@ const Page = (): JSX.Element => {
                     <Title as="h3">{t("setting.privacy-policy")}</Title>
                     <SettingList.Text>
                         <a href="https://chansoo1280.site/privacy/priceview/" target="_blank">
-                            새창으로 보기
+                            {t("setting.open-to-new-tab")}
                         </a>
                     </SettingList.Text>
                 </SettingList.Item>
