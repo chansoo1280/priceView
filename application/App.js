@@ -11,10 +11,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {WebView} from 'react-native-webview';
 import {
   AdMobBanner,
-  AdMobInterstitial,
-  PublisherBanner,
-  AdMobRewarded,
-  setTestDeviceIDAsync,
 } from 'expo-ads-admob';
 
 const App = () => {
@@ -109,6 +105,15 @@ const App = () => {
           }
           const req = JSON.parse(nativeEvent?.data || '""');
           switch (req.type) {
+            case 'RN_API_GET_VERSION': {
+              webview.current.postMessage(
+                JSON.stringify({
+                  type: 'RN_API_GET_VERSION',
+                  data: '1.4',
+                }),
+              );
+              break;
+            }
             case 'RN_API_GET_POSITION': {
               await requestPermissions();
               Geolocation.getCurrentPosition(
@@ -163,8 +168,8 @@ const App = () => {
         }}
       />
       <AdMobBanner
-  adUnitID="ca-app-pub-3940256099942544/6300978111"
-  // adUnitID="ca-app-pub-1378042447494891/1854452276" // Test ID, Replace with your-admob-unit-id
+  // adUnitID="ca-app-pub-3940256099942544/6300978111"
+  adUnitID="ca-app-pub-1378042447494891/1854452276" // Test ID, Replace with your-admob-unit-id
   servePersonalizedAds // true or false
   onDidFailToReceiveAdWithError={this.bannerError} />
     </View>
