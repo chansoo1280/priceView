@@ -10,9 +10,10 @@ import Swiper from "swiper"
 
 // #region Local Imports
 import { Title, SlideTab, IconList, MainHeader } from "@Components"
-import { SUBCATE_LIST } from "@Definitions"
+import { RN_API, SUBCATE_LIST } from "@Definitions"
 import { AppActions, RootState } from "@Redux"
 import { CATE, CATE_NAME, CATE_NAME_LIST } from "@Interfaces"
+import { WebViewMessage } from "@Services"
 // #endregion Local Imports
 
 const Page = (): JSX.Element => {
@@ -35,10 +36,17 @@ const Page = (): JSX.Element => {
         dispatch(AppActions.setCate(seLcate))
         setSelTab(seLcate)
     }
+    const checkVersion = async () => {
+        const data = await WebViewMessage<typeof RN_API.RN_API_GET_VERSION>(RN_API.RN_API_GET_VERSION)
+        if (data !== "1.5") {
+            alert("최신버전이 아닙니다. 업데이트를 진행해주세요.")
+        }
+    }
     useEffect(() => {
         if (app.sel_lang !== i18n.language) {
             router.replace("/", "/", { locale: app.sel_lang || "ko" })
         }
+        checkVersion()
     }, [])
     return (
         <>

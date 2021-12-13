@@ -7,7 +7,8 @@ import { stringify } from "query-string"
 import { HttpModel } from "@Interfaces"
 // #endregion Interface Imports
 
-const BaseUrl = process.env.NODE_ENV !== "production" ? `http://localhost:5000` : `https://price.chansoo1280.site`
+// const BaseUrl = process.env.NODE_ENV !== "production" ? `http://localhost:5000` : `https://price.chansoo1280.site`
+const BaseUrl = `https://price.chansoo1280.site`
 export const Http = {
     Request: async <A>(
         methodType: string,
