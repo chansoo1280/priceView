@@ -115,8 +115,8 @@ const App = () => {
 				}}
 			/>
 			<AdMobBanner
-				// adUnitID="ca-app-pub-3940256099942544/6300978111"
-				adUnitID="ca-app-pub-1378042447494891/1854452276" // Test ID, Replace with your-admob-unit-id
+				bannerSize="fullBanner"
+				adUnitID="ca-app-pub-1378042447494891/1854452276"
 				servePersonalizedAds // true or false
 			/>
 		</View>
