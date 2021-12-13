@@ -59,7 +59,7 @@ const App = () => {
 							webview.current.postMessage(
 								JSON.stringify({
 									type: RN_API.RN_API_GET_VERSION,
-									data: '1.4'
+									data: '1.5'
 								})
 							);
 							break;
@@ -115,9 +115,12 @@ const App = () => {
 				}}
 			/>
 			<AdMobBanner
-				bannerSize="fullBanner"
+				bannerSize="smartBannerPortrait"
 				adUnitID="ca-app-pub-1378042447494891/1854452276"
 				servePersonalizedAds // true or false
+				onDidFailToReceiveAdWithError={(e) => {
+					console.log(e);
+				}}
 			/>
 		</View>
 	);

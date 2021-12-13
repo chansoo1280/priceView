@@ -38,14 +38,14 @@ const Page = (): JSX.Element => {
     }
     const checkVersion = async () => {
         const data = await WebViewMessage<typeof RN_API.RN_API_GET_VERSION>(RN_API.RN_API_GET_VERSION)
-        if (data !== "1.4" || data !== "1.5") {
+        if (data !== "1.4" && data !== "1.5") {
             alert("최신버전이 아닙니다. 업데이트를 진행해주세요.")
         }
     }
     useEffect(() => {
         if (app.sel_lang !== i18n.language) {
             router.replace("/", "/", { locale: app.sel_lang || "ko" })
-            return;
+            return
         }
         checkVersion()
     }, [])
