@@ -17,7 +17,7 @@ export class PriceController {
         @Req() req: Request,
         @Res() res: Response,
     ): Promise<Response> {
-        console.log(req.headers)
+        // console.log(req.headers)
         if (req.headers.secret !== SECRET) return handleResult(ResCode.Unauthorized, res)
         const insertData = async (page: number) => {
             const result = await this.priceService.findAll(P_YEAR_MONTH, page)

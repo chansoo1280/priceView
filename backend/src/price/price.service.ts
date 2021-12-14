@@ -36,6 +36,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
     // })
     async handleInterval() {
         const myHttp = "https://price.chansoo1280.site"
+        // const myHttp = "http://localhost:5000"
         const date = new Date()
         console.log(`data update - ${date}`)
         const curDate1 = new Date(
@@ -103,11 +104,11 @@ export class PriceService extends TypeOrmQueryService<Price> {
                     .execute()
             }),
         )
-        this.httpService
+        await this.httpService
             .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH}`, config)
             .pipe(map((response: { data: any }) => response.data))
             .toPromise()
-        this.httpService
+        await this.httpService
             .get(`${myHttp}/api/count?P_YEAR_MONTH=${P_YEAR_MONTH2}`, config)
             .pipe(map((response: { data: any }) => response.data))
             .toPromise()
