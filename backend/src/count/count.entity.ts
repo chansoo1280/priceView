@@ -1,16 +1,19 @@
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, Unique } from 'typeorm'
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, Unique } from "typeorm"
 
 @Entity()
 export class Count extends BaseEntity {
     @PrimaryGeneratedColumn()
     countSeq!: number
 
-    @Unique('C_CODE', ['C_CODE'])
+    @Unique("C_CODE", ["C_CODE"])
     @Column()
     C_CODE!: string
 
     @Column()
     A_SEQ!: string
+
+    @Column({ nullable: true, type: "int" })
+    subcateSeq?: number
 
     @Column()
     A_NAME!: string

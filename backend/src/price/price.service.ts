@@ -1,12 +1,12 @@
-import { HttpService, Injectable } from '@nestjs/common'
-import { map } from 'rxjs/operators'
-import { TypeOrmQueryService } from '@nestjs-query/query-typeorm'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Brackets, InsertResult } from 'typeorm'
-import { Interval } from '@nestjs/schedule'
-import { SECRET } from 'src/common/constants'
-import { PriceRepository } from './price.repository'
-import { Price } from './price.entity'
+import { HttpService, Injectable } from "@nestjs/common"
+import { map } from "rxjs/operators"
+import { TypeOrmQueryService } from "@nestjs-query/query-typeorm"
+import { InjectRepository } from "@nestjs/typeorm"
+import { Brackets, InsertResult } from "typeorm"
+import { Cron, Interval } from "@nestjs/schedule"
+import { SECRET } from "src/common/constants"
+import { PriceRepository } from "./price.repository"
+import { Price } from "./price.entity"
 
 @Injectable()
 export class PriceService extends TypeOrmQueryService<Price> {
@@ -24,18 +24,18 @@ export class PriceService extends TypeOrmQueryService<Price> {
     // }
 
     // @Cron('0 9 * * * *', {
-    // @Cron('0 0 0 0 * *', {
-    //   name: 'notifications',
-    //   timeZone: 'Asia/Seoul',
-    // })
+    @Cron("0 0 3 * * *", {
+        name: "notifications",
+        timeZone: "Asia/Seoul",
+    })
     // async handleCron() {
-    @Interval('interval', 1000 * 60 * 60 * 24 * 14)
+    // @Interval('interval', 1000 * 60 * 60 * 24 * 14)
     // @Cron('0 4 * * * *', {
     //   name: 'notifications',
     //   timeZone: 'Asia/Seoul',
     // })
     async handleInterval() {
-        const myHttp = 'https://price.chansoo1280.site'
+        const myHttp = "https://price.chansoo1280.site"
         const date = new Date()
         console.log(`data update - ${date}`)
         const curDate1 = new Date(
@@ -66,27 +66,27 @@ export class PriceService extends TypeOrmQueryService<Price> {
             .toPromise()
 
         const mergeList = [
-            ['동태', 13, '동태', 288],
-            ['고등어', 304, '고등어', 13],
-            ['닭고기', 320, '달걀(왕란)', 181],
-            ['', 18, '닭고기', 18],
-            ['돼지고기', 18, '돼지고기', 285],
-            ['돼지고기', 171, '돼지고기', 285],
-            ['', 171, '달걀(10개)', 171],
-            ['조기', 253, '오징어', 253],
-            ['', 278, '쇠고기', 278],
-            ['', 285, '돼지고기', 285],
-            ['쇠고기', 285, '쇠고기', 278],
-            ['달걀(30개)', 288, '동태', 288],
-            ['달걀(10개)', 303, '조기', 303],
-            ['사과(부사),중급(대)', 237, '사과(부사),중급(대)', 244],
-            ['달걀(왕란)', 134, '달걀(왕란)', 181],
-            ['달걀', 17, '달걀(10개)', 171],
-            ['배추(중간)', 175, '배추(중간)', 271],
-            ['무(세척무)', 282, '무(세척무)', 133],
-            ['조기(국산,생물)', 136, '조기(생물,국산)', 258],
-            ['조기(국산,냉동)', 144, '조기(냉동,국산)', 259],
-            ['양파(작은망)', 272, '양파(1.5kg망)', 309],
+            ["동태", 13, "동태", 288],
+            ["고등어", 304, "고등어", 13],
+            ["닭고기", 320, "달걀(왕란)", 181],
+            ["", 18, "닭고기", 18],
+            ["돼지고기", 18, "돼지고기", 285],
+            ["돼지고기", 171, "돼지고기", 285],
+            ["", 171, "달걀(10개)", 171],
+            ["조기", 253, "오징어", 253],
+            ["", 278, "쇠고기", 278],
+            ["", 285, "돼지고기", 285],
+            ["쇠고기", 285, "쇠고기", 278],
+            ["달걀(30개)", 288, "동태", 288],
+            ["달걀(10개)", 303, "조기", 303],
+            ["사과(부사),중급(대)", 237, "사과(부사),중급(대)", 244],
+            ["달걀(왕란)", 134, "달걀(왕란)", 181],
+            ["달걀", 17, "달걀(10개)", 171],
+            ["배추(중간)", 175, "배추(중간)", 271],
+            ["무(세척무)", 282, "무(세척무)", 133],
+            ["조기(국산,생물)", 136, "조기(생물,국산)", 258],
+            ["조기(국산,냉동)", 144, "조기(냉동,국산)", 259],
+            ["양파(작은망)", 272, "양파(1.5kg망)", 309],
         ]
         await Promise.all(
             mergeList.map((info, i) => {
@@ -98,8 +98,8 @@ export class PriceService extends TypeOrmQueryService<Price> {
                         A_SEQ: Number(info[3]),
                         A_NAME: String(info[2]),
                     })
-                    .where('price.A_SEQ = :A_SEQ', { A_SEQ: info[1] })
-                    .andWhere('price.A_NAME = :A_NAME', { A_NAME: info[0] })
+                    .where("price.A_SEQ = :A_SEQ", { A_SEQ: info[1] })
+                    .andWhere("price.A_NAME = :A_NAME", { A_NAME: info[0] })
                     .execute()
             }),
         )
@@ -115,9 +115,9 @@ export class PriceService extends TypeOrmQueryService<Price> {
 
     async getCnt({ name, A_UNIT, P_YEAR_MONTH }: any): Promise<Price[]> {
         const result = await this.priceRepository
-            .createQueryBuilder('price')
+            .createQueryBuilder("price")
             .select()
-            .where('price.A_NAME = :name', { name })
+            .where("price.A_NAME = :name", { name })
             // .andWhere("price.A_UNIT IN (:units)", { units: A_UNIT })
             .andWhere(
                 new Brackets((subQy) => {
@@ -128,12 +128,12 @@ export class PriceService extends TypeOrmQueryService<Price> {
                     })
                 }),
             )
-            .andWhere('price.P_YEAR_MONTH = :P_YEAR_MONTH', { P_YEAR_MONTH })
+            .andWhere("price.P_YEAR_MONTH = :P_YEAR_MONTH", { P_YEAR_MONTH })
             .getMany()
         return result
     }
 
-    async getLen(P_YEAR_MONTH: Price['P_YEAR_MONTH']): Promise<any> {
+    async getLen(P_YEAR_MONTH: Price["P_YEAR_MONTH"]): Promise<any> {
         return this.httpService
             .get(
                 `http://openapi.seoul.go.kr:8088/5766576b4e63686136305a414e6345/json/ListNecessariesPricesService/1/1/%20/%20/${P_YEAR_MONTH}`,
@@ -142,7 +142,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
             .toPromise()
     }
 
-    async findAll(P_YEAR_MONTH: Price['P_YEAR_MONTH'], page: number): Promise<any> {
+    async findAll(P_YEAR_MONTH: Price["P_YEAR_MONTH"], page: number): Promise<any> {
         // console.log((page * 1000) + 1, ((page + 1) * 1000))
         return this.httpService
             .get(
@@ -160,7 +160,7 @@ export class PriceService extends TypeOrmQueryService<Price> {
             .insert()
             .into(Price)
             .values(list)
-            .orUpdate({ conflict_target: ['P_SEQ'], overwrite: [] })
+            .orUpdate({ conflict_target: ["P_SEQ"], overwrite: [] })
             .execute()
             .catch((err) => {
                 console.log(err)

@@ -3,7 +3,7 @@ import Geolocation from 'react-native-geolocation-service';
 import { BackHandler, Platform, PermissionsAndroid, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-import { AdMobBanner } from 'expo-ads-admob';
+import { AdMobBanner, setTestDeviceIDAsync } from 'expo-ads-admob';
 import { WebViewWrapper } from '@Service';
 const RN_API = {
 	RN_API_GET_STAR: 'RN_API_GET_STAR',
@@ -35,6 +35,7 @@ const App = () => {
 				BackHandler.exitApp(); // 앱 종료
 			}
 		});
+		// setTestDeviceIDAsync('EMULATOR');
 	}, []);
 
 	return (

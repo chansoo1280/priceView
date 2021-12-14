@@ -1,5 +1,5 @@
 import { Controller, Get, Query, Req, Res } from "@nestjs/common"
-import { M_GU, M_GU_CODE_LIST, M_TYPE_CODE_LIST, ITEM_OBJ, M_TYPE_DATA } from "@Definitions"
+import { M_GU, M_GU_CODE_LIST, M_TYPE_CODE_LIST, ITEM_OBJ, M_TYPE_DATA, SUBCATE_LIST } from "@Definitions"
 import handleResult, { ResCode } from "src/common/handleResult"
 import { Price } from "src/price/price.entity"
 import { PriceService } from "src/price/price.service"
@@ -21,7 +21,8 @@ export class CountController {
     ): Promise<Response> {
         if (req.headers.secret !== SECRET) return handleResult(ResCode.Unauthorized, res)
         const insertCount = async (P_YEAR_MONTH: Price["P_YEAR_MONTH"], A_SEQ: number, A_UNIT: readonly string[]) => {
-            console.log(A_SEQ)
+            const subcateSeq = SUBCATE_LIST.find(({ seqList }) => seqList.includes(A_SEQ))?.seq
+            console.log(A_SEQ, subcateSeq)
             const result = await this.priceService.getCnt({
                 name: ITEM_OBJ[A_SEQ as keyof typeof ITEM_OBJ].A_NAME_DATA,
                 A_UNIT,
@@ -52,6 +53,7 @@ export class CountController {
                         const { countSeq } = cntInfo
                         // eslint-disable-next-line no-await-in-loop
                         await this.countService.updateCount(countSeq, {
+                            subcateSeq,
                             A_UNIT: A_UNIT[0],
                             length: insertList.length,
                             AVER_VAL: A_TOTAL_PRICE / insertList.length || 0,
@@ -61,6 +63,7 @@ export class CountController {
                         await this.countService.createCount({
                             C_CODE,
                             A_SEQ: String(A_SEQ),
+                            subcateSeq,
                             A_NAME: ITEM_OBJ[A_SEQ as keyof typeof ITEM_OBJ].A_NAME_DATA,
                             A_UNIT: A_UNIT[0],
                             P_YEAR: P_YEAR_MONTH.slice(0, 4),
@@ -88,7 +91,7 @@ export class CountController {
 
     @Get("/info")
     async getStatistics(
-        @Query() { A_SEQS, P_YEAR_MONTH, M_GU_CODE }: SelectCountDto,
+        @Query() { subcateSeq, P_YEAR_MONTH, M_GU_CODE }: SelectCountDto,
         @Res() res: Response,
     ): Promise<Response> {
         const P_YEAR_MONTH_LIST = (() => {
@@ -110,9 +113,8 @@ export class CountController {
             }
             return list
         })()
-        const A_SEQ_LIST = A_SEQS.split(", ")
         const result = await this.countService.getStatistics({
-            A_SEQ_LIST,
+            subcateSeq,
             P_YEAR_MONTH_LIST,
             M_GU_CODE,
         })

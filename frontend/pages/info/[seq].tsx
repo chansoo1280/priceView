@@ -97,7 +97,7 @@ const Page = (): JSX.Element => {
     }
     const reqPriceData = async (M_GU_CODE: string) => {
         const result = await Http.Request<Count[]>("get", "/api/count/info", {
-            A_SEQS: cate_info?.seqList.join(", ") || "",
+            subcateSeq: cate_info?.seq || "",
             P_YEAR_MONTH: P_YEAR_MONTH,
             M_GU_CODE: M_GU_CODE,
         }).catch((e) => {
