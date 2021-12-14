@@ -47,7 +47,7 @@ class ConfigService {
 
             entities: JSON.parse(this.getValue("MSSQL_ENTITIES")),
 
-            logging: true, // (this.env.NODE_ENV === 'test'),
+            logging: false, // (this.env.NODE_ENV === 'test'),
             synchronize: false, // (this.env.NODE_ENV === 'test'),
             options: {
                 encrypt: false,
