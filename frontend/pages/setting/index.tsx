@@ -1,5 +1,5 @@
 // #region Global Imports
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
@@ -9,14 +9,27 @@ import { useDispatch } from "react-redux"
 // #region Local Imports
 import { Header, Select, Button, Title, AlertModal, SettingList } from "@Components"
 import { AppActions } from "@Reducers"
+import { WebViewMessage } from "@Services"
+import { RN_API } from "@Definitions"
 // #endregion Local Imports
-
+const useAppVersion = () => {
+    const [version, setVerion] = useState<string | null>(null)
+    const setVersion = async () => {
+        const data = await WebViewMessage<typeof RN_API.RN_API_GET_VERSION>(RN_API.RN_API_GET_VERSION)
+        setVerion(data)
+    }
+    useEffect(() => {
+        setVersion()
+    }, [])
+    return [version]
+}
 const Page = (): JSX.Element => {
     const router = useRouter()
     const dispatch = useDispatch()
     const { t, i18n } = useTranslation("common")
     const [showDataModal, setShowDataModal] = useState(false)
     const [showMakerModal, setShowMakerModal] = useState(false)
+    const [version] = useAppVersion()
     return (
         <>
             <Header title={t("header.title.setting")}>
@@ -100,7 +113,7 @@ const Page = (): JSX.Element => {
                 </SettingList.Item> */}
                 <SettingList.Item>
                     <Title as="h3">{t("setting.version-info")}</Title>
-                    <SettingList.Text>1.0</SettingList.Text>
+                    <SettingList.Text>{version}</SettingList.Text>
                 </SettingList.Item>
             </SettingList>
             <AlertModal
