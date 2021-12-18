@@ -14,6 +14,7 @@ import { RN_API, SUBCATE_LIST } from "@Definitions"
 import { AppActions, RootState } from "@Redux"
 import { CATE, CATE_NAME, CATE_NAME_LIST } from "@Interfaces"
 import { WebViewMessage } from "@Services"
+import { useAppVersion } from "src/Hooks"
 // #endregion Local Imports
 
 const Page = (): JSX.Element => {
@@ -31,23 +32,26 @@ const Page = (): JSX.Element => {
     }))
     const [swiper, setSwiper] = useState<Swiper>()
     const [selTab, setSelTab] = useState<CATE>(app.sel_cate !== null ? app.sel_cate : CATE.MEAT)
+    const { version } = useAppVersion()
     const setSlideIdx = (key: string) => {
         const seLcate = Number(key) as CATE
         dispatch(AppActions.setCate(seLcate))
         setSelTab(seLcate)
     }
-    const checkVersion = async () => {
-        const data = await WebViewMessage<typeof RN_API.RN_API_GET_VERSION>(RN_API.RN_API_GET_VERSION)
-        if (data !== "1.4" && data !== "1.5") {
-            alert("최신버전이 아닙니다. 업데이트를 진행해주세요.")
-        }
-    }
     useEffect(() => {
+        if (version !== null && version !== "1.6") {
+            alert("최신버전이 아닙니다. 업데이트를 진행해주세요. version: " + version)
+        }
+    }, [version])
+    useEffect(() => {
+        if (!window.ReactNativeWebView && process.env.NODE_ENV === "production") {
+            window.location.href = "https://chansoo1280.site/"
+            return
+        }
         if (app.sel_lang !== i18n.language) {
             router.replace("/", "/", { locale: app.sel_lang || "ko" })
             return
         }
-        checkVersion()
     }, [])
     return (
         <>

@@ -1,19 +1,11 @@
-import React, { useState, createRef, useEffect } from 'react';
+import React, { createRef, useEffect } from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import { BackHandler, Platform, PermissionsAndroid, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-import { AdMobBanner, setTestDeviceIDAsync } from 'expo-ads-admob';
-import { WebViewWrapper } from '@Service';
-const RN_API = {
-	RN_API_GET_STAR: 'RN_API_GET_STAR',
-	RN_API_GET_POSITION: 'RN_API_GET_POSITION',
-	RN_API_GET_VERSION: 'RN_API_GET_VERSION'
-};
-
+import { AdMobBanner } from 'expo-ads-admob';
+import { RN_API, WebViewWrapper } from '@Service';
 const App = () => {
 	const webview = createRef();
-	const [ canGoBack, SetCanGoBack ] = useState(false);
 	const requestPermissions = async function() {
 		if (Platform.OS === 'ios') {
 			Geolocation.requestAuthorization();
@@ -35,7 +27,6 @@ const App = () => {
 				BackHandler.exitApp(); // 앱 종료
 			}
 		});
-		// setTestDeviceIDAsync('EMULATOR');
 	}, []);
 
 	return (
@@ -47,20 +38,19 @@ const App = () => {
 		>
 			<WebViewWrapper
 				ref={webview}
-				canGoBack={canGoBack}
-				onMessage={async (message) => {
-					const { nativeEvent } = message;
-					if (nativeEvent.data === 'navigationStateChange') {
-						SetCanGoBack(nativeEvent.canGoBack);
-						return;
-					}
-					const req = JSON.parse(nativeEvent.data || '""');
-					switch (req.type) {
+				// uri="http://172.30.1.40:3000/"
+				uri="https://price.chansoo1280.site/"
+				onMessage={async (req) => {
+					if (!req) return;
+					const { data, type, reqId } = req;
+					console.log(reqId, type);
+					switch (type) {
 						case RN_API.RN_API_GET_VERSION: {
 							webview.current.postMessage(
 								JSON.stringify({
+									reqId: req.reqId,
 									type: RN_API.RN_API_GET_VERSION,
-									data: '1.5'
+									data: '1.6'
 								})
 							);
 							break;
@@ -71,6 +61,7 @@ const App = () => {
 								(position) => {
 									webview.current.postMessage(
 										JSON.stringify({
+											reqId: req.reqId,
 											type: RN_API.RN_API_GET_POSITION,
 											data: position
 										})
@@ -82,6 +73,7 @@ const App = () => {
 									if (error.code === 1) {
 										webview.current.postMessage(
 											JSON.stringify({
+												reqId: req.reqId,
 												type: RN_API.RN_API_GET_POSITION,
 												data: false
 											})
@@ -89,26 +81,6 @@ const App = () => {
 									}
 								},
 								{ enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-							);
-							break;
-						}
-						case RN_API.RN_API_SET_STAR: {
-							AsyncStorage.setItem('star', JSON.stringify(req.data));
-							webview.current.postMessage(
-								JSON.stringify({
-									type: RN_API.RN_API_SET_STAR,
-									data: 'success'
-								})
-							);
-							break;
-						}
-						case RN_API.RN_API_GET_STAR: {
-							const star = await AsyncStorage.getItem('star', (err, result) => result);
-							webview.current.postMessage(
-								JSON.stringify({
-									type: RN_API.RN_API_GET_STAR,
-									data: JSON.parse(star)
-								})
 							);
 							break;
 						}

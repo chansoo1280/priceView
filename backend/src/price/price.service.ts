@@ -4,7 +4,7 @@ import { TypeOrmQueryService } from "@nestjs-query/query-typeorm"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Brackets, InsertResult } from "typeorm"
 import { Cron, Interval } from "@nestjs/schedule"
-import { SECRET } from "src/common/constants"
+import { SECRET } from "src/config/config.service"
 import { PriceRepository } from "./price.repository"
 import { Price } from "./price.entity"
 

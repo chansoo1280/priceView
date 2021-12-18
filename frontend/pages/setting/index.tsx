@@ -9,27 +9,15 @@ import { useDispatch } from "react-redux"
 // #region Local Imports
 import { Header, Select, Button, Title, AlertModal, SettingList } from "@Components"
 import { AppActions } from "@Reducers"
-import { WebViewMessage } from "@Services"
-import { RN_API } from "@Definitions"
+import { useAppVersion } from "src/Hooks"
 // #endregion Local Imports
-const useAppVersion = () => {
-    const [version, setVerion] = useState<string | null>(null)
-    const setVersion = async () => {
-        const data = await WebViewMessage<typeof RN_API.RN_API_GET_VERSION>(RN_API.RN_API_GET_VERSION)
-        setVerion(data)
-    }
-    useEffect(() => {
-        setVersion()
-    }, [])
-    return [version]
-}
 const Page = (): JSX.Element => {
     const router = useRouter()
     const dispatch = useDispatch()
     const { t, i18n } = useTranslation("common")
     const [showDataModal, setShowDataModal] = useState(false)
     const [showMakerModal, setShowMakerModal] = useState(false)
-    const [version] = useAppVersion()
+    const { version } = useAppVersion()
     return (
         <>
             <Header title={t("header.title.setting")}>
