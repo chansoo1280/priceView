@@ -39,7 +39,7 @@ const Page = (): JSX.Element => {
         setSelTab(seLcate)
     }
     useEffect(() => {
-        if (version !== null && version !== "1.6") {
+        if (version !== null && version !== "1.5" && version !== "1.6") {
             alert("최신버전이 아닙니다. 업데이트를 진행해주세요. version: " + version)
         }
     }, [version])
