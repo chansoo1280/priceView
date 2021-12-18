@@ -1,5 +1,5 @@
 // #region Local Imports
-import { createAction, ActionType, createReducer, PayloadAction, action } from "typesafe-actions"
+import { createAction, ActionType, createReducer } from "typesafe-actions"
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -32,17 +32,6 @@ export const removeStar = createAction(StarActionConsts.REMOVE_STAR)<seq>()
 // 액션 객체타입
 export const StarActions = { resetStar, setStar, addStar, removeStar }
 
-const saveStarList = (newStarList: seq[] | null) => {
-    if (window.ReactNativeWebView) {
-        window.ReactNativeWebView.postMessage(
-            JSON.stringify({
-                type: "RN_API_SET_STAR",
-                data: newStarList,
-            }),
-        )
-    }
-}
-
 // 리듀서 추가
 const starReducer = createReducer<StarReducer, ActionType<typeof StarActions>>(initialState, {
     [StarActionConsts.RESET_STAR]: () => ({
@@ -64,7 +53,7 @@ const starReducer = createReducer<StarReducer, ActionType<typeof StarActions>>(i
         const newStarList = state.list.slice()
         if (action.payload && !state.list.find((seq) => seq === action.payload)) {
             newStarList.push(action.payload)
-            saveStarList(newStarList)
+            // saveStarList(newStarList)
         }
         return {
             ...state,
@@ -76,7 +65,7 @@ const starReducer = createReducer<StarReducer, ActionType<typeof StarActions>>(i
         if (action.payload && state.list.find((seq) => seq === action.payload)) {
             const idx = state.list.indexOf(action.payload)
             newStarList.splice(idx, 1)
-            saveStarList(newStarList)
+            // saveStarList(newStarList)
         }
         return {
             ...state,

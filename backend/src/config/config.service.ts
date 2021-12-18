@@ -67,5 +67,5 @@ const configService = new ConfigService(process.env).ensureValues([
     "MSSQL_PASSWORD",
     "MSSQL_DATABASE",
 ])
-
+export const { SECRET } = process.env
 export { configService }

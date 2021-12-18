@@ -112,7 +112,9 @@ const Page = (): JSX.Element => {
     }
 
     const getPosition = async () => {
-        const data = await WebViewMessage<typeof RN_API.RN_API_GET_POSITION>(RN_API.RN_API_GET_POSITION)
+        const data = await WebViewMessage<typeof RN_API.RN_API_GET_POSITION>(RN_API.RN_API_GET_POSITION).catch(
+            () => null,
+        )
         if (data === null) return
         if (data === false) {
             alert(t("message.do-not-have-permission"))

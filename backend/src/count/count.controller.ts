@@ -4,7 +4,7 @@ import handleResult, { ResCode } from "src/common/handleResult"
 import { Price } from "src/price/price.entity"
 import { PriceService } from "src/price/price.service"
 import { Response, Request } from "express"
-import { SECRET } from "src/common/constants"
+import { SECRET } from "src/config/config.service"
 import { CountService } from "./count.service"
 import { SelectCountDto } from "./dto/select-count.dto"
 

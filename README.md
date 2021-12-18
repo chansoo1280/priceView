@@ -79,7 +79,7 @@
 
 ### Built With
 
-**React Native**와 **Next.js**(typescript)로 이루어진 웹앱입니다!
+**React Native**와 **Next.js**(typescript)로 이루어진 하이브리드 앱입니다.
 
 - [React Native](https://reactnative.dev/)
 - [Next.js](https://nextjs.org/)
@@ -103,7 +103,7 @@
 
 1. 프로젝트 경로 이동
    ```sh
-   cd ${project root}/frontend
+   cd ./frontend
    ```
 2. npm packages 설치
    ```sh
@@ -121,7 +121,7 @@
 
 1. 프로젝트 경로 이동
    ```sh
-   cd ${project root}/app
+   cd ./app
    ```
 2. npm packages 설치
    ```sh
@@ -141,7 +141,7 @@
 
 1. 프로젝트 경로 이동
    ```sh
-   cd ${project root}/app
+   cd ./app
    ```
 2. npm packages 설치
    ```sh
@@ -179,7 +179,8 @@
 
 ## License
 
-프로젝트의 무단 복사/배포를 금지합니다.
+알고싶은 서울물가 are licensed under the MIT License :
+http://opensource.org/licenses/mit-license.html
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
