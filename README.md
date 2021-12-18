@@ -3,7 +3,7 @@
 <h1 align="center">알고싶은 서울물가</h1>
 <div align="center">
   <a href="https://github.com/chansoo1280/priceView">
-    <img src="https://user-images.githubusercontent.com/62010067/144936941-baa1596e-5e49-4916-8c8e-113f06d679d9.png" alt="알고싶은 서울물가" width="300" height="300">
+    <img src="https://user-images.githubusercontent.com/62010067/146634086-22786b4c-2847-4ab9-b392-b4c706a8e662.png" alt="알고싶은 서울물가" width="192" height="192">
   </a>
 
   <p align="center">
